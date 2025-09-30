@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moonwarz - PLAY</title>
+    <link rel="shortcut icon" href="img/logo.png">
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Moonwarz</div>
+            <div class="menu-toggle" id="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-center">
+                <li><a href="./">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="faqs.html">FAQ</a></li>
+                <li><a href="play.html" class="btn">Playing!</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <br/>
+    <section class="features2">
+        <h2>PvE</h2>
+        <div class="feature2-grid">
+            <div class="feature2-card">
+                <h3>Player vs AI</h3>
+                <p>Compete against the AI</p>
+            </div>
+            <div class="feature2-card">
+                <h3>Climb the Global Leaderboard</h3>
+                <p>Win and win quickly to climb up the ranks.</p>
+            </div>
+            <div class="feature2-card">
+                <h3 style="margin-top: 10%;color: red;">Play Now</h3>
+                <p></p>
+            </div>
+        </div>
+    </section>
+    <section class="features2">
+        <h2>PvP</h2>
+        <div class="feature2-grid">
+            <div class="feature2-card">
+                <h3>Player vs Player</h3>
+                <p>Compete in One on One Matches with Other Players.</p>
+            </div>
+            <div class="feature2-card">
+                <h3>Compete for $GLMR</h3>
+                <p>Winner Takes All.</p>
+            </div>
+            <div class="feature2-card">
+
+                <h3 style="margin-top: 10%">Coming Soon</h3>
+                <p></p>
+            </div>
+        </div>
+    </section>
+    
+
+
+
+    
+
+    <footer>
+        <p>Dark Sun Labs &copy; 2025</p>
+    </footer>
+
+    <script>
+        document.getElementById("mobile-menu").addEventListener("click", function () {
+            document.querySelector(".nav-center").classList.toggle("nav-active");
+        });
+    </script>
+    <script src="main.js"></script>
+</body>
+</html>

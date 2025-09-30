@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moonwarz - ABOUT</title>
+    <link rel="shortcut icon" href="img/logo.png">
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Moonwarz</div>
+            <div class="menu-toggle" id="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-center">
+                <li><a href="./">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="faqs.html"  class="active">FAQ</a></li>
+                <li><a href="play.html" class="btn">PLAY!</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="content">
+        <h1>Frequently Asked Questions</h1>
+        <div class="faq-item">
+            <h3>What is Moonwarz?</h3>
+            <p>Moonwarz is a monster-battle game on Moonbeam. It uses complex mechanics including, but not limited to factions, types, terrains, stats, stages, and so on. The challenge for the player would be to decide on the team while keeping the above mentioned strengths and weaknesses of each of their monsters into account.</p>
+        </div>
+        <div class="faq-item">
+            <h3>Is the game PvP?</h3>
+            <p>Moonwarz is both Player vs Player (PvP) and also Player vs AI. Initially, the beta will be only for Player vs AI, but you will still be indirectly competing against other players on the global leaderboard.</p>
+        </div>
+        <div class="faq-item">
+            <h3>What will the global leaderboard measure?</h3>
+            <p>It will measure the time taken by the player to beat the AI. Please keep in mind that if you don't stay on the same screen during the match, your progress won't count.</p>
+        </div>
+        <div class="faq-item">
+            <h3>How much does it cost to play one match?</h3>
+            <p>The Moonwarz beta uses test tokens, and so there is no real fees. You just need to buy match tickets with your test $GLMR. Each ticket is worth 0.2 $tGLMR.</p>
+        </div>
+        <div class="faq-item">
+            <h3>Can I play multiple instances at once?</h3>
+            <p>No. As mentioned above, only the match that you DO keep as an ACTIVE tab will be counted. This is to discourage bot automation and session spamming.</p>
+        <div class="faq-item">
+            <h3>Can you explain the types and factions?</h3>
+            <p>There are 8 typings: Fire Earth Water Storm Cosmic Metal Dark Light. The strengths and weaknesses are as under:</p>
+            <p>Fire > Metal > Cosmic > Earth > Storm > Water > Fire. Light <> Dark.</p>
+            <p>There are 6 faction: Technology Nature Demon Magic Divine Endless. The strengths and weaknesses are as under:</p>
+            <p>Technology > Nature > Demon > Magic > Technology. Divine <> Endless.</p>
+        <div class="faq-item">
+            <h3>How do factions and typings decide the damage?</h3>
+            <p>Factions do 25% extra damage against their weaker faction, and 25% less damage against their weakness faction. This figure is 33% more or less in case of typings.</p>
+        <div class="faq-item">
+            <h3>What are the terrains and how do they work?</h3>
+            <p>There are 8 terrains: water, firestorm, evil, pure, thunderstorm, forest, artificial, space. Their effects are only on typings and not factions</p>
+            <p>water: +ATK water, -ATK fire</p>
+            <p>firestorm: +ATK fire, -ATK water</p>
+            <p>evil: +ATK dark, -ATK light</p>
+            <p>oure: +ATK light, -ATK dark</p>
+            <p>thunderstorm: +ATK storm, -ATK earth</p>
+            <p>forest: +ATK earth, -ATK storm</p>
+            <p>artificial: +ATK metal, -ATK cosmic</p>
+            <p>space: +ATK cosmic, -ATK metal</p>
+        </div>
+        <div class="faq-item">
+            <h3>What are the stats?</h3>
+            <p>The stats are: ATK (attack), DEF (defence), MANA (mana), SPD (speed), ACR (accuracy). Each starts with a base value and can be +1, +2, -1, -2 in terms of stage as the battle progresses.</p>
+        </div>
+        <div class="faq-item">
+            <h3>Sounds good, where can I sign up?</h3>
+            <p>No need to sign up. Just click <a style="cursor: pointer;color: red;" href="./play.html">PLAY!</a> and start</p>
+        </div>
+
+        </div>
+        </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>Resurgence Labs &copy; 2025</p>
+    </footer>
+
+    <script>
+        document.getElementById("mobile-menu").addEventListener("click", function () {
+            document.querySelector(".nav-center").classList.toggle("nav-active");
+        });
+    </script>
+    <script src="index.js"></script>
+</body>
+</html>
