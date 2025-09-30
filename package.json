@@ -1,0 +1,30 @@
+{
+  "name": "venom_wall",
+  "version": "1.0.0",
+  "description": "Straightforward code to help you connect your Website to Aptos wallet.",
+  "scripts": {
+    "start": "webpack serve --mode production",
+    "build": "webpack --mode production -w"
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "dotenv": "^16.0.3",
+    "dotenv-webpack": "^8.0.1",
+    "fs": "^0.0.1-security",
+    "leaflet": "^1.9.3",
+    "oauth": "^0.10.0",
+    "os": "^0.1.2",
+    "path": "^0.12.7",
+    "vue-recaptcha": "^2.0.3",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
+  },
+  "devDependencies": {
+    "html-loader": "^4.1.0",
+    "html-webpack-plugin": "^5.5.0",
+    "webpack-dev-server": "^4.10.1"
+  },
+  "main": "webpack.config.js",
+  "author": "",
+  "license": "ISC"
+}
