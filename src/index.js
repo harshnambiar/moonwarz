@@ -1,104 +1,83 @@
 import axios from "axios";
 
-let apivar = "";
-let secretvar = "";
-let pubvar = "";
+const types = ['Fire', 'Water', 'Storm', 'Earth', 'Cosmic', 'Metal', 'Light', 'Dark'];
 
-async function delete_key(){
-    const apikey = document.getElementById('akdel').value;
-    const secret = document.getElementById('spdel').value;
+const damageByType = [
+                    [0.66, 0.66, 1, 1, 1, 1.33, 1, 1],
+                    [1.33, 0.66, 0.66, 1, 1, 1, 1, 1],
+                    [1, 1.33, 0.66, 0.66, 1, 1, 1, 1],
+                    [1, 1, 1.33, 0.66, 0.66, 1, 1, 1],
+                    [1, 1, 1, 1.33, 0.66, 0.66, 1, 1],
+                    [0.66, 1, 1, 1, 1.33, 0.66, 1, 1],
+                    [1, 1, 1, 1, 1, 1, 0.66, 1.33],
+                    [1, 1, 1, 1, 1, 1, 1.33, 0.66]
+];
 
-    const data = {
-        api_key: apikey,
-        secret_phrase: secret,
-    };
-    try{
-        const res = await axios.post("https://quantumsure.onrender.com/api/quantumsure/delete", {
-        data: data,
-        });
-        document.getElementById('keydel').innerHTML = `
-            <h3 style="color: red;padding: 1%">Key has been deleted</h3>
-        `;
 
-    }
-    catch (err){
-        console.log(err);
-        document.getElementById('keydel').innerHTML = `
-            <h3 style="color: red;padding: 1%">Failed to delete this key. Make sure the secret phrase and api key are valid.</h3>
-        `;
-    }
+const factions = ['Technology', 'Magic', 'Demon', 'Nature', 'Divine', 'Endless'];
 
+const damageByFaction = [
+                    [1, 0.75, 1, 1.25, 1, 1],
+                    [1.25, 1, 0.75, 1, 1, 1],
+                    [1, 1.25, 1, 0.75, 1, 1],
+                    [0.75, 1, 1.25, 1, 1, 1],
+                    [1, 1, 1, 1, 1, 1.25],
+                    [1, 1, 1, 1, 1.25, 1]
+
+]
+
+const stats = ['Attack', 'Defence', 'Speed', 'Accuracy', 'Mana'];
+
+const terrains = ['Water', 'Firestorm', 'Forest', 'Thunderstorm', 'Pure', 'Evil', 'Artificial', 'Space'];
+
+const damageByTerrain = [
+                    [0.9, 1.1, 1, 1, 1, 1, 1, 1],
+                    [1.1, 0.9, 1, 1, 1, 1, 1, 1],
+                    [1, 1, 0.9, 1.1, 1, 1, 1, 1],
+                    [1, 1, 1.1, 0.9, 1, 1, 1, 1],
+                    [1, 1, 1, 1, 1, 1, 1.1, 0.9],
+                    [1, 1, 1, 1, 1, 1, 0.9, 1.1],
+                    [1, 1, 1, 1, 0.9, 1.1, 1, 1],
+                    [1, 1, 1, 1, 1.1, 0.9, 1, 1]
+]
+
+
+const monsters = ['Abyss', 'Banshit', 'Cuck-oo', 'Dumdum', 'Sharqueen', 'Cyberflare'];
+
+const monsterStats = [
+    ['Abyss', 5, 0, 50, 104, 82, 88, 73],
+    ['Banshit', 5, 2, 77, 80, 103, 85, 90],
+    ['Cuck-oo', 2, 3, 60, 80, 120, 96, 60],
+    ['Dumdum', 3, 2, 107, 88, 55, 60, 99],
+    ['Sharqueen', 1, 3, 90, 49, 93, 79, 66],
+    ['Cyberflare', 0, 0, 110, 98, 70, 75, 64]
+]
+
+function damagePercentCalculator(typeAttacker, typeReceiver, factionAttacker, factionReceiver, terrain){
+    const typeModifier = damageByType[typeAttacker][typeReceiver];
+    const factionModifier = damageByFaction[factionAttacker][factionReceiver];
+    const terrainModifier = damageByTerrain[terrain][typeAttacker];
+    return (typeModifier * factionModifier * terrainModifier);
 }
-window.delete_key = delete_key;
 
-
-
-async function create_key(){
-    document.getElementById('keycre2').innerHTML = `
-            <h3 style="color: red;padding: 1%">Please wait while we generate your Keys..</h3>
-        `;
-    try{
-        const res = await axios.post("https://quantumsure.onrender.com/api/quantumsure/create", {
-        data: null,
-        });
-        console.log("Creation complete.");
-        document.getElementById('keycre2').innerHTML = `
-            <h3 style="color: red;padding: 1%">Key creation successful. Please copy and securely write the details on the right.</h3>
-        `;
-        pubvar = res.data.public_key;
-        secretvar = res.data.secret_phrase;
-        apivar = res.data.api_key;
-        document.getElementById('keycre').style.visibility = 'visible';
+function getParticipantSpecs(attacker, receiver){
+    const attackerInd = monsters.indexOf(attacker);
+    const defenderInd = monsters.indexOf(receiver);
+    if (attackerInd == -1 || defenderInd == -1){
+        return [];
     }
-    catch (err){
-        console.log(err);
-        alert('something went wrong');
-    }
-
-
-
-}
-window.create_key = create_key;
-
-async function copy1(){
-    try {
-        const res = await navigator.clipboard.writeText(apivar);
-    }
-    catch (err){
-        console.log(err);
-    }
-}
-window.copy1 = copy1;
-
-
-async function copy2(){
-    try {
-        const res = await navigator.clipboard.writeText(pubvar);
-    }
-    catch (err){
-        console.log(err);
+    else {
+        const attackerSpecs = monsterStats[attackerInd];
+        const defenderSpecs = monsterStats[defenderInd];
+        return [attackerSpecs[1], defenderSpecs[1], attackerSpecs[2], defenderSpecs[2]];
     }
 }
-window.copy2 = copy2;
 
-
-async function copy3(){
-    try {
-        const res = await navigator.clipboard.writeText(secretvar);
-    }
-    catch (err){
-        console.log(err);
-    }
+//to demonstrate the damage if a fire type of faction Technology attacks a water type of faction nature during a firestorm
+async function checkDamage(){
+    const specs = getParticipantSpecs('Cyberflare', 'Sharqueen');
+    console.log(specs);
+    const dmg = damagePercentCalculator(specs[0], specs[1], specs[2], specs[3], 1);
+    console.log(dmg);
 }
-window.copy3 = copy3;
-
-async function to_kyber(){
-    window.open("https://pq-crystals.org/kyber/", '_blank');
-}
-window.to_kyber = to_kyber;
-
-
-async function to_fernet(){
-    window.open('https://cryptography.io/en/latest/fernet/', '_blank');
-}
-window.to_fernet = to_fernet;
+window.checkDamage = checkDamage;
