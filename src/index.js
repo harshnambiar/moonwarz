@@ -141,6 +141,14 @@ const movesData = [
     ['Clear Soul', 1, 0, 11, 100, 0, 100, 0, 100, 0, 100],
     ['Aura Blind', 1, 0, 0, 100, 0, 100, 16, 100, 0, 100],
     ['Infinite Light', 0, 100, 0, 100, 0, 100, 0, 100, 0, 100],
+    ['Gravity Beam', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100],
+    ['Cosmo Guard', 1, 0, 8, 100, 0, 100, 0, 100, 0, 100],
+    ['Galactic Storm', 2, 35, 0, 100, 0, 100, 4, 50, 0, 100],
+    ['Black Hole', 0, 100, 0, 100, 0, 100, 0, 100, 0, 100],
+    ['Metal Slash', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100],
+    ['Sharpen Blade', 1, 0, 7, 100, 0, 100, 0, 100, 0, 100],
+    ['Metal Debris', 2, 35, 0, 100, 0, 100, 15, 50, 0, 100],
+    ['Magnetic Annihilation', 0, 100, 0, 100, 0, 100, 0, 100, 0, 100],
     ['Water Pulse', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100],
     ['Steaming Ice', 1, 0, 0, 100, 0, 100, 21, 100, 0, 100],
     ['Cyclone Slash', 0, 45, 0, 100, 0, 100, 0, 100, 0, 100],
@@ -201,6 +209,10 @@ class Monster{
         this.move4 = m4;
     }
 
+    getState(){
+        return [this.name, this.type, this.faction, this.attack, this.defence, this.speed, this.mana, this.accuracy, this.hpmax, this.atkstg, this.defstg, this.spdstg, this.mnastg, this.acrstg, this.hpnow, this.status, this.statusCounter, this.active,        this.move1, this.move2, this.move3, this.move4]
+    }
+
     takeDamage(damage){
         this.hpnow = Math.max(0, this.hpnow - damage);
         return this.hpnow;
@@ -213,6 +225,415 @@ class Monster{
     changeStatus(st){
         this.status = st;
         return this.status;
+    }
+
+    applyEffect(k){
+        console.log("Yo");
+        if (k >= 1 && k <= 6){
+            if (this.status == 0){
+                this.status = k;
+                console.log('Status is now '.concat(k.toString()));
+            }
+            else {
+                console.log('There is already a Negative Status.');
+            }
+            return;
+        }
+        else if (k == 7){
+            if (this.atkstg < 2){
+                this.atkstg = this.atkstg + 1;
+                console.log("Attack rose!");
+            }
+            else {
+                console.log("Attack already max!");
+            }
+            return;
+        }
+        else if (k == 8){
+            if (this.defstg < 2){
+                this.defstg = this.defstg + 1;
+                console.log("Defence rose!");
+            }
+            else {
+                console.log("Defence already max!");
+            }
+            return;
+        }
+        else if (k == 9){
+            if (this.spdstg < 2){
+                this.spdstg = this.spdstg + 1;
+                console.log("Speed rose!");
+            }
+            else {
+                console.log("Speed already max!");
+            }
+            return;
+        }
+        else if (k == 10){
+            if (this.acrstg < 2){
+                this.acrstg = this.acrstg + 1;
+                console.log("Accuracy rose!");
+            }
+            else {
+                console.log("Accuracy already max!");
+            }
+            return;
+        }
+        else if (k == 11){
+            if (this.mnastg < 2){
+                this.mnastg = this.mnastg + 1;
+                console.log("Mana rose!");
+            }
+            else {
+                console.log("Mana already max!");
+            }
+            return;
+        }
+        else if (k == 13){
+            if (this.atkstg > -2){
+                this.atkstg = this.atkstg - 1;
+                console.log("Attack fell!");
+            }
+            else {
+                console.log("Attack already min!");
+            }
+            return;
+        }
+        else if (k == 14){
+            if (this.defstg > -2){
+                this.defstg = this.defstg - 1;
+                console.log("Defence fell!");
+            }
+            else {
+                console.log("Defence already min!");
+            }
+            return;
+        }
+        else if (k == 15){
+            if (this.spdstg > -2){
+                this.spdstg = this.spdstg - 1;
+                console.log("Speed fell!");
+            }
+            else {
+                console.log("Speed already min!");
+            }
+            return;
+        }
+        else if (k == 16){
+            if (this.acrstg > -2){
+                this.acrstg = this.acrstg - 1;
+                console.log("Accuracy fell!");
+            }
+            else {
+                console.log("Accuracy already min!");
+            }
+            return;
+        }
+        else if (k == 17){
+            if (this.mnastg > -2){
+                this.mnastg = this.mnastg - 1;
+                console.log("Mana fell!");
+            }
+            else {
+                console.log("Mana already min!");
+            }
+            return;
+        }
+        else if (k == 19){
+            this,status = 0;
+            console.log("Status back to healthy!");
+            return;
+        }
+        else if (k == 20){
+            this.hpnow = 0;
+            console.log("Your monster fainted!");
+            return;
+        }
+        else if (k == 21){
+            if (this.status == 0){
+                const rng6 = Math.floor(0, 100);
+                if (rng6 > 50){
+                    this.status = 1;
+                    console.log('Status is now effect 1');
+                }
+                else {
+                    this.status = 3;
+                    console.log('Status is now effect 2');
+                }
+
+            }
+            else {
+                console.log('There is already a Negative Status.');
+            }
+            return;
+
+        }
+        else if (k == 22){
+            if (this.status == 0){
+                const rng6 = Math.floor(0, 100);
+                if (rng6 > 50){
+                    this.status = 1;
+                    console.log('Status is now effect 1');
+                }
+                else {
+                    this.status = 2;
+                    console.log('Status is now effect 2');
+                }
+
+            }
+            else {
+                console.log('There is already a Negative Status.');
+            }
+            return;
+        }
+        else if (k == 23){
+            if (this.status == 0){
+                const rng6 = Math.floor(0, 100);
+                if (rng6 > 50){
+                    this.status = 2;
+                    console.log('Status is now effect 1');
+                }
+                else {
+                    this.status = 3;
+                    console.log('Status is now effect 2');
+                }
+
+            }
+            else {
+                console.log('There is already a Negative Status.');
+            }
+            return;
+        }
+        else if (k == 24){
+            if (this.status == 0){
+                const rng6 = Math.floor(0, 100);
+                if (rng6 > 50){
+                    this.status = 4;
+                    console.log('Status is now effect 1');
+                }
+                else {
+                    this.status = 1;
+                    console.log('Status is now effect 2');
+                }
+
+            }
+            else {
+                console.log('There is already a Negative Status.');
+            }
+            return;
+        }
+        else if (k == 25){
+            if (this.status == 0){
+                const rng6 = Math.floor(0, 100);
+                if (rng6 > 50){
+                    this.status = 5;
+                    console.log('Status is now effect 1');
+                }
+                else {
+                    this.status = 1;
+                    console.log('Status is now effect 2');
+                }
+
+            }
+            else {
+                console.log('There is already a Negative Status.');
+            }
+            return;
+        }
+        else if (k == 26){
+            if (this.status == 0){
+                const rng6 = Math.floor(0, 100);
+                if (rng6 > 50){
+                    this.status = 6;
+                    console.log('Status is now effect 1');
+                }
+                else {
+                    this.status = 1;
+                    console.log('Status is now effect 2');
+                }
+
+            }
+            else {
+                console.log('There is already a Negative Status.');
+            }
+            return;
+        }
+        else if (k == 27){
+            if (this.status == 0){
+                const rng6 = Math.floor(0, 100);
+                if (rng6 > 50){
+                    this.status = 6;
+                    console.log('Status is now effect 1');
+                }
+                else {
+                    this.status = 5;
+                    console.log('Status is now effect 2');
+                }
+
+            }
+            else {
+                console.log('There is already a Negative Status.');
+            }
+            return;
+        }
+        else if (k == 28){
+            if (this.status == 0){
+                const rng6 = Math.floor(0, 100);
+                if (rng6 > 50){
+                    this.status = 6;
+                    console.log('Status is now effect 1');
+                }
+                else {
+                    this.status = 4;
+                    console.log('Status is now effect 2');
+                }
+
+            }
+            else {
+                console.log('There is already a Negative Status.');
+            }
+            return;
+        }
+        else if (k == 29){
+            if (this.status == 0){
+                const rng6 = Math.floor(0, 100);
+                if (rng6 > 50){
+                    this.status = 2;
+                    console.log('Status is now effect 1');
+                }
+                else {
+                    this.status = 4;
+                    console.log('Status is now effect 2');
+                }
+
+            }
+            else {
+                console.log('There is already a Negative Status.');
+            }
+            return;
+        }
+        else if (k == 30){
+            if (this.status == 0){
+                const rng6 = Math.floor(0, 100);
+                if (rng6 > 50){
+                    this.status = 2;
+                    console.log('Status is now effect 1');
+                }
+                else {
+                    this.status = 5;
+                    console.log('Status is now effect 2');
+                }
+
+            }
+            else {
+                console.log('There is already a Negative Status.');
+            }
+            return;
+        }
+        else if (k == 31){
+            if (this.status == 0){
+                const rng6 = Math.floor(0, 100);
+                if (rng6 > 50){
+                    this.status = 2;
+                    console.log('Status is now effect 1');
+                }
+                else {
+                    this.status = 6;
+                    console.log('Status is now effect 2');
+                }
+
+            }
+            else {
+                console.log('There is already a Negative Status.');
+            }
+            return;
+        }
+        else if (k == 32){
+            if (this.status == 0){
+                const rng6 = Math.floor(0, 100);
+                if (rng6 > 50){
+                    this.status = 3;
+                    console.log('Status is now effect 1');
+                }
+                else {
+                    this.status = 5;
+                    console.log('Status is now effect 2');
+                }
+
+            }
+            else {
+                console.log('There is already a Negative Status.');
+            }
+            return;
+        }
+        else if (k == 33){
+            if (this.status == 0){
+                const rng6 = Math.floor(0, 100);
+                if (rng6 > 50){
+                    this.status = 3;
+                    console.log('Status is now effect 1');
+                }
+                else {
+                    this.status = 6;
+                    console.log('Status is now effect 2');
+                }
+
+            }
+            else {
+                console.log('There is already a Negative Status.');
+            }
+            return;
+        }
+        else if (k == 34){
+            const rng6 = Math.floor(0,120);
+            if (rng6 >=0 && rng6 < 20){
+                this.status = 1;
+            }
+            else if (rng6 >= 20 && rng6 < 40){
+                this.status = 2;
+            }
+            else if (rng6 >= 40 && rng6 < 60){
+                this.status = 3;
+            }
+            else if (rng6 >= 60 && rng6 < 80){
+                this.status = 4;
+            }
+            else if (rng6 >= 80 && rng6 < 100){
+                this.status = 5;
+            }
+            else {
+                this.status = 6;
+            }
+            console.log("Random status afflicted!");
+            return;
+        }
+        else if (k == 35){
+            const rng6 = Math.floor(0, 100);
+            if (rng6 > 50){
+                if (this.atkstg < 2){
+                    this.atkstg = this.atkstg + 1;
+                    console.log("Attack rose!");
+                }
+                else {
+                    console.log("Attack already max!");
+                }
+            }
+            else {
+                if (this.mnastg < 2){
+                    this.mnastg = this.mnastg + 1;
+                    console.log("Mana rose!");
+                }
+                else {
+                    console.log("Mana already max!");
+                }
+            }
+            return;
+        }
+        else {
+            console.log("no effects");
+        }
+
+
     }
 
     sendOut(){
@@ -435,10 +856,58 @@ function movePlay(a, b, terrain, move){
     const moveIndex = moves.indexOf(moveName);
     const moveSpecs = movesData[moveIndex];
     console.log(moveName);
+    console.log(moveIndex);
     console.log(moveSpecs);
+    const acrFinalAtkr = Math.min(atkr.accuracy + (atkr.acrstg * 0.15 * atkr.accuracy), 100);
+    const rng1 = Math.random(0, 100);
+    if (rng1 > acrFinalAtkr){
+        console.log("Attack Missed!");
+        return;
+    }
+    //['Malevolent Slumber', 1, 0, 0, 100, 0, 100, 5, 100, 0, 100]
+    if (moveSpecs[1] == 0 || moveSpecs[1] == 2){
+        const dmgprc = damagePercentCalculator(atkr.type, rcvr.type, atkr.faction, rcvr.faction, terrain, atkr.status, rcvr.status);
+        const atkFinalAtkr = atkr.attack + (atkr.atkstg * 0.15 * atkr.attack);
+        const mnaFinalAtkr = atkr.mana + (atkr.mnastg * 0.15 * atkr.mana);
+        const mnaFinalRcvr = rcvr.mana + (rcvr.mnastg * 0.15 * rcvr.mana);
+        const defFinalRcvr = rcvr.defence + (rcvr.defstg * 0.15 * rcvr.defence);
+        const dmg = moveSpecs[2] * ((atkFinalAtkr + mnaFinalAtkr)/(mnaFinalRcvr + defFinalRcvr)) * dmgprc;
+        console.log("damage: ".concat(dmg));
+    }
+    if (moveSpecs[1] == 1 || moveSpecs[1] == 2){
+        if (moveSpecs[3] != 0){
+            const rng2 = Math.random(0, 100);
+            if (rng2 < moveSpecs[4]){
+                atkr.applyEffect(moveSpecs[3]);
+                console.log("Self Effect: ".concat(moveSpecs[3].toString()));
+            }
+        }
+        if (moveSpecs[5] != 0){
+            const rng3 = Math.random(0, 100);
+            if (rng3 < moveSpecs[6]){
+                atkr.applyEffect(moveSpecs[5]);
+                console.log("Self Effect: ".concat(moveSpecs[5].toString()));
+            }
+        }
+        if (moveSpecs[7] != 0){
+            const rng4 = Math.random(0, 100);
+            if (rng4 < moveSpecs[8]){
+                rcvr.applyEffect(moveSpecs[7]);
+                console.log("Enemy Effect: ".concat(moveSpecs[7].toString()));
+            }
+        }
+        if (moveSpecs[9] != 0){
+            const rng5 = Math.random(0, 100);
+            if (rng5 < moveSpecs[10]){
+                rcvr.applyEffect(moveSpecs[9]);
+                console.log("Enemy Effect: ".concat(moveSpecs[9].toString()));
+            }
+        }
+    }
+
 }
 
 async function testMove(){
-    movePlay(1, 2, 2, 1);
+    movePlay(1, 2, 2, 2);
 }
 window.testMove = testMove;
