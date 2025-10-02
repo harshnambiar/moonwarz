@@ -42,30 +42,47 @@ const damageByTerrain = [
 ]
 
 
-const monsters = ['Abyss', 'Banshit', 'Cuck-oo', 'Dumdum', 'Sharqueen', 'Cyberflare', 'Mermina', 'Wormhell', 'Seraphix', 'Cosyz', 'Tungstongue', 'Aria', 'Satun', 'Storja', 'Gaia', 'Despire', 'Feris'];
+const monsters = ['Abyss', 'Banshit', 'Cuck-oo', 'Dumdum', 'Sharqueen', 'Cyberflare', 'Mermina', 'Wormhell', 'Seraphix', 'Cosyz', 'Tungstongue', 'Aria', 'Satun', 'Storja', 'Gaia', 'Despire', 'Feris', 'Vanquash', 'Momori', 'Jarinn', 'Qwala', 'Ristora', 'Saibill', 'Veilara', 'Thram', 'Zenshi', 'Extone', 'Cereph', 'Firaoh', 'Lucy', 'Lavia', 'Zias', 'Dawn', 'Dusk'];
 
 const monsterStats = [
     ['Abyss', 7, 0, 50, 104, 82, 88, 73, 101, 'Dark Punch', 'Rile Up', 'Solid Smash', 'Dark Phantasm'],
     ['Banshit', 5, 2, 77, 80, 103, 85, 90, 92, 'Dark Wail', 'Shadow Veil', 'Dark Daze', 'Dark Phantasm'],
     ['Cuck-oo', 2, 3, 60, 80, 120, 96, 60, 78, 'Storm Strike', 'Storm Steps', 'Super Stun', 'Lightning Pulse'],
-    ['Dumdum', 3, 2, 107, 88, 55, 60, 99, 82, 'Stone Throw', 'Dust Guard', 'Quake', 'Landslide'],
-    ['Sharqueen', 1, 3, 90, 49, 93, 79, 66, 69, 'Water Tackle', 'Hydro Veil', 'Frost Fangs', 'Tsunami Surge'],
-    ['Cyberflare', 0, 0, 110, 98, 70, 75, 64, 97, 'Flame Punch', 'Flame Up', 'Burning Uppercut', 'Infernal Storm'],
-    ['Mermina', 1, 1, 80, 100, 80, 75, 62, 60, 'Water Tackle', 'Rising Tide', 'Steam Blast', 'Tsunami Surge'],
+    ['Dumdum', 3, 2, 127, 88, 55, 60, 110, 82, 'Stone Throw', 'Dust Guard', 'Quake', 'Landslide'],
+    ['Sharqueen', 1, 3, 90, 49, 93, 86, 66, 69, 'Water Tackle', 'Hydro Veil', 'Frost Fangs', 'Tsunami Surge'],
+    ['Cyberflare', 0, 0, 110, 98, 70, 85, 64, 97, 'Flame Punch', 'Flame Up', 'Burning Uppercut', 'Infernal Storm'],
+    ['Mermina', 1, 1, 80, 100, 80, 91, 62, 60, 'Water Tackle', 'Rising Tide', 'Steam Blast', 'Tsunami Surge'],
     ['Wormhell', 7, 5, 20, 140, 93, 90, 100, 79, 'Dark Slash', 'Rile Up', 'Eternal Cannon', 'Dark Phantasm'],
-    ['Seraphix', 6, 4, 45, 120, 101, 81, 107, 77, 'Light Burst', 'Clear Soul', 'Aura Blind', 'Infinite Light'],
+    ['Seraphix', 6, 4, 45, 120, 101, 85, 107, 77, 'Light Burst', 'Clear Soul', 'Aura Blind', 'Infinite Radiance'],
     ['Cosyz', 4, 5, 90, 40, 109, 73, 90, 51, 'Gravity Beam', 'Cosmo Guard', 'Galactic Storm', 'Black Hole'],
-    ['Tungstongue', 5, 0, 70, 120, 60, 80, 80, 120, 'Metal Slash', 'Sharpen Blade', 'Metal Debris', 'Magnetic Annihilation'],
+    ['Tungstongue', 5, 0, 70, 120, 60, 87, 80, 120, 'Metal Slash', 'Sharpen Blade', 'Metal Debris', 'Magnetic Annihilation'],
     ['Aria', 1, 4, 67, 101, 98, 92, 93, 90, 'Water Pulse', 'Steaming Ice', 'Cyclone Slash', 'Tsunami Surge'],
-    ['Satun', 0, 2, 100, 60, 65, 78, 100, 66, 'Flame Punch', 'Flame Up', 'Searing Burn', 'Infernal Storm'],
-    ['Storja', 2, 3, 80, 65, 111, 65, 80, 75, 'Storm Strike', 'Charge Up', 'Paralyzing Wave', 'Lightning Pulse'],
+    ['Satun', 0, 2, 100, 60, 65, 88, 100, 66, 'Flame Punch', 'Flame Up', 'Searing Burn', 'Infernal Storm'],
+    ['Storja', 2, 3, 130, 65, 111, 65, 80, 75, 'Storm Strike', 'Charge Up', 'Paralyzing Wave', 'Lightning Pulse'],
     ['Gaia', 3, 4, 84, 90, 68, 98, 94, 90, 'Rockfall', 'Nature Sync', 'Calm of Green', 'Landslide'],
     ['Despire', 4, 2, 70, 70, 113, 89, 123, 105, 'Gravity Beam', 'Destabilizing Wave', 'Galactic Storm', 'Black Hole'],
-    ['Feris', 6, 3, 91, 65, 70, 70, 130, 51, 'Light Burst', 'Clear Soul', 'Malevolent Slumber', 'Infinite Light']
+    ['Feris', 6, 3, 91, 65, 70, 70, 130, 51, 'Light Burst', 'Clear Soul', 'Malevolent Slumber', 'Infinite Radiance'],
+    ['Vanquash', 1, 2, 80, 84, 80, 88, 78, 104, 'Water Punch', 'Flowing Grace', 'Steam Blast', 'Tsunami Surge'],
+    ['Momori', 5, 3, 77, 80, 103, 85, 99, 84, 'Metal Beam', 'Steel Guard', 'Mirror Maze', 'Magnetic Annihilation'],
+    ['Jarinn', 7, 1, 90, 62, 129, 96, 80, 78, 'Dark Punch', 'Shadow Dance', 'Nightmare Slash', 'Dark Phantasm'],
+    ['Qwala', 3, 0, 107, 88, 55, 84, 99, 82, 'Stone Throw', 'Dust Guard', 'Sapping Ground', 'Landslide'],
+    ['Ristora', 6, 3, 90, 49, 93, 89, 117, 59, 'Light Burst', 'Illumination', 'Blinding Light', 'Infinite Radiance'],
+    ['Saibill', 5, 0, 110, 78, 70, 75, 110, 97, 'Iron Punch', 'Upgrade', 'Paralyzing Wave', 'Magnetic Annihilation'],
+    ['Veilara', 1, 2, 62, 60, 80, 95, 162, 60, 'Water Tackle', 'Hydraulic Charge', 'Steam Blast', 'Tsunami Surge'],
+    ['Thram', 7, 2, 60, 90, 96, 90, 141, 86, 'Dark Slash', 'Rile Up', 'Uncertain Fate', 'Dark Phantasm'],
+    ['Zenshi', 6, 2, 93, 75, 104, 89, 92, 77, 'Light Burst', 'Clear Soul', 'Final Purge', 'Infinite Light'],
+    ['Extone', 3, 5, 134, 111, 109, 93, 36, 51, 'Rockfall', 'Grounded Focus', 'Heated Land', 'Landslide'],
+    ['Cereph', 4, 5, 72, 120, 60, 88, 100, 123, 'Spacial Wave', 'Temporal Warp', 'Galactic Storm', 'Black Hole'],
+    ['Firaoh', 0, 1, 73, 111, 98, 92, 89, 90, 'Fire Burst', 'Flame Up', 'Burning Toxins', 'Infernal Storm'],
+    ['Lucy', 7, 2, 100, 60, 62, 68, 140, 66, 'Shadow Beam', 'Unholy Focus', 'Nightmare Slash', 'Dark Phantasm'],
+    ['Lavia', 0, 5, 83, 107, 78, 99, 88, 84, 'Fire Burst', 'Rile Up', 'Final Purge', 'Infernal Storm'],
+    ['Zias', 2, 1, 75, 100, 91, 88, 110, 93, 'Lightning Fist', 'Thunderous Roar', 'Ionic Prison', 'Lightning Pulse'],
+    ['Dawn', 6, 4, 100, 70, 91, 90, 110, 105, 'Holy Burst', 'Clear Soul', 'Sacred Flames', 'Infinite Radiance'],
+    ['Dusk', 7, 4, 110, 65, 90, 90, 110, 100, 'Unholy Burst', 'Clear Soul', 'Unholy Venom', 'Dark Phantasm']
 
 ]
 
-const moves = ['Dark Punch', 'Rile Up', 'Solid Smash', 'Dark Phantasm', 'Dark Wail', 'Shadow Veil', 'Dark Daze', 'Storm Strike', 'Storm Steps', 'Super Stun', 'Lightning Pulse', 'Stone Throw', 'Dust Guard', 'Quake', 'Landslide', 'Water Tackle', 'Hydro Veil', 'Frost Fangs', 'Tsunami Surge', 'Flame Punch', 'Flame Up', 'Burning Uppercut', 'Infernal Storm', 'Steam Blast', 'Rising Tide', 'Dark Slash', 'Eternal Cannon', 'Light Burst', 'Clear Soul', 'Aura Blind', 'Infinite Light', 'Gravity Beam', 'Cosmo Guard', 'Galactic Storm', 'Black Hole', 'Metal Slash', 'Sharpen Blade', 'Metal Debris', 'Magnetic Annihilation', 'Water Pulse', 'Steaming Ice', 'Cyclone Slash', 'Searing Burn', 'Charge Up', 'Paralyzing Wave', 'Rockfall', 'Nature Sync', 'Calm of Green', 'Destabilizing Wave', 'Malevolent Slumber'];
+const moves = ['Dark Punch', 'Rile Up', 'Solid Smash', 'Dark Phantasm', 'Dark Wail', 'Shadow Veil', 'Dark Daze', 'Storm Strike', 'Storm Steps', 'Super Stun', 'Lightning Pulse', 'Stone Throw', 'Dust Guard', 'Quake', 'Landslide', 'Water Tackle', 'Hydro Veil', 'Frost Fangs', 'Tsunami Surge', 'Flame Punch', 'Flame Up', 'Burning Uppercut', 'Infernal Storm', 'Steam Blast', 'Rising Tide', 'Dark Slash', 'Eternal Cannon', 'Light Burst', 'Clear Soul', 'Aura Blind', 'Infinite Radiance', 'Gravity Beam', 'Cosmo Guard', 'Galactic Storm', 'Black Hole', 'Metal Slash', 'Sharpen Blade', 'Metal Debris', 'Magnetic Annihilation', 'Water Pulse', 'Steaming Ice', 'Cyclone Slash', 'Searing Burn', 'Charge Up', 'Paralyzing Wave', 'Rockfall', 'Nature Sync', 'Calm of Green', 'Destabilizing Wave', 'Malevolent Slumber', 'Water Punch', 'Flowing Grace', 'Metal Beam', 'Steel Guard', 'Mirror Maze', 'Dark Punch', 'Shadow Dance', 'Nightmare Slash', 'Sapping Ground', 'Illumination', 'Blinding Light', 'Iron Punch', 'Upgrade', 'Hydraulic Charge', 'Uncertain Fate', 'Final Purge', 'Grounded Focus', 'Heated Land', 'Spacial Wave', 'Temporal Warp', 'Fire Burst', 'Burning Toxins', 'Shadow Beam', 'Unholy Focus', 'Lightning Fist', 'Thunderous Roar', 'Ionic Prison', 'Holy Burst', 'Sacred Flames', 'Unholy Burst', 'Unholy Venom'];
 
 // move name, damage or status, power, effect on self, probability of this, effect on self 2, probability of this, effect on enemy,
 // probability of this, effect on enemy 2, probability of this
@@ -107,6 +124,7 @@ const moves = ['Dark Punch', 'Rile Up', 'Solid Smash', 'Dark Phantasm', 'Dark Wa
  * 33: frostbite OR daze
  * 34: any random status
  * 35: attack OR mana up
+ * 36: speed OR attack up
 */
 
 const movesData = [
@@ -140,7 +158,7 @@ const movesData = [
     ['Light Burst', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100],
     ['Clear Soul', 1, 0, 11, 100, 0, 100, 0, 100, 0, 100],
     ['Aura Blind', 1, 0, 0, 100, 0, 100, 16, 100, 0, 100],
-    ['Infinite Light', 0, 100, 0, 100, 0, 100, 0, 100, 0, 100],
+    ['Infinite Radiance', 0, 100, 0, 100, 0, 100, 0, 100, 0, 100],
     ['Gravity Beam', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100],
     ['Cosmo Guard', 1, 0, 8, 100, 0, 100, 0, 100, 0, 100],
     ['Galactic Storm', 2, 35, 0, 100, 0, 100, 4, 50, 0, 100],
@@ -159,7 +177,38 @@ const movesData = [
     ['Nature Sync', 1, 0, 35, 100, 0, 100, 0, 100, 0, 100],
     ['Calm of Green', 1, 0, 0, 100, 0, 100, 5, 100, 0, 100],
     ['Destabilizing Wave', 1, 0, 0, 100, 0, 100, 28, 100, 0, 100],
-    ['Malevolent Slumber', 1, 0, 0, 100, 0, 100, 5, 100, 0, 100]
+    ['Malevolent Slumber', 1, 0, 0, 100, 0, 100, 5, 100, 0, 100],
+    ['Water Punch', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100],
+    ['Flowing Grace', 1, 0, 9, 100, 0, 100, 0, 100, 0, 100],
+    ['Metal Beam', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100],
+    ['Steel Guard', 1, 0, 8, 100, 0, 100, 0, 100, 0, 100],
+    ['Mirror Maze', 1, 0, 0, 100, 0, 100, 16, 100, 0, 100],
+    ['Dark Punch', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100],
+    ['Shadow Dance', 1, 0, 36, 100, 0, 100, 0, 100, 0, 100 ],
+    ['Nightmare Slash', 0, 50, 0, 100, 0, 100, 0, 100, 0, 100],
+    ['Sapping Ground', 1, 0, 0, 100, 0, 100, 17, 100, 0, 100],
+    ['Illumination', 1, 0, 10, 100, 0, 100, 0, 100, 0, 100],
+    ['Blinding Light', 2, 35, 0, 100, 0, 100, 17, 65, 0, 100],
+    ['Iron Punch', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100],
+    ['Upgrade', 1, 0, 7, 100, 11, 100, 0, 100, 0, 100],
+    ['Hydraulic Charge', 1, 0, 7, 100, 9, 100, 0, 100, 0, 100],
+    ['Uncertain Fate', 1, 0, 0, 100, 0, 100, 34, 100, 0, 100],
+    ['Final Purge', 1, 0, 20, 100, 0, 100, 20, 100, 0, 100],
+    ['Grounded Focus', 1, 0, 11, 100, 10, 100, 0, 100, 0, 100],
+    ['Heated Land', 2, 30, 0, 100, 0, 100, 1, 80, 0, 100],
+    ['Spacial Wave', 0, 30, 0, 100, 0, 100, 0, 100, 0, 100],
+    ['Temporal Warp', 1, 0, 9, 100, 0, 100, 15, 100, 0, 100],
+    ['Fire Burst', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100],
+    ['Burning Toxins', 2, 35, 0, 100, 0, 100, 22, 100, 0, 100],
+    ['Shadow Beam', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100],
+    ['Unholy Focus', 1, 0, 7, 100, 10, 100, 0, 100, 0, 100],
+    ['Lightning Fist', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100],
+    ['Thunderous Roar', 1, 0, 11, 100, 9, 100, 0, 100, 0, 100],
+    ['Ionic Prison', 1, 0, 0, 100, 0, 100, 4, 65, 15, 100],
+    ['Holy Burst', 0, 30, 0, 100, 0, 100, 0, 100, 0, 100],
+    ['Sacred Flames', 2, 70, 0, 100, 0, 100, 1, 70, 0, 100],
+    ['Unholy Burst', 0, 30, 0, 100, 0, 100, 0, 100, 0, 100],
+    ['Unholy Venom', 2, 70, 0, 100, 0, 100, 2, 70, 0, 100]
 ]
 
 const statuses = ['None', 'Burned', 'Poisoned', 'Frostbitten', 'Stunned', 'Drowsy', 'Dazed'];
@@ -719,7 +768,7 @@ class Team {
 
   // Generate a team of 5 unique monsters
   generateTeam(existingMonsters = []) {
-    const availableIndices = Array.from({ length: 17 }, (_, i) => i) // Indices 0–14
+    const availableIndices = Array.from({ length: 32 }, (_, i) => i) // Indices 0–32
       .filter(i => !existingMonsters.includes(i)); // Exclude used indices
     if (availableIndices.length < 5) {
       throw new Error('Not enough unique monsters available');
@@ -909,5 +958,13 @@ function movePlay(a, b, terrain, move){
 
 async function testMove(){
     movePlay(1, 2, 2, 2);
+    /*
+    var i = 0;
+    while (i < moves.length){
+        console.log(moves[i]);
+        console.log(movesData[i][0]);
+        i++;
+    }
+    */
 }
 window.testMove = testMove;
