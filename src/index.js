@@ -251,7 +251,7 @@ class Monster{
         this.hpnow = hp;
         this.status = 0;
         this.statusCounter = 0;
-        this.active = false;
+        this.fieldCounter = 0;
         this.move1 = m1;
         this.move2 = m2;
         this.move3 = m3;
@@ -259,7 +259,7 @@ class Monster{
     }
 
     getState(){
-        return [this.name, this.type, this.faction, this.attack, this.defence, this.speed, this.mana, this.accuracy, this.hpmax, this.atkstg, this.defstg, this.spdstg, this.mnastg, this.acrstg, this.hpnow, this.status, this.statusCounter, this.active,        this.move1, this.move2, this.move3, this.move4]
+        return [this.name, this.type, this.faction, this.attack, this.defence, this.speed, this.mana, this.accuracy, this.hpmax, this.atkstg, this.defstg, this.spdstg, this.mnastg, this.acrstg, this.hpnow, this.status, this.statusCounter, this.fieldCounter, this.move1, this.move2, this.move3, this.move4]
     }
 
     takeDamage(damage){
@@ -274,6 +274,11 @@ class Monster{
     changeStatus(st){
         this.status = st;
         return this.status;
+    }
+
+    removeSSD(){
+        this.status = 0;
+        this.statusCounter = 0;
     }
 
     applyEffect(k){
@@ -400,7 +405,7 @@ class Monster{
         }
         else if (k == 21){
             if (this.status == 0){
-                const rng6 = Math.floor(0, 100);
+                const rng6 = Math.random() * 100;
                 if (rng6 > 50){
                     this.status = 1;
                     console.log('Status is now effect 1');
@@ -419,7 +424,7 @@ class Monster{
         }
         else if (k == 22){
             if (this.status == 0){
-                const rng6 = Math.floor(0, 100);
+                const rng6 = Math.random() * 100;
                 if (rng6 > 50){
                     this.status = 1;
                     console.log('Status is now effect 1');
@@ -437,7 +442,7 @@ class Monster{
         }
         else if (k == 23){
             if (this.status == 0){
-                const rng6 = Math.floor(0, 100);
+                const rng6 = Math.random() * 100;
                 if (rng6 > 50){
                     this.status = 2;
                     console.log('Status is now effect 1');
@@ -455,7 +460,7 @@ class Monster{
         }
         else if (k == 24){
             if (this.status == 0){
-                const rng6 = Math.floor(0, 100);
+                const rng6 = Math.random() * 100;
                 if (rng6 > 50){
                     this.status = 4;
                     console.log('Status is now effect 1');
@@ -473,7 +478,7 @@ class Monster{
         }
         else if (k == 25){
             if (this.status == 0){
-                const rng6 = Math.floor(0, 100);
+                const rng6 = Math.random() * 100;
                 if (rng6 > 50){
                     this.status = 5;
                     console.log('Status is now effect 1');
@@ -491,7 +496,7 @@ class Monster{
         }
         else if (k == 26){
             if (this.status == 0){
-                const rng6 = Math.floor(0, 100);
+                const rng6 = Math.random() * 100;
                 if (rng6 > 50){
                     this.status = 6;
                     console.log('Status is now effect 1');
@@ -509,7 +514,7 @@ class Monster{
         }
         else if (k == 27){
             if (this.status == 0){
-                const rng6 = Math.floor(0, 100);
+                const rng6 = Math.random() * 100;
                 if (rng6 > 50){
                     this.status = 6;
                     console.log('Status is now effect 1');
@@ -527,7 +532,7 @@ class Monster{
         }
         else if (k == 28){
             if (this.status == 0){
-                const rng6 = Math.floor(0, 100);
+                const rng6 = Math.random() * 100;
                 if (rng6 > 50){
                     this.status = 6;
                     console.log('Status is now effect 1');
@@ -545,7 +550,7 @@ class Monster{
         }
         else if (k == 29){
             if (this.status == 0){
-                const rng6 = Math.floor(0, 100);
+                const rng6 = Math.random() * 100;
                 if (rng6 > 50){
                     this.status = 2;
                     console.log('Status is now effect 1');
@@ -563,7 +568,7 @@ class Monster{
         }
         else if (k == 30){
             if (this.status == 0){
-                const rng6 = Math.floor(0, 100);
+                const rng6 = Math.random() * 100;
                 if (rng6 > 50){
                     this.status = 2;
                     console.log('Status is now effect 1');
@@ -581,7 +586,7 @@ class Monster{
         }
         else if (k == 31){
             if (this.status == 0){
-                const rng6 = Math.floor(0, 100);
+                const rng6 = Math.random() * 100;
                 if (rng6 > 50){
                     this.status = 2;
                     console.log('Status is now effect 1');
@@ -599,7 +604,7 @@ class Monster{
         }
         else if (k == 32){
             if (this.status == 0){
-                const rng6 = Math.floor(0, 100);
+                const rng6 = Math.random() * 100;
                 if (rng6 > 50){
                     this.status = 3;
                     console.log('Status is now effect 1');
@@ -617,7 +622,7 @@ class Monster{
         }
         else if (k == 33){
             if (this.status == 0){
-                const rng6 = Math.floor(0, 100);
+                const rng6 = Math.random() * 100;
                 if (rng6 > 50){
                     this.status = 3;
                     console.log('Status is now effect 1');
@@ -634,7 +639,7 @@ class Monster{
             return;
         }
         else if (k == 34){
-            const rng6 = Math.floor(0,120);
+            const rng6 = Math.random()  * 120;
             if (rng6 >=0 && rng6 < 20){
                 this.status = 1;
             }
@@ -657,7 +662,7 @@ class Monster{
             return;
         }
         else if (k == 35){
-            const rng6 = Math.floor(0, 100);
+            const rng6 = Math.random() * 100;
             if (rng6 > 50){
                 if (this.atkstg < 2){
                     this.atkstg = this.atkstg + 1;
@@ -678,6 +683,28 @@ class Monster{
             }
             return;
         }
+        else if (k == 36){
+            const rng6 = Math.random() * 100;
+            if (rng6 > 50){
+                if (this.atkstg < 2){
+                    this.atkstg = this.atkstg + 1;
+                    console.log("Attack rose!");
+                }
+                else {
+                    console.log("Attack already max!");
+                }
+            }
+            else {
+                if (this.spdstg < 2){
+                    this.spdstg = this.spdstg + 1;
+                    console.log("Speed rose!");
+                }
+                else {
+                    console.log("Speed already max!");
+                }
+            }
+            return;
+        }
         else {
             console.log("no effects");
         }
@@ -685,14 +712,19 @@ class Monster{
 
     }
 
-    sendOut(){
-        this.active = true;
-    }
+
 
     recall(){
-        this.active = false;
-        this.status = 0;
-        this.statusCounter = 0;
+        if (this.status == 4 || this.status == 5 || this.status == 6){
+            this.status = 0;
+            this.statusCounter = 0;
+        }
+
+
+    }
+
+    incrementFieldCounter(){
+        this.fieldCounter = this.fieldCounter + 1;
     }
 
     incrementStatusCounter(){
@@ -762,7 +794,7 @@ class Team {
   constructor(isPlayer) {
     this.isPlayer = isPlayer; // True for player, false for AI
     this.monsters = [];
-    this.activeMonster = null;
+    this.activeMonster = 0;
     this.generateTeam();
   }
 
@@ -790,12 +822,11 @@ class Team {
     if (this.monsters[monsterIndex].isDefeated()) {
       throw new Error(`${this.monsters[monsterIndex].name} is knocked out!`);
     }
-    if (this.activeMonster) {
-      this.activeMonster.recall();
+    if (this.activeMonster == monsterIndex){
+        throw new Error('Monster is already out!');
     }
-    this.activeMonster = this.monsters[monsterIndex];
-    this.activeMonster.sendOut();
-    return `${this.activeMonster.name} was sent out!`;
+
+    this.activeMonster = monsterIndex;
   }
 
   // Check if team is defeated
@@ -803,17 +834,33 @@ class Team {
     return this.monsters.every(monster => monster.isDefeated());
   }
 
+
+
   // Get living monsters
   getLivingMonsters() {
     return this.monsters.filter(monster => !monster.isDefeated());
   }
 }
 
+
+
+
+
+
+
+
 const playerTeam = new Team(true);
 const playerMonsterIndices = playerTeam.monsters.map(mon => monsters.indexOf(mon.name));
 
 // Generate AI team, excluding player's monsters
 const aiTeam = new Team(false, playerMonsterIndices);
+const terrainNow = Math.floor(Math.random() * 8);
+
+
+
+console.log(playerTeam);
+
+
 
 
 function damagePercentCalculator(typeAttacker, typeReceiver, factionAttacker, factionReceiver, terrain, statusAttacker, statusReceiver){
@@ -870,15 +917,26 @@ async function checkTeams(){
 }
 window.checkTeams = checkTeams;
 
-function movePlay(a, b, terrain, move){
+function movePlay(atkr, rcvr, terrain, move){
     if (terrain > 7 || terrain < 0) throw new Error('Terrain index illegal: '.concat(terrain));
     if (move > 4 || move < 1) throw new Error('Move index illegal: '.concat(move));
-    if (a > 4 || a < 0) throw new Error('Attacker index illegal: '.concat(a));
-    if (b > 4 || b < 0) throw new Error('Receiver index illegal: '.concat(b));
-    const atkr = playerTeam.monsters[a];
-    const rcvr = aiTeam.monsters[b];
-    console.log(atkr);
-    console.log(rcvr);
+    //if (a > 4 || a < 0) throw new Error('Attacker index illegal: '.concat(a));
+    //if (b > 4 || b < 0) throw new Error('Receiver index illegal: '.concat(b));
+    //const atkr = playerTeam.monsters[a];
+    //const rcvr = aiTeam.monsters[b];
+    atkr.incrementFieldCounter();
+    //console.log(atkr);
+    //console.log(rcvr);
+    if (atkr.status == 4 || atkr.status == 5 || atkr.status == 6){
+        if (atkr.statusCounter < 3){
+            atkr.incrementStatusCounter();
+            return;
+        }
+        else {
+            atkr.removeSSD();
+        }
+    }
+    console.log('move is '.concat(move.toString()));
     var moveName = "";
     switch(move){
         case 1: {
@@ -904,11 +962,11 @@ function movePlay(a, b, terrain, move){
     if (moveName == "illegal") throw new Error("Unknown Move: ".concat(moveName));
     const moveIndex = moves.indexOf(moveName);
     const moveSpecs = movesData[moveIndex];
-    console.log(moveName);
-    console.log(moveIndex);
-    console.log(moveSpecs);
+    //console.log(moveName);
+    //console.log(moveIndex);
+    //console.log(moveSpecs);
     const acrFinalAtkr = Math.min(atkr.accuracy + (atkr.acrstg * 0.15 * atkr.accuracy), 100);
-    const rng1 = Math.random(0, 100);
+    const rng1 = Math.random() * 100;
     if (rng1 > acrFinalAtkr){
         console.log("Attack Missed!");
         return;
@@ -921,32 +979,37 @@ function movePlay(a, b, terrain, move){
         const mnaFinalRcvr = rcvr.mana + (rcvr.mnastg * 0.15 * rcvr.mana);
         const defFinalRcvr = rcvr.defence + (rcvr.defstg * 0.15 * rcvr.defence);
         const dmg = moveSpecs[2] * ((atkFinalAtkr + mnaFinalAtkr)/(mnaFinalRcvr + defFinalRcvr)) * dmgprc;
+        rcvr.takeDamage(dmg);
         console.log("damage: ".concat(dmg));
+        if (rcvr.hpnow == 0){
+            console.log('opponent fainted!');
+            return;
+        }
     }
     if (moveSpecs[1] == 1 || moveSpecs[1] == 2){
         if (moveSpecs[3] != 0){
-            const rng2 = Math.random(0, 100);
+            const rng2 = Math.random() * 100;
             if (rng2 < moveSpecs[4]){
                 atkr.applyEffect(moveSpecs[3]);
                 console.log("Self Effect: ".concat(moveSpecs[3].toString()));
             }
         }
         if (moveSpecs[5] != 0){
-            const rng3 = Math.random(0, 100);
+            const rng3 = Math.random() * 100;
             if (rng3 < moveSpecs[6]){
                 atkr.applyEffect(moveSpecs[5]);
                 console.log("Self Effect: ".concat(moveSpecs[5].toString()));
             }
         }
         if (moveSpecs[7] != 0){
-            const rng4 = Math.random(0, 100);
+            const rng4 = Math.random() * 100;
             if (rng4 < moveSpecs[8]){
                 rcvr.applyEffect(moveSpecs[7]);
                 console.log("Enemy Effect: ".concat(moveSpecs[7].toString()));
             }
         }
         if (moveSpecs[9] != 0){
-            const rng5 = Math.random(0, 100);
+            const rng5 = Math.random() * 100;
             if (rng5 < moveSpecs[10]){
                 rcvr.applyEffect(moveSpecs[9]);
                 console.log("Enemy Effect: ".concat(moveSpecs[9].toString()));
@@ -957,7 +1020,7 @@ function movePlay(a, b, terrain, move){
 }
 
 async function testMove(){
-    movePlay(1, 2, 2, 2);
+    movePlay(1, 2, terrainNow, 2);
     /*
     var i = 0;
     while (i < moves.length){
@@ -968,3 +1031,86 @@ async function testMove(){
     */
 }
 window.testMove = testMove;
+
+async function toSession(){
+    window.location.href = './session.html';
+}
+window.toSession = toSession;
+
+async function oneTurn(){
+    console.log(terrainNow);
+    var pm = playerTeam.monsters[playerTeam.activeMonster];
+    var am = aiTeam.monsters[aiTeam.activeMonster];
+    const el = parseInt(document.getElementById('move').value);
+    if (el == 4 && pm.fieldCounter < 2){
+        console.log('not charged enough');
+        return;
+    }
+    //if user chose to attack
+    if (el >= 1 && el <= 4){
+        const pm_spd_now = pm.speed + (pm.spdstg * 0.15 * pm.speed);
+        const am_spd_now = am.speed + (am.spdstg * 0.15 * am.speed);
+        if (pm_spd_now >= am_spd_now){
+            console.log('before:');
+            console.log(playerTeam.monsters[playerTeam.activeMonster]);
+            console.log(aiTeam.monsters[aiTeam.activeMonster]);
+            movePlay(pm, am, terrainNow, parseInt(el));
+            console.log('after:');
+            console.log(playerTeam.monsters[playerTeam.activeMonster]);
+            console.log(aiTeam.monsters[aiTeam.activeMonster]);
+            if (am.hpnow != 0){
+                console.log('before:');
+                console.log(playerTeam.monsters[playerTeam.activeMonster]);
+                console.log(aiTeam.monsters[aiTeam.activeMonster]);
+                movePlay(am, pm, terrainNow, 1);
+                console.log('after:');
+                console.log(playerTeam.monsters[playerTeam.activeMonster]);
+                console.log(aiTeam.monsters[aiTeam.activeMonster]);
+            }
+        }
+        else {
+            console.log('before:');
+            console.log(playerTeam.monsters[playerTeam.activeMonster]);
+            console.log(aiTeam.monsters[aiTeam.activeMonster]);
+            movePlay(am, pm, terrainNow, 1);
+            console.log('after:');
+            console.log(playerTeam.monsters[playerTeam.activeMonster]);
+            console.log(aiTeam.monsters[aiTeam.activeMonster]);
+            if (pm.hpnow != 0){
+                console.log('before:');
+                console.log(playerTeam.monsters[playerTeam.activeMonster]);
+                console.log(aiTeam.monsters[aiTeam.activeMonster]);
+                movePlay(pm, am, terrainNow, parseInt(el));
+                console.log('after:');
+                console.log(playerTeam.monsters[playerTeam.activeMonster]);
+                console.log(aiTeam.monsters[aiTeam.activeMonster]);
+            }
+        }
+    }
+    // if user chose to switch monster
+    else if (el >= 5 && el <= 9){
+        const newIndex = el - 5;
+        if (playerTeam.activeMonster == newIndex){
+            console.log("Monster already on field");
+            return;
+        }
+        else if (playerTeam.monsters[newIndex].hpnow == 0){
+            console.log("Monster is already defeated");
+            return;
+        }
+        console.log('before:');
+        console.log(playerTeam.monsters[playerTeam.activeMonster]);
+        console.log(aiTeam.monsters[aiTeam.activeMonster]);
+
+        playerTeam.sendOut(newIndex);
+        pm = playerTeam.monsters[playerTeam.activeMonster];
+        //console.log(newIndex);
+
+        movePlay(am, pm, terrainNow, 1);
+        console.log('after:');
+        console.log(playerTeam.monsters[playerTeam.activeMonster]);
+        console.log(aiTeam.monsters[aiTeam.activeMonster]);
+    }
+    console.log(el);
+}
+window.oneTurn = oneTurn;
