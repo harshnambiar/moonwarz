@@ -29,6 +29,7 @@ const damageByFaction = [
 const stats = ['Attack', 'Defence', 'Speed', 'Accuracy', 'Mana', 'HP'];
 
 const terrains = ['Water', 'Firestorm', 'Forest', 'Thunderstorm', 'Pure', 'Evil', 'Artificial', 'Space'];
+const terrainBackgrounds = ['./img/sea.jpeg', './img/firestorm2.jpeg', './img/forest.jpeg', './img/thunderstorm2.jpeg', './img/pure.jpeg', './img/evil.jpeg', './img/artificial.jpeg', './img/space.jpeg']
 
 const damageByTerrain = [
                     [0.9, 1.1, 1, 1, 1, 1, 1, 1],
@@ -45,40 +46,40 @@ const damageByTerrain = [
 const monsters = ['Abyss', 'Banshit', 'Cuck-oo', 'Dumdum', 'Sharqueen', 'Cyberflare', 'Mermina', 'Wormhell', 'Seraphix', 'Cosyz', 'Tungstongue', 'Aria', 'Satun', 'Storja', 'Gaia', 'Despire', 'Feris', 'Vanquash', 'Momori', 'Jarinn', 'Qwala', 'Ristora', 'Saibill', 'Veilara', 'Thram', 'Zenshi', 'Extone', 'Cereph', 'Firaoh', 'Lucy', 'Lavia', 'Zias', 'Dawn', 'Dusk'];
 
 const monsterStats = [
-    ['Abyss', 7, 0, 50, 104, 82, 88, 73, 101, 'Dark Punch', 'Rile Up', 'Solid Smash', 'Dark Phantasm'],
-    ['Banshit', 5, 2, 77, 80, 103, 85, 90, 92, 'Dark Wail', 'Shadow Veil', 'Dark Daze', 'Dark Phantasm'],
-    ['Cuck-oo', 2, 3, 60, 80, 120, 96, 60, 78, 'Storm Strike', 'Storm Steps', 'Super Stun', 'Lightning Pulse'],
-    ['Dumdum', 3, 2, 127, 88, 55, 60, 110, 82, 'Stone Throw', 'Dust Guard', 'Quake', 'Landslide'],
-    ['Sharqueen', 1, 3, 90, 49, 93, 86, 66, 69, 'Water Tackle', 'Hydro Veil', 'Frost Fangs', 'Tsunami Surge'],
-    ['Cyberflare', 0, 0, 110, 98, 70, 85, 64, 97, 'Flame Punch', 'Flame Up', 'Burning Uppercut', 'Infernal Storm'],
-    ['Mermina', 1, 1, 80, 100, 80, 91, 62, 60, 'Water Tackle', 'Rising Tide', 'Steam Blast', 'Tsunami Surge'],
-    ['Wormhell', 7, 5, 20, 140, 93, 90, 100, 79, 'Dark Slash', 'Rile Up', 'Eternal Cannon', 'Dark Phantasm'],
-    ['Seraphix', 6, 4, 45, 120, 101, 85, 107, 77, 'Light Burst', 'Clear Soul', 'Aura Blind', 'Infinite Radiance'],
-    ['Cosyz', 4, 5, 90, 40, 109, 73, 90, 51, 'Gravity Beam', 'Cosmo Guard', 'Galactic Storm', 'Black Hole'],
-    ['Tungstongue', 5, 0, 70, 120, 60, 87, 80, 120, 'Metal Slash', 'Sharpen Blade', 'Metal Debris', 'Magnetic Annihilation'],
-    ['Aria', 1, 4, 67, 101, 98, 92, 93, 90, 'Water Pulse', 'Steaming Ice', 'Cyclone Slash', 'Tsunami Surge'],
-    ['Satun', 0, 2, 100, 60, 65, 88, 100, 66, 'Flame Punch', 'Flame Up', 'Searing Burn', 'Infernal Storm'],
-    ['Storja', 2, 3, 130, 65, 111, 65, 80, 75, 'Storm Strike', 'Charge Up', 'Paralyzing Wave', 'Lightning Pulse'],
-    ['Gaia', 3, 4, 84, 90, 68, 98, 94, 90, 'Rockfall', 'Nature Sync', 'Calm of Green', 'Landslide'],
-    ['Despire', 4, 2, 70, 70, 113, 89, 123, 105, 'Gravity Beam', 'Destabilizing Wave', 'Galactic Storm', 'Black Hole'],
-    ['Feris', 6, 3, 91, 65, 70, 70, 130, 51, 'Light Burst', 'Clear Soul', 'Malevolent Slumber', 'Infinite Radiance'],
-    ['Vanquash', 1, 2, 80, 84, 80, 88, 78, 104, 'Water Punch', 'Flowing Grace', 'Steam Blast', 'Tsunami Surge'],
-    ['Momori', 5, 3, 77, 80, 103, 85, 99, 84, 'Metal Beam', 'Steel Guard', 'Mirror Maze', 'Magnetic Annihilation'],
-    ['Jarinn', 7, 1, 90, 62, 129, 96, 80, 78, 'Dark Punch', 'Shadow Dance', 'Nightmare Slash', 'Dark Phantasm'],
-    ['Qwala', 3, 0, 107, 88, 55, 84, 99, 82, 'Stone Throw', 'Dust Guard', 'Sapping Ground', 'Landslide'],
-    ['Ristora', 6, 3, 90, 49, 93, 89, 117, 59, 'Light Burst', 'Illumination', 'Blinding Light', 'Infinite Radiance'],
-    ['Saibill', 5, 0, 110, 78, 70, 75, 110, 97, 'Iron Punch', 'Upgrade', 'Paralyzing Wave', 'Magnetic Annihilation'],
-    ['Veilara', 1, 2, 62, 60, 80, 95, 162, 60, 'Water Tackle', 'Hydraulic Charge', 'Steam Blast', 'Tsunami Surge'],
-    ['Thram', 7, 2, 60, 90, 96, 90, 141, 86, 'Dark Slash', 'Rile Up', 'Uncertain Fate', 'Dark Phantasm'],
-    ['Zenshi', 6, 2, 93, 75, 104, 89, 92, 77, 'Light Burst', 'Clear Soul', 'Final Purge', 'Infinite Light'],
-    ['Extone', 3, 5, 134, 111, 109, 93, 36, 51, 'Rockfall', 'Grounded Focus', 'Heated Land', 'Landslide'],
-    ['Cereph', 4, 5, 72, 120, 60, 88, 100, 123, 'Spacial Wave', 'Temporal Warp', 'Galactic Storm', 'Black Hole'],
-    ['Firaoh', 0, 1, 73, 111, 98, 92, 89, 90, 'Fire Burst', 'Flame Up', 'Burning Toxins', 'Infernal Storm'],
-    ['Lucy', 7, 2, 100, 60, 62, 68, 140, 66, 'Shadow Beam', 'Unholy Focus', 'Nightmare Slash', 'Dark Phantasm'],
-    ['Lavia', 0, 5, 83, 107, 78, 99, 88, 84, 'Fire Burst', 'Rile Up', 'Final Purge', 'Infernal Storm'],
-    ['Zias', 2, 1, 75, 100, 91, 88, 110, 93, 'Lightning Fist', 'Thunderous Roar', 'Ionic Prison', 'Lightning Pulse'],
-    ['Dawn', 6, 4, 100, 70, 91, 90, 110, 105, 'Holy Burst', 'Clear Soul', 'Sacred Flames', 'Infinite Radiance'],
-    ['Dusk', 7, 4, 110, 65, 90, 90, 110, 100, 'Unholy Burst', 'Clear Soul', 'Unholy Venom', 'Dark Phantasm']
+    ['Abyss', 7, 0, 50, 104, 82, 88, 73, 101, 'Dark Punch', 'Rile Up', 'Solid Smash', 'Dark Phantasm', './img/m1.png'],
+    ['Banshit', 5, 2, 77, 80, 103, 85, 90, 92, 'Dark Wail', 'Shadow Veil', 'Dark Daze', 'Dark Phantasm', './img/m2.png'],
+    ['Cuck-oo', 2, 3, 60, 80, 120, 96, 60, 78, 'Storm Strike', 'Storm Steps', 'Super Stun', 'Lightning Pulse', './img/m3.png'],
+    ['Dumdum', 3, 2, 127, 88, 55, 60, 110, 82, 'Stone Throw', 'Dust Guard', 'Quake', 'Landslide', './img/m4.png'],
+    ['Sharqueen', 1, 3, 90, 49, 93, 86, 66, 69, 'Water Tackle', 'Hydro Veil', 'Frost Fangs', 'Tsunami Surge', './img/m5.png'],
+    ['Cyberflare', 0, 0, 110, 98, 70, 85, 64, 97, 'Flame Punch', 'Flame Up', 'Burning Uppercut', 'Infernal Storm', './img/m6.png'],
+    ['Mermina', 1, 1, 80, 100, 80, 91, 62, 60, 'Water Tackle', 'Rising Tide', 'Steam Blast', 'Tsunami Surge', './img/m7.png'],
+    ['Wormhell', 7, 5, 20, 140, 93, 90, 100, 79, 'Dark Slash', 'Rile Up', 'Eternal Cannon', 'Dark Phantasm', './img/m8.png'],
+    ['Seraphix', 6, 4, 45, 120, 101, 85, 107, 77, 'Light Burst', 'Clear Soul', 'Aura Blind', 'Infinite Radiance', './img/m9.png'],
+    ['Cosyz', 4, 5, 90, 40, 109, 73, 90, 51, 'Gravity Beam', 'Cosmo Guard', 'Galactic Storm', 'Black Hole', './img/m10.png'],
+    ['Tungstongue', 5, 0, 70, 120, 60, 87, 80, 120, 'Metal Slash', 'Sharpen Blade', 'Metal Debris', 'Magnetic Annihilation', './img/m11.png'],
+    ['Aria', 1, 4, 67, 101, 98, 92, 93, 90, 'Water Pulse', 'Steaming Ice', 'Cyclone Slash', 'Tsunami Surge', './img/m12.png'],
+    ['Satun', 0, 2, 100, 60, 65, 88, 100, 66, 'Flame Punch', 'Flame Up', 'Searing Burn', 'Infernal Storm', './img/m13.png'],
+    ['Storja', 2, 3, 130, 65, 111, 65, 80, 75, 'Storm Strike', 'Charge Up', 'Paralyzing Wave', 'Lightning Pulse', './img/m14.png'],
+    ['Gaia', 3, 4, 84, 90, 68, 98, 94, 90, 'Rockfall', 'Nature Sync', 'Calm of Green', 'Landslide', './img/m15.png'],
+    ['Despire', 4, 2, 70, 70, 113, 89, 123, 105, 'Gravity Beam', 'Destabilizing Wave', 'Galactic Storm', 'Black Hole', './img/m16.png'],
+    ['Feris', 6, 3, 91, 65, 70, 70, 130, 51, 'Light Burst', 'Clear Soul', 'Malevolent Slumber', 'Infinite Radiance', './img/m17.png'],
+    ['Vanquash', 1, 2, 80, 84, 80, 88, 78, 104, 'Water Punch', 'Flowing Grace', 'Steam Blast', 'Tsunami Surge', './img/m17.png'],
+    ['Momori', 5, 3, 77, 80, 103, 85, 99, 84, 'Metal Beam', 'Steel Guard', 'Mirror Maze', 'Magnetic Annihilation', './img/m18.png'],
+    ['Jarinn', 7, 1, 90, 62, 129, 96, 80, 78, 'Dark Punch', 'Shadow Dance', 'Nightmare Slash', 'Dark Phantasm', './img/m19.png'],
+    ['Qwala', 3, 0, 107, 88, 55, 84, 99, 82, 'Stone Throw', 'Dust Guard', 'Sapping Ground', 'Landslide', './img/m20.png'],
+    ['Ristora', 6, 3, 90, 49, 93, 89, 117, 59, 'Light Burst', 'Illumination', 'Blinding Light', 'Infinite Radiance', './img/m21.png'],
+    ['Saibill', 5, 0, 110, 78, 70, 75, 110, 97, 'Iron Punch', 'Upgrade', 'Paralyzing Wave', 'Magnetic Annihilation', './img/m22.png'],
+    ['Veilara', 1, 2, 62, 60, 80, 95, 162, 60, 'Water Tackle', 'Hydraulic Charge', 'Steam Blast', 'Tsunami Surge', './img/m23.png'],
+    ['Thram', 7, 2, 60, 90, 96, 90, 141, 86, 'Dark Slash', 'Rile Up', 'Uncertain Fate', 'Dark Phantasm', './img/m24.png'],
+    ['Zenshi', 6, 2, 93, 75, 104, 89, 92, 77, 'Light Burst', 'Clear Soul', 'Final Purge', 'Infinite Light', './img/m25.png'],
+    ['Extone', 3, 5, 134, 111, 109, 93, 36, 51, 'Rockfall', 'Grounded Focus', 'Heated Land', 'Landslide', './img/m26.png'],
+    ['Cereph', 4, 5, 72, 120, 60, 88, 100, 123, 'Spacial Wave', 'Temporal Warp', 'Galactic Storm', 'Black Hole', './img/m27.png'],
+    ['Firaoh', 0, 1, 73, 111, 98, 92, 89, 90, 'Fire Burst', 'Flame Up', 'Burning Toxins', 'Infernal Storm', './img/m28.png'],
+    ['Lucy', 7, 2, 100, 60, 62, 68, 140, 66, 'Shadow Beam', 'Unholy Focus', 'Nightmare Slash', 'Dark Phantasm', './img/m29.png'],
+    ['Lavia', 0, 5, 83, 107, 78, 99, 88, 84, 'Fire Burst', 'Rile Up', 'Final Purge', 'Infernal Storm', './img/m30.png'],
+    ['Zias', 2, 1, 75, 100, 91, 88, 110, 93, 'Lightning Fist', 'Thunderous Roar', 'Ionic Prison', 'Lightning Pulse', './img/m31.png'],
+    ['Dawn', 6, 4, 100, 70, 91, 90, 110, 105, 'Holy Burst', 'Clear Soul', 'Sacred Flames', 'Infinite Radiance', './img/m32.png'],
+    ['Dusk', 7, 4, 110, 65, 90, 90, 110, 100, 'Unholy Burst', 'Clear Soul', 'Unholy Venom', 'Dark Phantasm', './img/m33.png']
 
 ]
 
@@ -230,6 +231,7 @@ class Monster{
         const m2 = mon[10];
         const m3 = mon[11];
         const m4 = mon[12];
+        const pic = mon[13];
 
         if (!monsters.includes(name)) throw new Error('Invalid Name: '.concat(name));
         if (type >= types.length) throw new Error('Invalid Type: '.concat(type));
@@ -259,7 +261,7 @@ class Monster{
     }
 
     getState(){
-        return [this.name, this.type, this.faction, this.attack, this.defence, this.speed, this.mana, this.accuracy, this.hpmax, this.atkstg, this.defstg, this.spdstg, this.mnastg, this.acrstg, this.hpnow, this.status, this.statusCounter, this.fieldCounter, this.move1, this.move2, this.move3, this.move4]
+        return [this.name, this.type, this.faction, this.attack, this.defence, this.speed, this.mana, this.accuracy, this.hpmax, this.atkstg, this.defstg, this.spdstg, this.mnastg, this.acrstg, this.hpnow, this.status, this.statusCounter, this.fieldCounter, this.move1, this.move2, this.move3, this.move4, this.pic]
     }
 
     takeDamage(damage){
@@ -723,6 +725,12 @@ class Monster{
 
     }
 
+    statusDamage(){
+        if (this.status == 1 || this.status == 2 || this.status == 3){
+            this.hpnow = Math.max(0, this.hpnow - (this.hpmax/10));
+        }
+    }
+
     incrementFieldCounter(){
         this.fieldCounter = this.fieldCounter + 1;
     }
@@ -1112,5 +1120,11 @@ async function oneTurn(){
         console.log(aiTeam.monsters[aiTeam.activeMonster]);
     }
     console.log(el);
+    if (pm.hpnow > 0){
+        pm.statusDamage();
+    }
+    if (am.hpnow > 0){
+        am.statusDamage();
+    }
 }
 window.oneTurn = oneTurn;
