@@ -7,7 +7,7 @@
     <link rel="shortcut icon" href="img/logo.png">
     <link rel="stylesheet" href="main.css">
 </head>
-<body>
+<body onload="renderAid();">
     <header>
         <nav>
             <div class="logo">Moonwarz</div>
@@ -24,15 +24,14 @@
             </ul>
         </nav>
     </header>
+    <div>
+        <canvas id="game" width="1100" height="800"></canvas>
+    </div>
 
-    <section class="content">
-        <canvas id="game" width="1200" height="800"></canvas>
 
-
-    </section>
 
     <footer>
-        <p>Dark Sun Labs &copy; 2025</p>
+        <p>Resurgence Labs &copy; 2025</p>
     </footer>
     <script>
         document.getElementById("mobile-menu").addEventListener("click", function () {

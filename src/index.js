@@ -1,5 +1,25 @@
 import axios from "axios";
 
+
+// Canvas setup
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+
+let isRendering = false;
+
+// Store battle messages for the text box
+let battleMessages = [];
+
+// Load and cache images to avoid reloading
+const imageCache = {};
+function loadImage(src) {
+  if (imageCache[src]) return imageCache[src];
+  const img = new Image();
+  img.src = src;
+  imageCache[src] = img;
+  return img;
+}
+
 const types = ['Fire', 'Water', 'Storm', 'Earth', 'Cosmic', 'Metal', 'Light', 'Dark'];
 
 const damageByType = [
@@ -29,7 +49,13 @@ const damageByFaction = [
 const stats = ['Attack', 'Defence', 'Speed', 'Accuracy', 'Mana', 'HP'];
 
 const terrains = ['Water', 'Firestorm', 'Forest', 'Thunderstorm', 'Pure', 'Evil', 'Artificial', 'Space'];
-const terrainBackgrounds = ['./img/sea.jpeg', './img/firestorm2.jpeg', './img/forest.jpeg', './img/thunderstorm2.jpeg', './img/pure.jpeg', './img/evil.jpeg', './img/artificial.jpeg', './img/space.jpeg']
+const terrainBackgrounds = ['img/sea.jpg', 'img/firestorm2.jpg', 'img/forest.jpg', 'img/thunderstorm2.jpg', 'img/pure.jpg', 'img/evil.jpg', 'img/artificial.jpg', 'img/space.jpg'];
+const terrainSprites = [new Image(), new Image(), new Image(), new Image(),new Image(), new Image(),new Image(), new Image()];
+var k = 0;
+while (k < terrains.length){
+    terrainSprites[k].src = terrainBackgrounds[k];
+    k++;
+}
 
 const damageByTerrain = [
                     [0.9, 1.1, 1, 1, 1, 1, 1, 1],
@@ -46,42 +72,51 @@ const damageByTerrain = [
 const monsters = ['Abyss', 'Banshit', 'Cuck-oo', 'Dumdum', 'Sharqueen', 'Cyberflare', 'Mermina', 'Wormhell', 'Seraphix', 'Cosyz', 'Tungstongue', 'Aria', 'Satun', 'Storja', 'Gaia', 'Despire', 'Feris', 'Vanquash', 'Momori', 'Jarinn', 'Qwala', 'Ristora', 'Saibill', 'Veilara', 'Thram', 'Zenshi', 'Extone', 'Cereph', 'Firaoh', 'Lucy', 'Lavia', 'Zias', 'Dawn', 'Dusk'];
 
 const monsterStats = [
-    ['Abyss', 7, 0, 50, 104, 82, 88, 73, 101, 'Dark Punch', 'Rile Up', 'Solid Smash', 'Dark Phantasm', './img/m1.png'],
-    ['Banshit', 5, 2, 77, 80, 103, 85, 90, 92, 'Dark Wail', 'Shadow Veil', 'Dark Daze', 'Dark Phantasm', './img/m2.png'],
-    ['Cuck-oo', 2, 3, 60, 80, 120, 96, 60, 78, 'Storm Strike', 'Storm Steps', 'Super Stun', 'Lightning Pulse', './img/m3.png'],
-    ['Dumdum', 3, 2, 127, 88, 55, 60, 110, 82, 'Stone Throw', 'Dust Guard', 'Quake', 'Landslide', './img/m4.png'],
-    ['Sharqueen', 1, 3, 90, 49, 93, 86, 66, 69, 'Water Tackle', 'Hydro Veil', 'Frost Fangs', 'Tsunami Surge', './img/m5.png'],
-    ['Cyberflare', 0, 0, 110, 98, 70, 85, 64, 97, 'Flame Punch', 'Flame Up', 'Burning Uppercut', 'Infernal Storm', './img/m6.png'],
-    ['Mermina', 1, 1, 80, 100, 80, 91, 62, 60, 'Water Tackle', 'Rising Tide', 'Steam Blast', 'Tsunami Surge', './img/m7.png'],
-    ['Wormhell', 7, 5, 20, 140, 93, 90, 100, 79, 'Dark Slash', 'Rile Up', 'Eternal Cannon', 'Dark Phantasm', './img/m8.png'],
-    ['Seraphix', 6, 4, 45, 120, 101, 85, 107, 77, 'Light Burst', 'Clear Soul', 'Aura Blind', 'Infinite Radiance', './img/m9.png'],
-    ['Cosyz', 4, 5, 90, 40, 109, 73, 90, 51, 'Gravity Beam', 'Cosmo Guard', 'Galactic Storm', 'Black Hole', './img/m10.png'],
-    ['Tungstongue', 5, 0, 70, 120, 60, 87, 80, 120, 'Metal Slash', 'Sharpen Blade', 'Metal Debris', 'Magnetic Annihilation', './img/m11.png'],
-    ['Aria', 1, 4, 67, 101, 98, 92, 93, 90, 'Water Pulse', 'Steaming Ice', 'Cyclone Slash', 'Tsunami Surge', './img/m12.png'],
-    ['Satun', 0, 2, 100, 60, 65, 88, 100, 66, 'Flame Punch', 'Flame Up', 'Searing Burn', 'Infernal Storm', './img/m13.png'],
-    ['Storja', 2, 3, 130, 65, 111, 65, 80, 75, 'Storm Strike', 'Charge Up', 'Paralyzing Wave', 'Lightning Pulse', './img/m14.png'],
-    ['Gaia', 3, 4, 84, 90, 68, 98, 94, 90, 'Rockfall', 'Nature Sync', 'Calm of Green', 'Landslide', './img/m15.png'],
-    ['Despire', 4, 2, 70, 70, 113, 89, 123, 105, 'Gravity Beam', 'Destabilizing Wave', 'Galactic Storm', 'Black Hole', './img/m16.png'],
-    ['Feris', 6, 3, 91, 65, 70, 70, 130, 51, 'Light Burst', 'Clear Soul', 'Malevolent Slumber', 'Infinite Radiance', './img/m17.png'],
-    ['Vanquash', 1, 2, 80, 84, 80, 88, 78, 104, 'Water Punch', 'Flowing Grace', 'Steam Blast', 'Tsunami Surge', './img/m17.png'],
-    ['Momori', 5, 3, 77, 80, 103, 85, 99, 84, 'Metal Beam', 'Steel Guard', 'Mirror Maze', 'Magnetic Annihilation', './img/m18.png'],
-    ['Jarinn', 7, 1, 90, 62, 129, 96, 80, 78, 'Dark Punch', 'Shadow Dance', 'Nightmare Slash', 'Dark Phantasm', './img/m19.png'],
-    ['Qwala', 3, 0, 107, 88, 55, 84, 99, 82, 'Stone Throw', 'Dust Guard', 'Sapping Ground', 'Landslide', './img/m20.png'],
-    ['Ristora', 6, 3, 90, 49, 93, 89, 117, 59, 'Light Burst', 'Illumination', 'Blinding Light', 'Infinite Radiance', './img/m21.png'],
-    ['Saibill', 5, 0, 110, 78, 70, 75, 110, 97, 'Iron Punch', 'Upgrade', 'Paralyzing Wave', 'Magnetic Annihilation', './img/m22.png'],
-    ['Veilara', 1, 2, 62, 60, 80, 95, 162, 60, 'Water Tackle', 'Hydraulic Charge', 'Steam Blast', 'Tsunami Surge', './img/m23.png'],
-    ['Thram', 7, 2, 60, 90, 96, 90, 141, 86, 'Dark Slash', 'Rile Up', 'Uncertain Fate', 'Dark Phantasm', './img/m24.png'],
-    ['Zenshi', 6, 2, 93, 75, 104, 89, 92, 77, 'Light Burst', 'Clear Soul', 'Final Purge', 'Infinite Light', './img/m25.png'],
-    ['Extone', 3, 5, 134, 111, 109, 93, 36, 51, 'Rockfall', 'Grounded Focus', 'Heated Land', 'Landslide', './img/m26.png'],
-    ['Cereph', 4, 5, 72, 120, 60, 88, 100, 123, 'Spacial Wave', 'Temporal Warp', 'Galactic Storm', 'Black Hole', './img/m27.png'],
-    ['Firaoh', 0, 1, 73, 111, 98, 92, 89, 90, 'Fire Burst', 'Flame Up', 'Burning Toxins', 'Infernal Storm', './img/m28.png'],
-    ['Lucy', 7, 2, 100, 60, 62, 68, 140, 66, 'Shadow Beam', 'Unholy Focus', 'Nightmare Slash', 'Dark Phantasm', './img/m29.png'],
-    ['Lavia', 0, 5, 83, 107, 78, 99, 88, 84, 'Fire Burst', 'Rile Up', 'Final Purge', 'Infernal Storm', './img/m30.png'],
-    ['Zias', 2, 1, 75, 100, 91, 88, 110, 93, 'Lightning Fist', 'Thunderous Roar', 'Ionic Prison', 'Lightning Pulse', './img/m31.png'],
-    ['Dawn', 6, 4, 100, 70, 91, 90, 110, 105, 'Holy Burst', 'Clear Soul', 'Sacred Flames', 'Infinite Radiance', './img/m32.png'],
-    ['Dusk', 7, 4, 110, 65, 90, 90, 110, 100, 'Unholy Burst', 'Clear Soul', 'Unholy Venom', 'Dark Phantasm', './img/m33.png']
+    ['Abyss', 7, 0, 50, 104, 82, 88, 73, 101, 'Dark Punch', 'Rile Up', 'Solid Smash', 'Dark Phantasm', 'img/m1.png'],
+    ['Banshit', 5, 2, 77, 80, 103, 85, 90, 92, 'Dark Wail', 'Shadow Veil', 'Dark Daze', 'Dark Phantasm', 'img/m2.png'],
+    ['Cuck-oo', 2, 3, 60, 80, 120, 96, 60, 78, 'Storm Strike', 'Storm Steps', 'Super Stun', 'Lightning Pulse', 'img/m3.png'],
+    ['Dumdum', 3, 2, 127, 88, 55, 60, 110, 82, 'Stone Throw', 'Dust Guard', 'Quake', 'Landslide', 'img/m4.png'],
+    ['Sharqueen', 1, 3, 90, 49, 93, 86, 66, 69, 'Water Tackle', 'Hydro Veil', 'Frost Fangs', 'Tsunami Surge', 'img/m5.png'],
+    ['Cyberflare', 0, 0, 110, 98, 70, 85, 64, 97, 'Flame Punch', 'Flame Up', 'Burning Uppercut', 'Infernal Storm', 'img/m6.png'],
+    ['Mermina', 1, 1, 80, 100, 80, 91, 62, 60, 'Water Tackle', 'Rising Tide', 'Steam Blast', 'Tsunami Surge', 'img/m7.png'],
+    ['Wormhell', 7, 5, 20, 140, 93, 90, 100, 79, 'Dark Slash', 'Rile Up', 'Eternal Cannon', 'Dark Phantasm', 'img/m8.png'],
+    ['Seraphix', 6, 4, 45, 120, 101, 85, 107, 77, 'Light Burst', 'Clear Soul', 'Aura Blind', 'Infinite Radiance', 'img/m9.png'],
+    ['Cosyz', 4, 5, 90, 40, 109, 73, 90, 51, 'Gravity Beam', 'Cosmo Guard', 'Galactic Storm', 'Black Hole', 'img/m10.png'],
+    ['Tungstongue', 5, 0, 70, 120, 60, 87, 80, 120, 'Metal Slash', 'Sharpen Blade', 'Metal Debris', 'Magnetic Annihilation', 'img/m11.png'],
+    ['Aria', 1, 4, 67, 101, 98, 92, 93, 90, 'Water Pulse', 'Steaming Ice', 'Cyclone Slash', 'Tsunami Surge', 'img/m12.png'],
+    ['Satun', 0, 2, 100, 60, 65, 88, 100, 66, 'Flame Punch', 'Flame Up', 'Searing Burn', 'Infernal Storm', 'img/m13.png'],
+    ['Storja', 2, 3, 130, 65, 111, 65, 80, 75, 'Storm Strike', 'Charge Up', 'Paralyzing Wave', 'Lightning Pulse', 'img/m14.png'],
+    ['Gaia', 3, 4, 84, 90, 68, 98, 94, 90, 'Rockfall', 'Nature Sync', 'Calm of Green', 'Landslide', 'img/m15.png'],
+    ['Despire', 4, 2, 70, 70, 113, 89, 123, 105, 'Gravity Beam', 'Destabilizing Wave', 'Galactic Storm', 'Black Hole', 'img/m16.png'],
+    ['Feris', 6, 3, 91, 65, 70, 70, 130, 51, 'Light Burst', 'Clear Soul', 'Malevolent Slumber', 'Infinite Radiance', 'img/m17.png'],
+    ['Vanquash', 1, 2, 80, 84, 80, 88, 78, 104, 'Water Punch', 'Flowing Grace', 'Steam Blast', 'Tsunami Surge', 'img/m18.png'],
+    ['Momori', 5, 3, 77, 80, 103, 85, 99, 84, 'Metal Beam', 'Steel Guard', 'Mirror Maze', 'Magnetic Annihilation', 'img/m19.png'],
+    ['Jarinn', 7, 1, 90, 62, 129, 96, 80, 78, 'Dark Punch', 'Shadow Dance', 'Nightmare Slash', 'Dark Phantasm', 'img/m20.png'],
+    ['Qwala', 3, 0, 107, 88, 55, 84, 99, 82, 'Stone Throw', 'Dust Guard', 'Sapping Ground', 'Landslide', 'img/m21.png'],
+    ['Ristora', 6, 3, 90, 49, 93, 89, 117, 59, 'Light Burst', 'Illumination', 'Blinding Light', 'Infinite Radiance', 'img/m22.png'],
+    ['Saibill', 5, 0, 110, 78, 70, 75, 110, 97, 'Iron Punch', 'Upgrade', 'Paralyzing Wave', 'Magnetic Annihilation', 'img/m23.png'],
+    ['Veilara', 1, 2, 62, 60, 80, 95, 162, 60, 'Water Tackle', 'Hydraulic Charge', 'Steam Blast', 'Tsunami Surge', 'img/m24.png'],
+    ['Thram', 7, 2, 60, 90, 96, 90, 141, 86, 'Dark Slash', 'Rile Up', 'Uncertain Fate', 'Dark Phantasm', 'img/m25.png'],
+    ['Zenshi', 6, 2, 93, 75, 104, 89, 92, 77, 'Light Burst', 'Clear Soul', 'Final Purge', 'Infinite Light', 'img/m26.png'],
+    ['Extone', 3, 5, 134, 111, 109, 93, 36, 51, 'Rockfall', 'Grounded Focus', 'Heated Land', 'Landslide', 'img/m27.png'],
+    ['Cereph', 4, 5, 72, 120, 60, 88, 100, 123, 'Spacial Wave', 'Temporal Warp', 'Galactic Storm', 'Black Hole', 'img/m28.png'],
+    ['Firaoh', 0, 1, 73, 111, 98, 92, 89, 90, 'Fire Burst', 'Flame Up', 'Burning Toxins', 'Infernal Storm', 'img/m29.png'],
+    ['Lucy', 7, 2, 100, 60, 62, 68, 140, 66, 'Shadow Beam', 'Unholy Focus', 'Nightmare Slash', 'Dark Phantasm', 'img/m30.png'],
+    ['Lavia', 0, 5, 83, 107, 78, 99, 88, 84, 'Fire Burst', 'Rile Up', 'Final Purge', 'Infernal Storm', 'img/m31.png'],
+    ['Zias', 2, 1, 75, 100, 91, 88, 110, 93, 'Lightning Fist', 'Thunderous Roar', 'Ionic Prison', 'Lightning Pulse', 'img/m32.png'],
+    ['Dawn', 6, 4, 100, 70, 91, 90, 110, 105, 'Holy Burst', 'Clear Soul', 'Sacred Flames', 'Infinite Radiance', 'img/m33.png'],
+    ['Dusk', 7, 4, 110, 65, 90, 90, 110, 100, 'Unholy Burst', 'Clear Soul', 'Unholy Venom', 'Dark Phantasm', 'img/m34.png']
 
 ]
+
+const monsterSprites = Array(34).fill().map(() => new Image());
+k = 0;
+console.log(monsterSprites);
+console.log(monsterStats);
+while (k < monsterStats.length){
+    monsterSprites[k].src = monsterStats[k][13];
+    k++;
+}
 
 const moves = ['Dark Punch', 'Rile Up', 'Solid Smash', 'Dark Phantasm', 'Dark Wail', 'Shadow Veil', 'Dark Daze', 'Storm Strike', 'Storm Steps', 'Super Stun', 'Lightning Pulse', 'Stone Throw', 'Dust Guard', 'Quake', 'Landslide', 'Water Tackle', 'Hydro Veil', 'Frost Fangs', 'Tsunami Surge', 'Flame Punch', 'Flame Up', 'Burning Uppercut', 'Infernal Storm', 'Steam Blast', 'Rising Tide', 'Dark Slash', 'Eternal Cannon', 'Light Burst', 'Clear Soul', 'Aura Blind', 'Infinite Radiance', 'Gravity Beam', 'Cosmo Guard', 'Galactic Storm', 'Black Hole', 'Metal Slash', 'Sharpen Blade', 'Metal Debris', 'Magnetic Annihilation', 'Water Pulse', 'Steaming Ice', 'Cyclone Slash', 'Searing Burn', 'Charge Up', 'Paralyzing Wave', 'Rockfall', 'Nature Sync', 'Calm of Green', 'Destabilizing Wave', 'Malevolent Slumber', 'Water Punch', 'Flowing Grace', 'Metal Beam', 'Steel Guard', 'Mirror Maze', 'Dark Punch', 'Shadow Dance', 'Nightmare Slash', 'Sapping Ground', 'Illumination', 'Blinding Light', 'Iron Punch', 'Upgrade', 'Hydraulic Charge', 'Uncertain Fate', 'Final Purge', 'Grounded Focus', 'Heated Land', 'Spacial Wave', 'Temporal Warp', 'Fire Burst', 'Burning Toxins', 'Shadow Beam', 'Unholy Focus', 'Lightning Fist', 'Thunderous Roar', 'Ionic Prison', 'Holy Burst', 'Sacred Flames', 'Unholy Burst', 'Unholy Venom'];
 
@@ -258,6 +293,7 @@ class Monster{
         this.move2 = m2;
         this.move3 = m3;
         this.move4 = m4;
+        this.pic = pic;
     }
 
     getState(){
@@ -1128,3 +1164,84 @@ async function oneTurn(){
     }
 }
 window.oneTurn = oneTurn;
+
+async function renderAid(){
+    const pm = playerTeam.monsters[playerTeam.activeMonster];
+    const am = aiTeam.monsters[aiTeam.activeMonster];
+    await renderCanvas(pm, am);
+}
+window.renderAid = renderAid;
+
+
+
+async function renderCanvas(pm, am){
+    if (isRendering){
+        return;
+    }
+    isRendering = true;
+    // Clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // 1. Draw terrain background
+    const terrainImage = terrainSprites[terrainNow];
+    ctx.drawImage(terrainImage, 0, 0, canvas.width, canvas.height);
+
+    // 2. Draw player and AI monster images
+    // Player monster (bottom left)
+    const playerImg = monsterSprites[monsters.indexOf(pm.name)];
+    ctx.drawImage(playerImg, 50, 450, 150, 150);
+
+
+    // AI monster (top right)
+    const aiImg = monsterSprites[monsters.indexOf(am.name)];
+    ctx.drawImage(aiImg, 900, 100, 150, 150);
+
+
+    // 3. Draw battle event text box (rounded rectangle)
+    const textBoxX = 50;
+    const textBoxY = 620;
+    const textBoxWidth = 1000;
+    const textBoxHeight = 150;
+    const cornerRadius = 20;
+
+    // Draw rounded rectangle
+    ctx.fillStyle = 'rgba(200,200,200,0.9)';
+    ctx.beginPath();
+    ctx.moveTo(textBoxX + cornerRadius, textBoxY);
+    ctx.lineTo(textBoxX + textBoxWidth - cornerRadius, textBoxY);
+    ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY, textBoxX + textBoxWidth, textBoxY + cornerRadius);
+    ctx.lineTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight - cornerRadius);
+    ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight, textBoxX + textBoxWidth - cornerRadius, textBoxY + textBoxHeight);
+    ctx.lineTo(textBoxX + cornerRadius, textBoxY + textBoxHeight);
+    ctx.quadraticCurveTo(textBoxX, textBoxY + textBoxHeight, textBoxX, textBoxY + textBoxHeight - cornerRadius);
+    ctx.lineTo(textBoxX, textBoxY + cornerRadius);
+    ctx.quadraticCurveTo(textBoxX, textBoxY, textBoxX + cornerRadius, textBoxY);
+    ctx.closePath();
+    ctx.fill();
+
+    // Draw border for text box
+    ctx.strokeStyle = '#333';
+    ctx.lineWidth = 5;
+    ctx.stroke();
+
+    // Draw battle messages
+    ctx.fillStyle = '#000';
+    ctx.font = '20px Arial';
+    const lineHeight = 25;
+    battleMessages.slice(-3).forEach((message, index) => { // Show up to 3 recent messages
+        ctx.fillText(message, textBoxX + 20, textBoxY + 30 + index * lineHeight);
+    });
+
+    isRendering = false;
+
+}
+window.renderCanvas = renderCanvas;
+
+// Override console.log to capture battle messages
+const originalConsoleLog = console.log;
+console.log = function (...args) {
+  const message = args.join(' ');
+  battleMessages.push(message);
+  if (battleMessages.length > 10) battleMessages.shift(); // Keep only last 10 messages
+  originalConsoleLog.apply(console, args);
+};
