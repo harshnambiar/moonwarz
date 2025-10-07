@@ -99,7 +99,7 @@ const monsterStats = [
     ['Saibill', 5, 0, 110, 78, 70, 75, 110, 97, 'Iron Punch', 'Upgrade', 'Paralyzing Wave', 'Magnetic Annihilation', 'img/m23.png'],
     ['Veilara', 1, 2, 62, 60, 80, 95, 162, 60, 'Water Tackle', 'Hydraulic Charge', 'Steam Blast', 'Tsunami Surge', 'img/m24.png'],
     ['Thram', 7, 2, 60, 90, 96, 90, 141, 86, 'Dark Slash', 'Rile Up', 'Uncertain Fate', 'Dark Phantasm', 'img/m25.png'],
-    ['Zenshi', 6, 2, 93, 75, 104, 89, 92, 77, 'Light Burst', 'Clear Soul', 'Final Purge', 'Infinite Light', 'img/m26.png'],
+    ['Zenshi', 6, 2, 93, 75, 104, 89, 92, 77, 'Light Burst', 'Clear Soul', 'Final Purge', 'Infinite Radiance', 'img/m26.png'],
     ['Extone', 3, 5, 134, 111, 109, 93, 36, 51, 'Rockfall', 'Grounded Focus', 'Heated Land', 'Landslide', 'img/m27.png'],
     ['Cereph', 4, 5, 72, 120, 60, 88, 100, 123, 'Spacial Wave', 'Temporal Warp', 'Galactic Storm', 'Black Hole', 'img/m28.png'],
     ['Firaoh', 0, 1, 73, 111, 98, 92, 89, 90, 'Fire Burst', 'Flame Up', 'Burning Toxins', 'Infernal Storm', 'img/m29.png'],
@@ -166,87 +166,87 @@ const moves = ['Dark Punch', 'Rile Up', 'Solid Smash', 'Dark Phantasm', 'Dark Wa
 */
 
 const movesData = [
-    ['Dark Punch', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Rile Up', 1, 0, 7, 100, 0, 100, 0, 100, 0, 100],
-    ['Solid Smash', 0, 40, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Dark Phantasm', 0, 100, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Dark Wail', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Shadow Veil', 1, 0, 0, 100, 0, 100, 16, 100, 0, 100],
-    ['Dark Daze', 2, 25, 0, 100, 0, 100, 6, 100, 0, 100],
-    ['Storm Strike', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Storm Steps', 1, 0, 9, 100, 0, 100, 0, 100, 0, 100],
-    ['Super Stun', 1, 0, 0, 100, 0, 100, 4, 100, 0, 100],
-    ['Lightning Pulse', 0, 100, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Stone Throw', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Dust Guard', 1, 0, 8, 100, 0, 100, 0, 100, 0, 100],
-    ['Quake', 0, 45, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Landslide', 0, 100, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Water Tackle', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Hydro Veil', 1, 0, 0, 100, 0, 100, 16, 100, 0, 100],
-    ['Frost Fangs', 2, 35, 0, 100, 0, 100, 3, 50, 0, 100],
-    ['Tsunami Surge', 0, 100, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Flame Punch', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Flame Up', 1, 0, 7, 100, 0, 100, 0, 100, 0, 100],
-    ['Burning Uppercut', 0, 50, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Infernal Storm', 0, 100, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Steam Blast', 2, 45, 0, 100, 0, 100, 1, 50, 0, 100],
-    ['Rising Tide', 1, 0, 9, 100, 0, 100, 0, 100, 0, 100],
-    ['Dark Slash', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Eternal Cannon', 0, 70, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Light Burst', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Clear Soul', 1, 0, 11, 100, 0, 100, 0, 100, 0, 100],
-    ['Aura Blind', 1, 0, 0, 100, 0, 100, 16, 100, 0, 100],
-    ['Infinite Radiance', 0, 100, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Gravity Beam', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Cosmo Guard', 1, 0, 8, 100, 0, 100, 0, 100, 0, 100],
-    ['Galactic Storm', 2, 35, 0, 100, 0, 100, 4, 50, 0, 100],
-    ['Black Hole', 0, 100, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Metal Slash', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Sharpen Blade', 1, 0, 7, 100, 0, 100, 0, 100, 0, 100],
-    ['Metal Debris', 2, 35, 0, 100, 0, 100, 15, 50, 0, 100],
-    ['Magnetic Annihilation', 0, 100, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Water Pulse', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Steaming Ice', 1, 0, 0, 100, 0, 100, 21, 100, 0, 100],
-    ['Cyclone Slash', 0, 45, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Searing Burn', 2, 35, 0, 100, 0, 100, 1, 100, 0, 100],
-    ['Charge Up', 1, 0, 11, 100, 0, 100, 0, 100, 0, 100],
-    ['Paralyzing Wave', 2, 35, 0, 100, 0, 100, 4, 100, 0, 100],
-    ['Rockfall', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Nature Sync', 1, 0, 35, 100, 0, 100, 0, 100, 0, 100],
-    ['Calm of Green', 1, 0, 0, 100, 0, 100, 5, 100, 0, 100],
-    ['Destabilizing Wave', 1, 0, 0, 100, 0, 100, 28, 100, 0, 100],
-    ['Malevolent Slumber', 1, 0, 0, 100, 0, 100, 5, 100, 0, 100],
-    ['Water Punch', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Flowing Grace', 1, 0, 9, 100, 0, 100, 0, 100, 0, 100],
-    ['Metal Beam', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Steel Guard', 1, 0, 8, 100, 0, 100, 0, 100, 0, 100],
-    ['Mirror Maze', 1, 0, 0, 100, 0, 100, 16, 100, 0, 100],
-    ['Dark Punch', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Shadow Dance', 1, 0, 36, 100, 0, 100, 0, 100, 0, 100 ],
-    ['Nightmare Slash', 0, 50, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Sapping Ground', 1, 0, 0, 100, 0, 100, 17, 100, 0, 100],
-    ['Illumination', 1, 0, 10, 100, 0, 100, 0, 100, 0, 100],
-    ['Blinding Light', 2, 35, 0, 100, 0, 100, 17, 65, 0, 100],
-    ['Iron Punch', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Upgrade', 1, 0, 7, 100, 11, 100, 0, 100, 0, 100],
-    ['Hydraulic Charge', 1, 0, 7, 100, 9, 100, 0, 100, 0, 100],
-    ['Uncertain Fate', 1, 0, 0, 100, 0, 100, 34, 100, 0, 100],
-    ['Final Purge', 1, 0, 20, 100, 0, 100, 20, 100, 0, 100],
-    ['Grounded Focus', 1, 0, 11, 100, 10, 100, 0, 100, 0, 100],
-    ['Heated Land', 2, 30, 0, 100, 0, 100, 1, 80, 0, 100],
-    ['Spacial Wave', 0, 30, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Temporal Warp', 1, 0, 9, 100, 0, 100, 15, 100, 0, 100],
-    ['Fire Burst', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Burning Toxins', 2, 35, 0, 100, 0, 100, 22, 100, 0, 100],
-    ['Shadow Beam', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Unholy Focus', 1, 0, 7, 100, 10, 100, 0, 100, 0, 100],
-    ['Lightning Fist', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Thunderous Roar', 1, 0, 11, 100, 9, 100, 0, 100, 0, 100],
-    ['Ionic Prison', 1, 0, 0, 100, 0, 100, 4, 65, 15, 100],
-    ['Holy Burst', 0, 30, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Sacred Flames', 2, 70, 0, 100, 0, 100, 1, 70, 0, 100],
-    ['Unholy Burst', 0, 30, 0, 100, 0, 100, 0, 100, 0, 100],
-    ['Unholy Venom', 2, 70, 0, 100, 0, 100, 2, 70, 0, 100]
+    ['Dark Punch', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100, 'A basic Dark type attack. Gains 1 spirit.'],
+    ['Rile Up', 1, 0, 7, 100, 0, 100, 0, 100, 0, 100, 'Increases Attack by one stage.'],
+    ['Solid Smash', 0, 40, 0, 100, 0, 100, 0, 100, 0, 100, 'A stronger Technology faction attack. It has no added effects.'],
+    ['Dark Phantasm', 0, 100, 0, 100, 0, 100, 0, 100, 0, 100, 'The ultimate Dark type attack. Does great damage. Costs 2 spirit.'],
+    ['Dark Wail', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100, 'A basic Dark type attack. Gains 1 spirit.'],
+    ['Shadow Veil', 1, 0, 0, 100, 0, 100, 16, 100, 0, 100, 'Veils user in shadows to lower foe Accuracy.'],
+    ['Dark Daze', 2, 25, 0, 100, 0, 100, 6, 100, 0, 100, 'Does damage and always leaves the foe Dazed. Costs 1 spirit.'],
+    ['Storm Strike', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100, 'A basic Storm type attack. Gains 1 spirit.'],
+    ['Storm Steps', 1, 0, 9, 100, 0, 100, 0, 100, 0, 100, 'Generates static electricity with feet to increase Speed.'],
+    ['Super Stun', 1, 0, 0, 100, 0, 100, 4, 100, 0, 100, 'Grants the foe the Stunned status.'],
+    ['Lightning Pulse', 0, 100, 0, 100, 0, 100, 0, 100, 0, 100, 'The ultimate Storm type attack. Does great damage. Costs 2 spirit.'],
+    ['Stone Throw', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100, 'A basic Earth type attack. Gains 1 spirit.'],
+    ['Dust Guard', 1, 0, 8, 100, 0, 100, 0, 100, 0, 100, 'Creates a shield of dust around the user to increase Defence.'],
+    ['Quake', 0, 45, 0, 100, 0, 100, 0, 100, 0, 100, 'A stronger Earth attack. It has no added effects.'],
+    ['Landslide', 0, 100, 0, 100, 0, 100, 0, 100, 0, 100, 'The ultimate Earth type attack. Does great damage. Costs 2 spirit.'],
+    ['Water Tackle', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100, 'A basic Water type attack. Gains 1 spirit.'],
+    ['Hydro Veil', 1, 0, 0, 100, 0, 100, 16, 100, 0, 100, 'Hides behind waves to lower foe Accuracy.'],
+    ['Frost Fangs', 2, 35, 0, 100, 0, 100, 3, 50, 0, 100, 'Does damage and has a 50% chance of giving the foe Frostbite. Costs 1 spirit.'],
+    ['Tsunami Surge', 0, 100, 0, 100, 0, 100, 0, 100, 0, 100, 'The ultimate Water type attack. Does great damage.Costs 2 spirit.'],
+    ['Flame Punch', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100, 'A basic Fire type attack. Gains 1 spirit.'],
+    ['Flame Up', 1, 0, 7, 100, 0, 100, 0, 100, 0, 100, 'Fires up the user to increase Attack.'],
+    ['Burning Uppercut', 0, 50, 0, 100, 0, 100, 0, 100, 0, 100, 'A stronger Fire attack. It has no added effects.'],
+    ['Infernal Storm', 0, 100, 0, 100, 0, 100, 0, 100, 0, 100, 'The ultimate Fire type attack. Does great damage. Costs 2 spirit.'],
+    ['Steam Blast', 2, 45, 0, 100, 0, 100, 1, 50, 0, 100, 'Does damage and has a 50% chance of Burning the foe. Costs 1 spirit.'],
+    ['Rising Tide', 1, 0, 9, 100, 0, 100, 0, 100, 0, 100, 'User gains momentum from waves to increase Speed.'],
+    ['Dark Slash', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100, 'A basic Dark type attack. Gains 1 spirit.'],
+    ['Eternal Cannon', 0, 70, 0, 100, 0, 100, 0, 100, 0, 100, 'A stronger Endless faction attack. It has no added effects.'],
+    ['Light Burst', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100, 'A basic Light type attack. Gains 1 spirit.'],
+    ['Clear Soul', 1, 0, 11, 100, 0, 100, 0, 100, 0, 100, 'User calms the soul and concentrates to increase Mana.'],
+    ['Aura Blind', 1, 0, 0, 100, 0, 100, 16, 100, 0, 100, 'User blinds the foe with bright lights to lower Accuracy.'],
+    ['Infinite Radiance', 0, 100, 0, 100, 0, 100, 0, 100, 0, 100, 'The ultimate Light type attack. Does great damage. Costs 2 spirit.'],
+    ['Gravity Beam', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100, 'A basic Cosmic type attack. Gains 1 spirit.'],
+    ['Cosmo Guard', 1, 0, 8, 100, 0, 100, 0, 100, 0, 100, 'User concentrates gravity around themselves to increase Defence.'],
+    ['Galactic Storm', 2, 35, 0, 100, 0, 100, 4, 50, 0, 100, 'Does damage and has a 50% chance of leaving the foe Stunned. Costs 1 spirit.'],
+    ['Black Hole', 0, 100, 0, 100, 0, 100, 0, 100, 0, 100, 'The ultimate Cosmic type attack. Does great damage. Costs 2 spirit.'],
+    ['Metal Slash', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100, 'A basic Metal type attack. Gains 1 spirit.'],
+    ['Sharpen Blade', 1, 0, 7, 100, 0, 100, 0, 100, 0, 100, 'User sharpens their blade to increase Attack.'],
+    ['Metal Debris', 2, 35, 0, 100, 0, 100, 15, 50, 0, 100, 'Does damage and has a 50% chance of lowering the foe Speed.'],
+    ['Magnetic Annihilation', 0, 100, 0, 100, 0, 100, 0, 100, 0, 100, 'The ultimate Metal type attack. Does great damage. Costs 2 spirit.'],
+    ['Water Pulse', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100, 'A basic Water type attack. Gains 1 spirit.'],
+    ['Steaming Ice', 1, 0, 0, 100, 0, 100, 21, 100, 0, 100, 'Attacks the foe with steam and ice that always leaves them Burned or Frostbitten.'],
+    ['Cyclone Slash', 0, 45, 0, 100, 0, 100, 0, 100, 0, 100, 'A stronger Storm type attack. It has no added effects.'],
+    ['Searing Burn', 2, 35, 0, 100, 0, 100, 1, 100, 0, 100, 'Does damage and always results in a Burn. Costs 1 spirit.'],
+    ['Charge Up', 1, 0, 11, 100, 0, 100, 0, 100, 0, 100, 'User charges up their electric energy to increase Mana.'],
+    ['Paralyzing Wave', 2, 35, 0, 100, 0, 100, 4, 100, 0, 100, 'Does damage and always leads to Stun. Costs 1 spirit.'],
+    ['Rockfall', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100, 'A basic Earth type attack. Gains 1 spirit.'],
+    ['Nature Sync', 1, 0, 35, 100, 0, 100, 0, 100, 0, 100, 'User meditates in nature and increase Attack OR Mana.'],
+    ['Calm of Green', 1, 0, 0, 100, 0, 100, 5, 100, 0, 100, 'User calms the foe and grants them Sleep.'],
+    ['Destabilizing Wave', 1, 0, 0, 100, 0, 100, 28, 100, 0, 100, 'Destabilizes the foe with haphazard waves that always Stun OR Daze.'],
+    ['Malevolent Slumber', 1, 0, 0, 100, 0, 100, 5, 100, 0, 100, 'User calls upon dark magic to put the foe to Sleep.'],
+    ['Water Punch', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100, 'A basic Water type attack. Gains 1 spirit.'],
+    ['Flowing Grace', 1, 0, 9, 100, 0, 100, 0, 100, 0, 100, 'User becomes one with the waves, increasing Speed.'],
+    ['Metal Beam', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100, 'A basic Metal type attack. Gains 1 spirit.'],
+    ['Steel Guard', 1, 0, 8, 100, 0, 100, 0, 100, 0, 100, 'User created a steel exoskeleton, increasing Defence.'],
+    ['Mirror Maze', 1, 0, 0, 100, 0, 100, 16, 100, 0, 100, 'User uses mirrors to create after-images, lowering the foe Accuracy.'],
+    ['Dark Punch', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100, 'A basic Dark type attack. Gains 1 spirit.'],
+    ['Shadow Dance', 1, 0, 36, 100, 0, 100, 0, 100, 0, 100, 'User does a dark ritual dance that increases Speed OR Attack.'],
+    ['Nightmare Slash', 0, 50, 0, 100, 0, 100, 0, 100, 0, 100, 'A stronger Dark type attack. It has no added effects.'],
+    ['Sapping Ground', 1, 0, 0, 100, 0, 100, 17, 100, 0, 100, 'User siphons the Mana out of the foe and lowers it by one stage.'],
+    ['Illumination', 1, 0, 10, 100, 0, 100, 0, 100, 0, 100, 'Marks the foe with light to increase own Accuracy.'],
+    ['Blinding Light', 2, 35, 0, 100, 0, 100, 17, 65, 0, 100, 'Does damage and has a 65% chance of lowering foe Mana. Costs 1 spirit.'],
+    ['Iron Punch', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100, 'A basic Metal type attack. Gains 1 spirit.'],
+    ['Upgrade', 1, 0, 7, 100, 11, 100, 0, 100, 0, 100, 'User upgrades and increases Attack AND Mana.'],
+    ['Hydraulic Charge', 1, 0, 7, 100, 9, 100, 0, 100, 0, 100, 'User channels hydraulic force to increase Attack AND Speed.'],
+    ['Uncertain Fate', 1, 0, 0, 100, 0, 100, 34, 100, 0, 100, 'Imparts the foe a random status effect.'],
+    ['Final Purge', 1, 0, 20, 100, 0, 100, 20, 100, 0, 100, 'Defeats the foe immediately while also sacrificing the user.'],
+    ['Grounded Focus', 1, 0, 11, 100, 10, 100, 0, 100, 0, 100, 'Channels the chakra of the Earth to increase Accuracy AND Mana.'],
+    ['Heated Land', 2, 30, 0, 100, 0, 100, 1, 80, 0, 100, 'Does damage and has an 80% chance of causing a Burn. Costs 1 spirit.'],
+    ['Spacial Wave', 0, 30, 0, 100, 0, 100, 0, 100, 0, 100, 'A basic Cosmic type attack. Gains 1 spirit.'],
+    ['Temporal Warp', 1, 0, 9, 100, 0, 100, 15, 100, 0, 100, 'Distorts time to lower foe Speed AND increase self Speed.'],
+    ['Fire Burst', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100, 'A basic Fire type attack. Gains 1 spirit.'],
+    ['Burning Toxins', 2, 35, 0, 100, 0, 100, 22, 100, 0, 100, 'Does damage and always Burns OR Poisons.'],
+    ['Shadow Beam', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100, 'A basic Dark type attack. Gains 1 spirit.'],
+    ['Unholy Focus', 1, 0, 7, 100, 10, 100, 0, 100, 0, 100, 'Meditates in the dark dimension to increase Attack AND Accuracy.'],
+    ['Lightning Fist', 0, 20, 0, 100, 0, 100, 0, 100, 0, 100, 'A basic Storm type attack. Gains 1 spirit.'],
+    ['Thunderous Roar', 1, 0, 11, 100, 9, 100, 0, 100, 0, 100, 'Summons thunder clouds with a roar that increases Speed AND Mana.'],
+    ['Ionic Prison', 1, 0, 0, 100, 0, 100, 4, 65, 15, 100, 'Traps foe in an ionic prison that always lowers Speed and 65% chance of Stun.'],
+    ['Holy Burst', 0, 30, 0, 100, 0, 100, 0, 100, 0, 100, 'A basic Light type attack. Gains 1 spirit.'],
+    ['Sacred Flames', 2, 70, 0, 100, 0, 100, 1, 70, 0, 100, 'Does damage and 70% chance of Burn. Costs 1 spirit.'],
+    ['Unholy Burst', 0, 30, 0, 100, 0, 100, 0, 100, 0, 100, 'A basic Dark type attack. Gains 1 spirit.'],
+    ['Unholy Venom', 2, 70, 0, 100, 0, 100, 2, 70, 0, 100, 'Does damage and 70% chance of Poison. Costs 1 spirit.']
 ]
 
 const statuses = ['None', 'Burned', 'Poisoned', 'Frostbitten', 'Stunned', 'Drowsy', 'Dazed'];
@@ -1343,9 +1343,9 @@ async function renderCanvas(pm, am){
         else if (instruction == 2){
             // implement summary
             // Draw summary screen
-            const boxX = 200;
+            const boxX = 100;
             const boxY = 150;
-            const boxWidth = 700;
+            const boxWidth = 900;
             const boxHeight = 500;
             const cornerRadius = 20;
 
@@ -1370,7 +1370,7 @@ async function renderCanvas(pm, am){
 
             // Draw monster summary
             ctx.fillStyle = '#000';
-            ctx.font = '24px Arial';
+            ctx.font = '20px Arial';
             const lineHeight = 30;
 
             if (focalPoint >= 1 && focalPoint <= 5) {
@@ -1383,12 +1383,18 @@ async function renderCanvas(pm, am){
                 ctx.drawImage(monsterImg2, boxX + 50, boxY + 10, 140, 140);
 
                 ctx.fillText(`${monster.name}${monster.field ? ' *' : ''}`, boxX + 200, boxY + 30);
-                ctx.fillText(`Type/Faction: ${typeName}/${factionName}`, boxX + 200, boxY + 95);
-                ctx.fillText('Moves:', boxX + 50, boxY + 170);
-                ctx.fillText(`1: ${monster.move1}`, boxX + 70, boxY + 200);
-                ctx.fillText(`2: ${monster.move2}`, boxX + 70, boxY + 230);
-                ctx.fillText(`3: ${monster.move3}`, boxX + 70, boxY + 260);
-                ctx.fillText(`4: ${monster.move4}`, boxX + 70, boxY + 290);
+                ctx.fillText(`Type/Faction: ${typeName}/${factionName}`, boxX + 200, boxY + 90);
+                ctx.font = '20px Monospace';
+                ctx.fillText('Moves:', boxX + 50, boxY + 175);
+                ctx.font = '16px Monospace';
+                ctx.fillText(`${monster.move1}:`, boxX + 70, boxY + 210);
+                ctx.fillText(movesData[moves.indexOf(monster.move1)][11], boxX + 70, boxY + 230);
+                ctx.fillText(`${monster.move2}:`, boxX + 70, boxY + 260);
+                ctx.fillText(movesData[moves.indexOf(monster.move2)][11], boxX + 70, boxY + 280);
+                ctx.fillText(`${monster.move3}:`, boxX + 70, boxY + 310);
+                ctx.fillText(movesData[moves.indexOf(monster.move3)][11], boxX + 70, boxY + 330);
+                ctx.fillText(`${monster.move4}:`, boxX + 70, boxY + 360);
+                ctx.fillText(movesData[moves.indexOf(monster.move4)][11], boxX + 70, boxY + 380);
 
                 // HP bar
                 const hpBarX = boxX + 200;
@@ -1406,6 +1412,7 @@ async function renderCanvas(pm, am){
                 ctx.strokeRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
 
                 ctx.fillStyle = '#000';
+                ctx.font = '20px Arial';
                 // Back option
                 ctx.fillText('x: Back', boxX + 50, boxY + 450);
                 } else {
@@ -1549,6 +1556,35 @@ async function renderCanvas(pm, am){
 
 }
 window.renderCanvas = renderCanvas;
+
+// Helper function to wrap text
+function wrapText(ctx, text, maxWidth, lineHeight, x, y) {
+    const words = text.split(' ');
+    let line = '';
+    const lines = [];
+
+    for (let i = 0; i < words.length; i++) {
+        const testLine = line + words[i] + ' ';
+        const metrics = ctx.measureText(testLine);
+        const testWidth = metrics.width;
+
+        if (testWidth > maxWidth && i > 0) {
+            lines.push(line);
+            line = words[i] + ' ';
+        } else {
+            line = testLine;
+        }
+    }
+    lines.push(line);
+
+    // Draw each line
+    for (let i = 0; i < lines.length; i++) {
+        ctx.fillText(lines[i], x, y + i * lineHeight);
+    }
+
+    // Return the number of lines for positioning adjustments
+    return lines.length;
+}
 
 
 
