@@ -6,9 +6,11 @@ const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
 
 let isRendering = false;
+let focalPoint = 0;
+let instruction = 0;
 
-// Store battle messages for the text box
-let battleMessages = [];
+// Store the next battle messages for the text box
+let battleMessage = "Let's battle! The domain for this matchup is ";
 
 // Load and cache images to avoid reloading
 const imageCache = {};
@@ -48,7 +50,7 @@ const damageByFaction = [
 
 const stats = ['Attack', 'Defence', 'Speed', 'Accuracy', 'Mana', 'HP'];
 
-const terrains = ['Water', 'Firestorm', 'Forest', 'Thunderstorm', 'Pure', 'Evil', 'Artificial', 'Space'];
+const terrains = ['Sea', 'Firestorm', 'Forest', 'Thunderstorm', 'Pure', 'Evil', 'Artificial', 'Space'];
 const terrainBackgrounds = ['img/sea.jpg', 'img/firestorm2.jpg', 'img/forest.jpg', 'img/thunderstorm2.jpg', 'img/pure.jpg', 'img/evil.jpg', 'img/artificial.jpg', 'img/space.jpg'];
 const terrainSprites = [new Image(), new Image(), new Image(), new Image(),new Image(), new Image(),new Image(), new Image()];
 var k = 0;
@@ -886,21 +888,22 @@ class Team {
   }
 }
 
+/*
+    the main stuff happens here
+    all the initialization
+    all the internal states
+    everything
 
-
-
-
-
-
-
+*/
 const playerTeam = new Team(true);
 const playerMonsterIndices = playerTeam.monsters.map(mon => monsters.indexOf(mon.name));
 
 // Generate AI team, excluding player's monsters
 const aiTeam = new Team(false, playerMonsterIndices);
 const terrainNow = Math.floor(Math.random() * 8);
+battleMessage = battleMessage.concat(terrains[terrainNow]).concat('.');
 
-
+var gameState = 'initial';
 
 console.log(playerTeam);
 
@@ -1186,62 +1189,352 @@ async function renderCanvas(pm, am){
     const terrainImage = terrainSprites[terrainNow];
     ctx.drawImage(terrainImage, 0, 0, canvas.width, canvas.height);
 
+
+
+    //font color depending on terrain
+    var fontColor;
+    if (terrainNow == 6){
+        fontColor = 'black';
+    }
+    else {
+        fontColor = 'white';
+    }
+
+
+    if (gameState == 'switch'){
+         // Draw 3x2 grid for monster selection
+        const gridX = 50;
+        const gridY = 100;
+        const cellWidth = 500;
+        const cellHeight = 160;
+        const cellPadding = 10;
+        const hpBarWidth = 200;
+        const hpBarHeight = 20;
+        const lineHeight = 25;
+
+        ctx.fillStyle = 'rgba(200,200,200,0.9)';
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 3;
+        ctx.font = '24px Arial';
+        var plIndex = 0;
+        for (let row = 0; row < 3; row++) {
+            for (let col = 0; col < 2; col++) {
+                const index = row * 2 + col; // Cell index (0–5)
+                const x = gridX + col * (cellWidth + cellPadding);
+                const y = gridY + row * (cellHeight + cellPadding);
+
+                // Draw cell background
+                const mnstr = playerTeam.monsters[plIndex];
+                if (mnstr.hpnow == 0){
+                    ctx.fillStyle = '#cc0000';
+                }
+                else {
+                    ctx.fillStyle = '#5500ee';
+                }
+
+                ctx.fillRect(x, y, cellWidth, cellHeight);
+                ctx.strokeRect(x, y, cellWidth, cellHeight);
+
+                if (index < 5) {
+                // Monster cells (0–4)
+                    const monster = playerTeam.monsters[index];
+                    if (monster) {
+                        // Monster name (with active indicator and fainted status)
+                        ctx.fillStyle = monster.hpnow === 0 ? 'gray' : '#000';
+                        const nameText = monster.field ? `${monster.name} *` : monster.name;
+                        ctx.fillText(`${index + 1}: ${nameText}`, x + 180, y + 40);
+
+                        const monsterImg = monsterSprites[monsters.indexOf(monster.name)];
+                        ctx.drawImage(monsterImg, x + 20, y + 10, 140, 140);
+
+
+
+
+                    } else {
+                        // Empty team slot
+                        ctx.fillStyle = 'gray';
+                        ctx.fillText(`${index + 1}: Empty`, x + 20, y + 40);
+                    }
+            } else {
+                // Back option (cell 6)
+                ctx.fillStyle = 'black';
+                ctx.fillText('6: Back', x + 150, y + 70);
+                }
+            }
+        }
+
+        // 3. Draw battle event text box (rounded rectangle)
+        const textBoxX = 50;
+        const textBoxY = 620;
+        const textBoxWidth = 1000;
+        const textBoxHeight = 150;
+        const cornerRadius = 20;
+        // Draw rounded rectangle
+        ctx.fillStyle = 'rgba(200,200,200,0.9)';
+        ctx.beginPath();
+        ctx.moveTo(textBoxX + cornerRadius, textBoxY);
+        ctx.lineTo(textBoxX + textBoxWidth - cornerRadius, textBoxY);
+        ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY, textBoxX + textBoxWidth, textBoxY + cornerRadius);
+        ctx.lineTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight - cornerRadius);
+        ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight, textBoxX + textBoxWidth - cornerRadius, textBoxY + textBoxHeight);
+        ctx.lineTo(textBoxX + cornerRadius, textBoxY + textBoxHeight);
+        ctx.quadraticCurveTo(textBoxX, textBoxY + textBoxHeight, textBoxX, textBoxY + textBoxHeight - cornerRadius);
+        ctx.lineTo(textBoxX, textBoxY + cornerRadius);
+        ctx.quadraticCurveTo(textBoxX, textBoxY, textBoxX + cornerRadius, textBoxY);
+        ctx.closePath();
+        ctx.fill();
+
+        // Draw border for text box
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 5;
+        ctx.stroke();
+
+        // Draw switch messages
+        ctx.fillStyle = '#000';
+        ctx.font = '24px Arial';
+        const lineHeightSw = 25;
+        if (instruction == 0){
+            if (focalPoint == 1){
+                ctx.fillText('Do what with '.concat(playerTeam.monsters[0].name).concat('?'), textBoxX + 70, textBoxY + 60);
+                ctx.fillText('a: Send Out', textBoxX + 70, textBoxY + 90);
+                ctx.fillText('s: Summary', textBoxX + 270, textBoxY + 90);
+                ctx.fillText('d: Cancel', textBoxX + 470, textBoxY + 90);
+            }
+            else if (focalPoint == 2){
+                ctx.fillText('Do what with '.concat(playerTeam.monsters[1].name).concat('?'), textBoxX + 70, textBoxY + 60);
+                ctx.fillText('a: Send Out', textBoxX + 70, textBoxY + 90);
+                ctx.fillText('s: Summary', textBoxX + 270, textBoxY + 90);
+                ctx.fillText('d: Cancel', textBoxX + 470, textBoxY + 90);
+            }
+            else if (focalPoint == 3){
+                ctx.fillText('Do what with '.concat(playerTeam.monsters[2].name).concat('?'), textBoxX + 70, textBoxY + 60);
+                ctx.fillText('a: Send Out', textBoxX + 70, textBoxY + 90);
+                ctx.fillText('s: Summary', textBoxX + 270, textBoxY + 90);
+                ctx.fillText('d: Cancel', textBoxX + 470, textBoxY + 90);
+            }
+            else if (focalPoint == 4){
+                ctx.fillText('Do what with '.concat(playerTeam.monsters[3].name).concat('?'), textBoxX + 70, textBoxY + 60);
+                ctx.fillText('a: Send Out', textBoxX + 70, textBoxY + 90);
+                ctx.fillText('s: Summary', textBoxX + 270, textBoxY + 90);
+                ctx.fillText('d: Cancel', textBoxX + 470, textBoxY + 90);
+            }
+            else if (focalPoint == 5){
+                ctx.fillText('Do what with '.concat(playerTeam.monsters[4].name).concat('?'), textBoxX + 70, textBoxY + 60);
+                ctx.fillText('a: Send Out', textBoxX + 70, textBoxY + 90);
+                ctx.fillText('s: Summary', textBoxX + 270, textBoxY + 90);
+                ctx.fillText('d: Cancel', textBoxX + 470, textBoxY + 90);
+            }
+            else if (focalPoint == 6){
+                if (pm.hpnow > 0){
+                    gameState = 'fight';
+                    isRendering = false;
+                    renderAid();
+                }
+                else {
+                    ctx.fillText(pm.name.concat(' has no HP left!'), textBoxX + 70, textBoxY + 70);
+                    ctx.fillText('Please send out a new monster.', textBoxX + 70, textBoxY + 90);
+                }
+            }
+            else {}
+        }
+        else if (instruction == 1){
+            // implement switch
+        }
+        else if (instruction == 2){
+            // implement summary
+        }
+        else if (instruction == 3){
+            focalPoint = 0;
+            instruction = 0;
+            isRendering = false;
+            renderAid();
+        }
+        else {}
+
+    }
+
     // 2. Draw player and AI monster images
     // Player monster (bottom left)
-    const playerImg = monsterSprites[monsters.indexOf(pm.name)];
-    ctx.drawImage(playerImg, 50, 450, 150, 150);
+    else {
+        const playerImg = monsterSprites[monsters.indexOf(pm.name)];
+        ctx.drawImage(playerImg, 50, 450, 150, 150);
 
 
-    // AI monster (top right)
-    const aiImg = monsterSprites[monsters.indexOf(am.name)];
-    ctx.drawImage(aiImg, 900, 100, 150, 150);
+
+        // 3. Draw monster names and HP bars
+        // Player monster name and HP bar
+        ctx.fillStyle = fontColor;
+        ctx.font = '20px Arial';
+        ctx.fillText(pm.name, 50, 410); // Name above player sprite
+
+        // Player HP bar
+        const playerHpPercent = pm.hpnow / pm.hpmax;
+        const hpBarWidth = 150;
+        const hpBarHeight = 20;
+        var hpBarX = 50;
+        var hpBarY = 420;
+
+        // Red background for missing HP
+        ctx.fillStyle = 'red';
+        ctx.fillRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+
+        // Green fill for current HP
+        ctx.fillStyle = 'green';
+        ctx.fillRect(hpBarX, hpBarY, hpBarWidth * playerHpPercent, hpBarHeight);
+
+        // HP bar border
+        ctx.strokeStyle = '#000';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
 
 
-    // 3. Draw battle event text box (rounded rectangle)
-    const textBoxX = 50;
-    const textBoxY = 620;
-    const textBoxWidth = 1000;
-    const textBoxHeight = 150;
-    const cornerRadius = 20;
 
-    // Draw rounded rectangle
-    ctx.fillStyle = 'rgba(200,200,200,0.9)';
-    ctx.beginPath();
-    ctx.moveTo(textBoxX + cornerRadius, textBoxY);
-    ctx.lineTo(textBoxX + textBoxWidth - cornerRadius, textBoxY);
-    ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY, textBoxX + textBoxWidth, textBoxY + cornerRadius);
-    ctx.lineTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight - cornerRadius);
-    ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight, textBoxX + textBoxWidth - cornerRadius, textBoxY + textBoxHeight);
-    ctx.lineTo(textBoxX + cornerRadius, textBoxY + textBoxHeight);
-    ctx.quadraticCurveTo(textBoxX, textBoxY + textBoxHeight, textBoxX, textBoxY + textBoxHeight - cornerRadius);
-    ctx.lineTo(textBoxX, textBoxY + cornerRadius);
-    ctx.quadraticCurveTo(textBoxX, textBoxY, textBoxX + cornerRadius, textBoxY);
-    ctx.closePath();
-    ctx.fill();
 
-    // Draw border for text box
-    ctx.strokeStyle = '#333';
-    ctx.lineWidth = 5;
-    ctx.stroke();
 
-    // Draw battle messages
-    ctx.fillStyle = '#000';
-    ctx.font = '20px Arial';
-    const lineHeight = 25;
-    battleMessages.slice(-3).forEach((message, index) => { // Show up to 3 recent messages
-        ctx.fillText(message, textBoxX + 20, textBoxY + 30 + index * lineHeight);
-    });
+        // AI monster (top right)
+        const aiImg = monsterSprites[monsters.indexOf(am.name)];
+        ctx.drawImage(aiImg, 900, 150, 150, 150);
 
+
+        // AI monster name and HP bar
+        ctx.fillStyle = fontColor;
+        ctx.font = '20px Arial';
+        ctx.fillText(am.name, 900, 110); // Name above player sprite
+
+        // Player HP bar
+        const aiHpPercent = am.hpnow / am.hpmax;
+        hpBarX = 900;
+        hpBarY = 120;
+
+        // Red background for missing HP
+        ctx.fillStyle = 'red';
+        ctx.fillRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+
+        // Green fill for current HP
+        ctx.fillStyle = 'green';
+        ctx.fillRect(hpBarX, hpBarY, hpBarWidth * aiHpPercent, hpBarHeight);
+
+        // HP bar border
+        ctx.strokeStyle = '#000';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+
+        // 3. Draw battle event text box (rounded rectangle)
+        const textBoxX = 50;
+        const textBoxY = 620;
+        const textBoxWidth = 1000;
+        const textBoxHeight = 150;
+        const cornerRadius = 20;
+
+        // Draw rounded rectangle
+        ctx.fillStyle = 'rgba(200,200,200,0.9)';
+        ctx.beginPath();
+        ctx.moveTo(textBoxX + cornerRadius, textBoxY);
+        ctx.lineTo(textBoxX + textBoxWidth - cornerRadius, textBoxY);
+        ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY, textBoxX + textBoxWidth, textBoxY + cornerRadius);
+        ctx.lineTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight - cornerRadius);
+        ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight, textBoxX + textBoxWidth - cornerRadius, textBoxY + textBoxHeight);
+        ctx.lineTo(textBoxX + cornerRadius, textBoxY + textBoxHeight);
+        ctx.quadraticCurveTo(textBoxX, textBoxY + textBoxHeight, textBoxX, textBoxY + textBoxHeight - cornerRadius);
+        ctx.lineTo(textBoxX, textBoxY + cornerRadius);
+        ctx.quadraticCurveTo(textBoxX, textBoxY, textBoxX + cornerRadius, textBoxY);
+        ctx.closePath();
+        ctx.fill();
+
+        // Draw border for text box
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 5;
+        ctx.stroke();
+
+        // Draw battle messages
+        ctx.fillStyle = '#000';
+        ctx.font = '24px Arial';
+        const lineHeight = 25;
+
+
+
+        if (gameState == 'initial'){
+            ctx.fillText(battleMessage, textBoxX + 70, textBoxY + 70);
+            setTimeout(() => {
+                gameState = 'menu';
+                renderAid();
+            }, 3000);
+        }
+        else if (gameState == 'menu'){
+            ctx.fillText('What will you do?', textBoxX + 70, textBoxY + 50);
+            ctx.fillText('z: Fight', textBoxX + 70, textBoxY + 100);
+            ctx.fillText('x: Switch', textBoxX + 570, textBoxY + 100);
+        }
+        else if (gameState == 'fight'){
+            ctx.fillText('What will '.concat(pm.name).concat(' do?'), textBoxX + 70, textBoxY + 40);
+            ctx.fillText('1: '.concat(pm.move1), textBoxX + 70, textBoxY + 80);
+            ctx.fillText('2: '.concat(pm.move2), textBoxX + 570, textBoxY + 80);
+            ctx.fillText('3: '.concat(pm.move3), textBoxX + 70, textBoxY + 110);
+            ctx.fillText('4: '.concat(pm.move4), textBoxX + 570, textBoxY + 110);
+            ctx.fillText('x: Switch', textBoxX + 375, textBoxY + 140);
+        }
+    }
     isRendering = false;
 
 }
 window.renderCanvas = renderCanvas;
 
-// Override console.log to capture battle messages
-const originalConsoleLog = console.log;
-console.log = function (...args) {
-  const message = args.join(' ');
-  battleMessages.push(message);
-  if (battleMessages.length > 10) battleMessages.shift(); // Keep only last 10 messages
-  originalConsoleLog.apply(console, args);
-};
+
+
+document.addEventListener('keydown', (event) => {
+    const link = window.location.href;
+    if (!link.includes('session.html')){
+        return;
+    }
+    else {
+        if (gameState == 'menu'){
+            if (event.key === 'z'){
+                gameState = 'fight';
+                renderAid();
+            }
+            else if (event.key === 'x'){
+                gameState = 'switch';
+                renderAid();
+            }
+        }
+        else if (gameState == 'switch'){
+            if (event.key === '1'){
+                focalPoint = 1;
+                renderAid();
+            }
+            else if (event.key == '2'){
+                focalPoint = 2;
+                renderAid();
+            }
+            else if (event.key == '3'){
+                focalPoint = 3;
+                renderAid();
+            }
+            else if (event.key == '4'){
+                focalPoint = 4;
+                renderAid();
+            }
+            else if (event.key == '5'){
+                focalPoint = 5;
+                renderAid();
+            }
+            else if (event.key == '6'){
+                focalPoint = 6;
+                renderAid();
+            }
+            else if (event.key == 'a'){
+                instruction = 1;
+                renderAid();
+            }
+            else if (event.key == 's'){
+                instruction = 2;
+                renderAid();
+            }
+            else if (event.key == 'd'){
+                instruction = 3;
+                renderAid();
+            }
+            else {}
+        }
+    }
+});
