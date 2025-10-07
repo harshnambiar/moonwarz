@@ -1342,6 +1342,77 @@ async function renderCanvas(pm, am){
         }
         else if (instruction == 2){
             // implement summary
+            // Draw summary screen
+            const boxX = 200;
+            const boxY = 150;
+            const boxWidth = 700;
+            const boxHeight = 500;
+            const cornerRadius = 20;
+
+            // Draw summary box
+            ctx.fillStyle = 'rgba(200,200,200,0.9)';
+            ctx.beginPath();
+            ctx.moveTo(boxX + cornerRadius, boxY);
+            ctx.lineTo(boxX + boxWidth - cornerRadius, boxY);
+            ctx.quadraticCurveTo(boxX + boxWidth, boxY, boxX + boxWidth, boxY + cornerRadius);
+            ctx.lineTo(boxX + boxWidth, boxY + boxHeight - cornerRadius);
+            ctx.quadraticCurveTo(boxX + boxWidth, boxY + boxHeight, boxX + boxWidth - cornerRadius, boxY + boxHeight);
+            ctx.lineTo(boxX + cornerRadius, boxY + boxHeight);
+            ctx.quadraticCurveTo(boxX, boxY + boxHeight, boxX, boxY + boxHeight - cornerRadius);
+            ctx.lineTo(boxX, boxY + cornerRadius);
+            ctx.quadraticCurveTo(boxX, boxY, boxX + cornerRadius, boxY);
+            ctx.closePath();
+            ctx.fill();
+
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 5;
+            ctx.stroke();
+
+            // Draw monster summary
+            ctx.fillStyle = '#000';
+            ctx.font = '24px Arial';
+            const lineHeight = 30;
+
+            if (focalPoint >= 1 && focalPoint <= 5) {
+                const monster = playerTeam.monsters[focalPoint - 1];
+                if (monster) {
+                const typeName = types[monster.type];
+                const factionName = factions[monster.faction];
+
+                const monsterImg2 = monsterSprites[monsters.indexOf(monster.name)];
+                ctx.drawImage(monsterImg2, boxX + 50, boxY + 10, 140, 140);
+
+                ctx.fillText(`${monster.name}${monster.field ? ' *' : ''}`, boxX + 200, boxY + 30);
+                ctx.fillText(`Type/Faction: ${typeName}/${factionName}`, boxX + 200, boxY + 95);
+                ctx.fillText('Moves:', boxX + 50, boxY + 170);
+                ctx.fillText(`1: ${monster.move1}`, boxX + 70, boxY + 200);
+                ctx.fillText(`2: ${monster.move2}`, boxX + 70, boxY + 230);
+                ctx.fillText(`3: ${monster.move3}`, boxX + 70, boxY + 260);
+                ctx.fillText(`4: ${monster.move4}`, boxX + 70, boxY + 290);
+
+                // HP bar
+                const hpBarX = boxX + 200;
+                const hpBarY = boxY + 40;
+                const hpBarWidth = 200;
+                const hpBarHeight = 20;
+                const hpPercent = monster.hpnow / monster.hpmax;
+
+                ctx.fillStyle = 'red';
+                ctx.fillRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+                ctx.fillStyle = monster.hpnow === 0 ? 'gray' : 'green';
+                ctx.fillRect(hpBarX, hpBarY, hpBarWidth * hpPercent, hpBarHeight);
+                ctx.strokeStyle = '#000';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+
+                ctx.fillStyle = '#000';
+                // Back option
+                ctx.fillText('x: Back', boxX + 50, boxY + 450);
+                } else {
+                ctx.fillText('No monster in this slot!', boxX + 50, boxY + 50);
+                ctx.fillText('x: Back', boxX + 50, boxY + 90);
+                }
+            }
         }
         else if (instruction == 3){
             focalPoint = 0;
@@ -1532,6 +1603,11 @@ document.addEventListener('keydown', (event) => {
             }
             else if (event.key == 'd'){
                 instruction = 3;
+                renderAid();
+            }
+            else if (event.key == 'x'){
+                instruction = 0;
+                focalPoint = 0;
                 renderAid();
             }
             else {}
