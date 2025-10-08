@@ -1181,6 +1181,7 @@ async function renderCanvas(pm, am){
     if (isRendering){
         return;
     }
+
     isRendering = true;
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -1339,6 +1340,35 @@ async function renderCanvas(pm, am){
         }
         else if (instruction == 1){
             // implement switch
+            if (focalPoint >= 1 && focalPoint <= 5) {
+                const selectedMonster = playerTeam.monsters[focalPoint - 1];
+                if (selectedMonster.hpnow > 0) {
+                    try {
+                        playerTeam.sendOut(focalPoint - 1);
+                        gameState = 'fight';
+                        focalPoint = 0;
+                        instruction = 0;
+                        //movePlay(aiTeam.monsters[aiTeam.activeMonster], playerTeam.monsters[playerTeam.activeMonster], terrainNow, 1);
+                        isRendering = false;
+                        renderAid();
+                    } catch (error) {
+                        ctx.fillText(error.message, textBoxX + 70, textBoxY + 70);
+                        instruction = 0; // Reset to allow retry
+                        setTimeout(() => {
+                            isRendering = false;
+                            renderAid();
+                        }, 2000);
+                    }
+                } else {
+                    ctx.fillText(`${selectedMonster.name} is already defeated!`, textBoxX + 70, textBoxY + 70);
+                    ctx.fillText('Please select another monster.', textBoxX + 70, textBoxY + 90);
+                    instruction = 0; // Reset to allow retry
+                    setTimeout(() => {
+                        isRendering = false;
+                        renderAid();
+                    }, 2000);
+                }
+            }
         }
         else if (instruction == 2){
             // implement summary
@@ -1380,7 +1410,14 @@ async function renderCanvas(pm, am){
                 const factionName = factions[monster.faction];
 
                 const monsterImg2 = monsterSprites[monsters.indexOf(monster.name)];
-                ctx.drawImage(monsterImg2, boxX + 50, boxY + 10, 140, 140);
+                ctx.drawImage(monsterImg2, boxX + 50, boxY + 10, 130, 130);
+
+
+                ctx.fillText(`Attack: ${monster.attack}`, boxX + 550, boxY + 30);
+                ctx.fillText(`Defence: ${monster.defence}`, boxX + 550, boxY + 50);
+                ctx.fillText(`Speed: ${monster.speed}`, boxX + 550, boxY + 70);
+                ctx.fillText(`Accuracy: ${monster.accuracy}`, boxX + 550, boxY + 90);
+                ctx.fillText(`Mana: ${monster.mana}`, boxX + 550, boxY + 110);
 
                 ctx.fillText(`${monster.name}${monster.field ? ' *' : ''}`, boxX + 200, boxY + 30);
                 ctx.fillText(`Type/Faction: ${typeName}/${factionName}`, boxX + 200, boxY + 90);
@@ -1594,6 +1631,7 @@ document.addEventListener('keydown', (event) => {
         return;
     }
     else {
+        console.log(gameState);
         if (gameState == 'menu'){
             if (event.key === 'z'){
                 gameState = 'fight';
@@ -1647,6 +1685,18 @@ document.addEventListener('keydown', (event) => {
                 renderAid();
             }
             else {}
+        }
+        else if (gameState == 'fight'){
+            if (event.key === 'z'){
+                gameState = 'fight';
+                renderAid();
+            }
+            else if (event.key === 'x'){
+                gameState = 'switch';
+                focalPoint = 0;
+                instruction = 0;
+                renderAid();
+            }
         }
     }
 });
