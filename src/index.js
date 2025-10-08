@@ -448,7 +448,7 @@ class Monster{
                 return ("Subject's Accuracy fell!");
             }
             else {
-                Return ("Subject's Accuracy is already min!");
+                return ("Subject's Accuracy is already min!");
             }
 
         }
@@ -496,286 +496,295 @@ class Monster{
                 const rng6 = Math.random() * 100;
                 if (rng6 > 50){
                     this.status = 1;
-                    console.log('Status is now effect 1');
+                    return ('Subject got Burned!');
                 }
                 else {
                     this.status = 2;
-                    console.log('Status is now effect 2');
+                    return ('Subject got Poisoned!');
                 }
 
             }
             else {
-                console.log('There is already a Negative Status.');
+                return ('Subject already has a Negative Status.');
             }
-            return;
+
         }
         else if (k == 23){
             if (this.status == 0){
                 const rng6 = Math.random() * 100;
                 if (rng6 > 50){
                     this.status = 2;
-                    console.log('Status is now effect 1');
+                    return ('Subject got Poisoned!');
                 }
                 else {
                     this.status = 3;
-                    console.log('Status is now effect 2');
+                    return ('Subject got Frostbitten!');
                 }
 
             }
             else {
-                console.log('There is already a Negative Status.');
+                return ('Subject already has a Negative Status.');
             }
-            return;
+
         }
         else if (k == 24){
             if (this.status == 0){
                 const rng6 = Math.random() * 100;
                 if (rng6 > 50){
                     this.status = 4;
-                    console.log('Status is now effect 1');
+                    return ('Subject got Stunned!');
                 }
                 else {
                     this.status = 1;
-                    console.log('Status is now effect 2');
+                    return ('Subject got Burned!');
                 }
 
             }
             else {
-                console.log('There is already a Negative Status.');
+                return ('Subject already has a Negative Status.');
             }
-            return;
+
         }
         else if (k == 25){
             if (this.status == 0){
                 const rng6 = Math.random() * 100;
                 if (rng6 > 50){
                     this.status = 5;
-                    console.log('Status is now effect 1');
+                    return ('Subject got Sleepy!');
                 }
                 else {
                     this.status = 1;
-                    console.log('Status is now effect 2');
+                    return ('Subject got Burned!');
                 }
 
             }
             else {
-                console.log('There is already a Negative Status.');
+                return ('Subject already has a Negative Status.');
             }
-            return;
+
         }
         else if (k == 26){
             if (this.status == 0){
                 const rng6 = Math.random() * 100;
                 if (rng6 > 50){
                     this.status = 6;
-                    console.log('Status is now effect 1');
+                    return ('Subject got Dazed!');
                 }
                 else {
                     this.status = 1;
-                    console.log('Status is now effect 2');
+                    return ('Subject got Burned!');
                 }
 
             }
             else {
-                console.log('There is already a Negative Status.');
+                return ('Subject already has a Negative Status.');
             }
-            return;
+
         }
         else if (k == 27){
             if (this.status == 0){
                 const rng6 = Math.random() * 100;
                 if (rng6 > 50){
                     this.status = 6;
-                    console.log('Status is now effect 1');
+                    return ('Subject got Dazed!');
                 }
                 else {
                     this.status = 5;
-                    console.log('Status is now effect 2');
+                    return ('Subject got Sleepy!');
                 }
 
             }
             else {
-                console.log('There is already a Negative Status.');
+                return ('Subject already has a Negative Status.');
             }
-            return;
+
         }
         else if (k == 28){
             if (this.status == 0){
                 const rng6 = Math.random() * 100;
                 if (rng6 > 50){
                     this.status = 6;
-                    console.log('Status is now effect 1');
+                    return ('Subject got Dazed!');
                 }
                 else {
                     this.status = 4;
-                    console.log('Status is now effect 2');
+                    return ('Subject got Stunned!');
                 }
 
             }
             else {
-                console.log('There is already a Negative Status.');
+                return ('Subject already has a Negative Status.');
             }
-            return;
+
         }
         else if (k == 29){
             if (this.status == 0){
                 const rng6 = Math.random() * 100;
                 if (rng6 > 50){
                     this.status = 2;
-                    console.log('Status is now effect 1');
+                    return ('Subject got Poisoned!');
                 }
                 else {
                     this.status = 4;
-                    console.log('Status is now effect 2');
+                    return ('Subject got Stunned!');
                 }
 
             }
             else {
-                console.log('There is already a Negative Status.');
+                return ('Subject already has a Negative Status.');
             }
-            return;
+
         }
         else if (k == 30){
             if (this.status == 0){
                 const rng6 = Math.random() * 100;
                 if (rng6 > 50){
                     this.status = 2;
-                    console.log('Status is now effect 1');
+                    return ('Subject got Poisoned!');
                 }
                 else {
                     this.status = 5;
-                    console.log('Status is now effect 2');
+                    return ('Subject got Sleepy!');
                 }
 
             }
             else {
-                console.log('There is already a Negative Status.');
+                return ('Subject already has a Negative Status.');
             }
-            return;
+
         }
         else if (k == 31){
             if (this.status == 0){
                 const rng6 = Math.random() * 100;
                 if (rng6 > 50){
                     this.status = 2;
-                    console.log('Status is now effect 1');
+                    return ('Subject got Poisoned!');
                 }
                 else {
                     this.status = 6;
-                    console.log('Status is now effect 2');
+                    return ('Subject got Dazed!');
                 }
 
             }
             else {
-                console.log('There is already a Negative Status.');
+                return ('Subject already has a Negative Status.');
             }
-            return;
+
         }
         else if (k == 32){
             if (this.status == 0){
                 const rng6 = Math.random() * 100;
                 if (rng6 > 50){
                     this.status = 3;
-                    console.log('Status is now effect 1');
+                    return ('Subject got Frostbitten!');
                 }
                 else {
                     this.status = 5;
-                    console.log('Status is now effect 2');
+                    return ('Subject got Sleepy!');
                 }
 
             }
             else {
-                console.log('There is already a Negative Status.');
+                return ('Subject already has a Negative Status.');
             }
-            return;
+
         }
         else if (k == 33){
             if (this.status == 0){
                 const rng6 = Math.random() * 100;
                 if (rng6 > 50){
                     this.status = 3;
-                    console.log('Status is now effect 1');
+                    return ('Subject got Frostbitten!');
                 }
                 else {
                     this.status = 6;
-                    console.log('Status is now effect 2');
+                    return ('Subject got Dazed!');
                 }
 
             }
             else {
-                console.log('There is already a Negative Status.');
+                return ('Subject already has a Negative Status.');
             }
-            return;
+
         }
         else if (k == 34){
             const rng6 = Math.random()  * 120;
+            var stName = '';
+            if (this.status != 0){
+                return "Subject already has a Negative Status.";
+            }
             if (rng6 >=0 && rng6 < 20){
                 this.status = 1;
+                stName = 'Burned!';
             }
             else if (rng6 >= 20 && rng6 < 40){
                 this.status = 2;
+                stName = 'Poisoned!';
             }
             else if (rng6 >= 40 && rng6 < 60){
                 this.status = 3;
+                stName = 'Frostbitten!';
             }
             else if (rng6 >= 60 && rng6 < 80){
                 this.status = 4;
+                stName = 'Stunned!';
             }
             else if (rng6 >= 80 && rng6 < 100){
                 this.status = 5;
+                stName = 'Sleepy!';
             }
             else {
                 this.status = 6;
+                stName = 'Dazed!';
             }
-            console.log("Random status afflicted!");
-            return;
+            return "Subject got ".concat(stName);
         }
         else if (k == 35){
             const rng6 = Math.random() * 100;
             if (rng6 > 50){
                 if (this.atkstg < 2){
                     this.atkstg = this.atkstg + 1;
-                    console.log("Attack rose!");
+                    return ("Subject's Attack rose!");
                 }
                 else {
-                    console.log("Attack already max!");
+                    return ("Subject's Attack is already max!");
                 }
             }
             else {
                 if (this.mnastg < 2){
                     this.mnastg = this.mnastg + 1;
-                    console.log("Mana rose!");
+                    return ("Subject's Mana rose!");
                 }
                 else {
-                    console.log("Mana already max!");
+                    return ("Subject's Mana is already max!");
                 }
             }
-            return;
+
         }
         else if (k == 36){
             const rng6 = Math.random() * 100;
             if (rng6 > 50){
                 if (this.atkstg < 2){
                     this.atkstg = this.atkstg + 1;
-                    console.log("Attack rose!");
+                    return ("Subject's Attack rose!");
                 }
                 else {
-                    console.log("Attack already max!");
+                    return ("Subject's Attack is already max!");
                 }
             }
             else {
                 if (this.spdstg < 2){
                     this.spdstg = this.spdstg + 1;
-                    console.log("Speed rose!");
+                    return ("Subject's Speed rose!");
                 }
                 else {
-                    console.log("Speed already max!");
+                    return ("Subject's Speed is already max!");
                 }
             }
-            return;
+
         }
         else {
-            console.log("no effects");
+            return ("");
         }
 
 
@@ -1063,33 +1072,34 @@ function movePlay(atkr, rcvr, terrain, move){
         return atkr.name.concat("'s move missed!");
     }
 
+    var finalMsg = "";
     if (moveSpecs[1] == 1 || moveSpecs[1] == 2){
         if (moveSpecs[3] != 0){
             const rng2 = Math.random() * 100;
             if (rng2 < moveSpecs[4]){
                 const e1 = atkr.applyEffect(moveSpecs[3]);
-                console.log("Self Effect: ".concat(moveSpecs[3].toString()));
+                finalMsg = finalMsg.concat(e1.replace("Subject", atkr.name));
             }
         }
         if (moveSpecs[5] != 0){
             const rng3 = Math.random() * 100;
             if (rng3 < moveSpecs[6]){
-                atkr.applyEffect(moveSpecs[5]);
-                console.log("Self Effect: ".concat(moveSpecs[5].toString()));
+                const e2 = atkr.applyEffect(moveSpecs[5]);
+                finalMsg = finalMsg.concat('|').concat(e2.replace("Subject", atkr.name));
             }
         }
         if (moveSpecs[7] != 0){
             const rng4 = Math.random() * 100;
             if (rng4 < moveSpecs[8]){
-                rcvr.applyEffect(moveSpecs[7]);
-                console.log("Enemy Effect: ".concat(moveSpecs[7].toString()));
+                const e3 = rcvr.applyEffect(moveSpecs[7]);
+                finalMsg = finalMsg.concat('|').concat(e3.replace("Subject", rcvr.name));
             }
         }
         if (moveSpecs[9] != 0){
             const rng5 = Math.random() * 100;
             if (rng5 < moveSpecs[10]){
-                rcvr.applyEffect(moveSpecs[9]);
-                console.log("Enemy Effect: ".concat(moveSpecs[9].toString()));
+                const e4 = rcvr.applyEffect(moveSpecs[9]);
+                finalMsg = finalMsg.concat('|').concat(e4.replace("Subject", rcvr.name));
             }
         }
     }
@@ -1105,10 +1115,11 @@ function movePlay(atkr, rcvr, terrain, move){
         rcvr.takeDamage(dmg);
         console.log("damage: ".concat(dmg));
         if (rcvr.hpnow == 0){
-            console.log('opponent fainted!');
-            return;
+            finalMsg = finalMsg.concat('opponent fainted!');
+
         }
     }
+    return finalMsg;
 
 }
 
@@ -1640,7 +1651,7 @@ async function renderCanvas(pm, am){
             else if (whoAttacks == 1){
                 const res = movePlay(am, pm, terrainNow, aiMove);
                 whoAttacks = 0;
-                aiMove = whichMove(am, pm.name);
+
                 var moveName;
                 switch(aiMove){
                     case 1:
@@ -1658,7 +1669,7 @@ async function renderCanvas(pm, am){
                     default:
                         moveName = '';
                 }
-
+                aiMove = whichMove(am, pm.name);
                 ctx.fillText(am.name.concat(' used ').concat(moveName), textBoxX + 70, textBoxY + 60);
                 await new Promise(resolve => setTimeout(resolve, 2000));
                 isRendering = false;
@@ -1684,6 +1695,159 @@ async function renderCanvas(pm, am){
                     }
                 }
 
+                const pm_spd_now = pm.speed + (pm.spdstg * 0.15 * pm.speed);
+                const am_spd_now = am.speed + (am.spdstg * 0.15 * am.speed);
+                if (pm_spd_now >= am_spd_now){
+
+                    const res1 = movePlay(pm, am, terrainNow, playerMove);
+                    const plMoveName = [pm.move1, pm.move2, pm.move3, pm.move4][playerMove - 1] || 'a move';
+                    // Redraw AI's HP bar after player's move
+                    const aiHpPercent = am.hpnow / am.hpmax;
+                    const hpBarWidth = 150;
+                    const hpBarHeight = 20;
+                    let hpBarX = 900;
+                    let hpBarY = 120;
+                    ctx.fillStyle = 'red';
+                    ctx.fillRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+                    ctx.fillStyle = am.hpnow === 0 ? 'gray' : 'green';
+                    ctx.fillRect(hpBarX, hpBarY, hpBarWidth * aiHpPercent, hpBarHeight);
+                    ctx.strokeStyle = '#000';
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+                    ctx.fillStyle = 'black';
+                    ctx.fillText(pm.name.concat(' used ').concat(plMoveName), textBoxX + 70, textBoxY + 60);
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                    if (res1.length > 2){
+                        const plMsgs = res1.split('|');
+                        for (let i = 0;i < plMsgs.length; i++){
+                            ctx.fillText(plMsgs[i], textBoxX + 70, textBoxY + 90 + i * 25);
+                            await new Promise(resolve => setTimeout(resolve, 1000));
+                        }
+                    }
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    if (am.hpnow != 0){
+                        aiMove = whichMove(am, pm.name);
+                        const aiMoveName = [am.move1, am.move2, am.move3, am.move4][aiMove - 1] || 'a move';
+                        const res2= movePlay(am, pm, terrainNow, aiMove);
+                        // clear the text box
+                        ctx.clearRect(textBoxX, textBoxY, textBoxWidth, textBoxHeight);
+                        ctx.fillStyle = 'rgba(200,200,200,0.9)';
+                        ctx.beginPath();
+                        ctx.moveTo(textBoxX + cornerRadius, textBoxY);
+                        ctx.lineTo(textBoxX + textBoxWidth - cornerRadius, textBoxY);
+                        ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY, textBoxX + textBoxWidth, textBoxY + cornerRadius);
+                        ctx.lineTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight - cornerRadius);
+                        ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight, textBoxX + textBoxWidth - cornerRadius, textBoxY + textBoxHeight);
+                        ctx.lineTo(textBoxX + cornerRadius, textBoxY + textBoxHeight);
+                        ctx.quadraticCurveTo(textBoxX, textBoxY + textBoxHeight, textBoxX, textBoxY + textBoxHeight - cornerRadius);
+                        ctx.lineTo(textBoxX, textBoxY + cornerRadius);
+                        ctx.quadraticCurveTo(textBoxX, textBoxY, textBoxX + cornerRadius, textBoxY);
+                        ctx.closePath();
+                        ctx.fill();
+                        ctx.strokeStyle = '#333';
+                        ctx.lineWidth = 5;
+                        ctx.stroke();
+                        ctx.fillStyle = '#000';
+                        // Redraw player's HP bar after AI's move
+                        const playerHpPercent = pm.hpnow / pm.hpmax;
+                        hpBarX = 50;
+                        hpBarY = 420;
+                        ctx.fillStyle = 'red';
+                        ctx.fillRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+                        ctx.fillStyle = pm.hpnow === 0 ? 'gray' : 'green';
+                        ctx.fillRect(hpBarX, hpBarY, hpBarWidth * playerHpPercent, hpBarHeight);
+                        ctx.strokeStyle = '#000';
+                        ctx.lineWidth = 2;
+                        ctx.strokeRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+                        ctx.fillStyle = 'black';
+                        ctx.fillText(am.name.concat(' used ').concat(aiMoveName), textBoxX + 70, textBoxY + 60);
+                        await new Promise(resolve => setTimeout(resolve, 2000));
+                        if (res2.length > 2){
+                            const aiMsgs = res2.split('|');
+                            for (let i = 0;i < aiMsgs.length; i++){
+                                ctx.fillText(aiMsgs[i], textBoxX + 70, textBoxY + 90 + i * 25);
+                                await new Promise(resolve => setTimeout(resolve, 1000));
+                            }
+                        }
+                    }
+                }
+                else {
+                    aiMove = whichMove(am, pm.name);
+                    const res1 = movePlay(am, pm, terrainNow, aiMove);
+                    const aiMoveName = [am.move1, am.move2, am.move3, am.move4][aiMove - 1] || 'a move';
+                    const playerHpPercent = pm.hpnow / pm.hpmax;
+                    hpBarX = 50;
+                    hpBarY = 420;
+                    ctx.fillStyle = 'red';
+                    ctx.fillRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+                    ctx.fillStyle = pm.hpnow === 0 ? 'gray' : 'green';
+                    ctx.fillRect(hpBarX, hpBarY, hpBarWidth * playerHpPercent, hpBarHeight);
+                    ctx.strokeStyle = '#000';
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+                    ctx.fillStyle = 'black';
+                    ctx.fillText(am.name.concat(' used ').concat(aiMoveName), textBoxX + 70, textBoxY + 60);
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                    if (res1.length > 2){
+                        const aiMsgs = res1.split('|');
+                        for (let i = 0;i < aiMsgs.length; i++){
+                            ctx.fillText(aiMsgs[i], textBoxX + 70, textBoxY + 90 + i * 25);
+                            await new Promise(resolve => setTimeout(resolve, 1000));
+                        }
+                    }
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    if (pm.hpnow != 0){
+                        const res2 = movePlay(pm, am, terrainNow, playerMove);
+                        // clear the text box
+                        ctx.clearRect(textBoxX, textBoxY, textBoxWidth, textBoxHeight);
+                        ctx.fillStyle = 'rgba(200,200,200,0.9)';
+                        ctx.beginPath();
+                        ctx.moveTo(textBoxX + cornerRadius, textBoxY);
+                        ctx.lineTo(textBoxX + textBoxWidth - cornerRadius, textBoxY);
+                        ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY, textBoxX + textBoxWidth, textBoxY + cornerRadius);
+                        ctx.lineTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight - cornerRadius);
+                        ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight, textBoxX + textBoxWidth - cornerRadius, textBoxY + textBoxHeight);
+                        ctx.lineTo(textBoxX + cornerRadius, textBoxY + textBoxHeight);
+                        ctx.quadraticCurveTo(textBoxX, textBoxY + textBoxHeight, textBoxX, textBoxY + textBoxHeight - cornerRadius);
+                        ctx.lineTo(textBoxX, textBoxY + cornerRadius);
+                        ctx.quadraticCurveTo(textBoxX, textBoxY, textBoxX + cornerRadius, textBoxY);
+                        ctx.closePath();
+                        ctx.fill();
+                        ctx.strokeStyle = '#333';
+                        ctx.lineWidth = 5;
+                        ctx.stroke();
+                        ctx.fillStyle = '#000';
+                        // Redraw player's HP bar after AI's move
+                        const aiHpPercent = am.hpnow / am.hpmax;
+                        const hpBarWidth = 150;
+                        const hpBarHeight = 20;
+                        let hpBarX = 900;
+                        let hpBarY = 120;
+                        ctx.fillStyle = 'red';
+                        ctx.fillRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+                        ctx.fillStyle = am.hpnow === 0 ? 'gray' : 'green';
+                        ctx.fillRect(hpBarX, hpBarY, hpBarWidth * aiHpPercent, hpBarHeight);
+                        ctx.strokeStyle = '#000';
+                        ctx.lineWidth = 2;
+                        ctx.strokeRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+                        ctx.fillStyle = 'black';
+                        const plMoveName = [pm.move1, pm.move2, pm.move3, pm.move4][playerMove - 1] || 'a move';
+                        ctx.fillText(pm.name.concat(' used ').concat(plMoveName), textBoxX + 70, textBoxY + 60);
+                        await new Promise(resolve => setTimeout(resolve, 2000));
+                        if (res2.length > 2){
+                            const plMsgs = res2.split('|');
+                            for (let i = 0;i < plMsgs.length; i++){
+                                ctx.fillText(plMsgs[i], textBoxX + 70, textBoxY + 90 + i * 25);
+                                await new Promise(resolve => setTimeout(resolve, 1000));
+                            }
+                        }
+                    }
+                }
+
+                //
+                whoAttacks = 0;
+                isRendering = false;
+                renderAid();
             }
 
         }
