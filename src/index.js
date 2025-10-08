@@ -9,6 +9,13 @@ let isRendering = false;
 let focalPoint = 0;
 let instruction = 0;
 
+let leaving = '';
+let entering = '';
+
+let whoAttacks = 0; //2 for both, 1 only AI when the player is switching, 0 when no one
+let aiMove = 0;
+let playerMove = 0;
+
 // Store the next battle messages for the text box
 let battleMessage = "Let's battle! The domain for this matchup is ";
 
@@ -326,140 +333,162 @@ class Monster{
         if (k >= 1 && k <= 6){
             if (this.status == 0){
                 this.status = k;
-                console.log('Status is now '.concat(k.toString()));
+                var msg;
+                switch(k){
+                    case 1:
+                        msg = 'Subject got Burned!';
+                        break;
+                    case 2:
+                        msg = 'Subject got Poisoned!';
+                        break;
+                    case 3:
+                        msg = 'Subject got Frostbitten!';
+                        break;
+                    case 4:
+                        msg = 'Subject got Stunned!';
+                        break;
+                    case 5:
+                        msg = 'Subject got Sleepy!';
+                        break;
+                    default:
+                        msg = 'Subject got Dazed!';
+
+                }
+                return msg;
+
             }
             else {
-                console.log('There is already a Negative Status.');
+                return ('Subject already has a Negative Status.');
             }
-            return;
+
         }
         else if (k == 7){
             if (this.atkstg < 2){
                 this.atkstg = this.atkstg + 1;
-                console.log("Attack rose!");
+                return ("Subject's Attack rose!");
             }
             else {
-                console.log("Attack already max!");
+                return ("Subject's Attack is already max!");
             }
-            return;
+
         }
         else if (k == 8){
             if (this.defstg < 2){
                 this.defstg = this.defstg + 1;
-                console.log("Defence rose!");
+                return ("Subject's Defence rose!");
             }
             else {
-                console.log("Defence already max!");
+                return ("Subject's Defence is already max!");
             }
-            return;
+
         }
         else if (k == 9){
             if (this.spdstg < 2){
                 this.spdstg = this.spdstg + 1;
-                console.log("Speed rose!");
+                return ("Subject's Speed rose!");
             }
             else {
-                console.log("Speed already max!");
+                return ("Subject's Speed is already max!");
             }
-            return;
+
         }
         else if (k == 10){
             if (this.acrstg < 2){
                 this.acrstg = this.acrstg + 1;
-                console.log("Accuracy rose!");
+                return ("Subject's Accuracy rose!");
             }
             else {
-                console.log("Accuracy already max!");
+                return ("Subject's Accuracy is already max!");
             }
-            return;
+
         }
         else if (k == 11){
             if (this.mnastg < 2){
                 this.mnastg = this.mnastg + 1;
-                console.log("Mana rose!");
+                return ("Subject's Mana rose!");
             }
             else {
-                console.log("Mana already max!");
+                return ("Subject's Mana is already max!");
             }
-            return;
+
         }
         else if (k == 13){
             if (this.atkstg > -2){
                 this.atkstg = this.atkstg - 1;
-                console.log("Attack fell!");
+                return ("Subject's Attack fell!");
             }
             else {
-                console.log("Attack already min!");
+                return ("Subject's Attack is already min!");
             }
-            return;
+
         }
         else if (k == 14){
             if (this.defstg > -2){
                 this.defstg = this.defstg - 1;
-                console.log("Defence fell!");
+                return ("Subject's Defence fell!");
             }
             else {
-                console.log("Defence already min!");
+                return ("Subject's Defence is already min!");
             }
-            return;
+
         }
         else if (k == 15){
             if (this.spdstg > -2){
                 this.spdstg = this.spdstg - 1;
-                console.log("Speed fell!");
+                return ("Subject's Speed fell!");
             }
             else {
-                console.log("Speed already min!");
+                return ("Subject's Speed is already min!");
             }
-            return;
+
         }
         else if (k == 16){
             if (this.acrstg > -2){
                 this.acrstg = this.acrstg - 1;
-                console.log("Accuracy fell!");
+                return ("Subject's Accuracy fell!");
             }
             else {
-                console.log("Accuracy already min!");
+                Return ("Subject's Accuracy is already min!");
             }
-            return;
+
         }
         else if (k == 17){
             if (this.mnastg > -2){
                 this.mnastg = this.mnastg - 1;
-                console.log("Mana fell!");
+                return ("Subject's Mana fell!");
             }
             else {
-                console.log("Mana already min!");
+                return ("Subject's Mana is already min!");
             }
-            return;
+
         }
         else if (k == 19){
             this,status = 0;
-            console.log("Status back to healthy!");
-            return;
+            return ("Subject is back to healthy!");
+
         }
         else if (k == 20){
             this.hpnow = 0;
-            console.log("Your monster fainted!");
-            return;
+            return ("Subject fainted!");
+
         }
         else if (k == 21){
             if (this.status == 0){
                 const rng6 = Math.random() * 100;
                 if (rng6 > 50){
                     this.status = 1;
-                    console.log('Status is now effect 1');
+                    return ('Subject got Burned!');
                 }
                 else {
                     this.status = 3;
-                    console.log('Status is now effect 2');
+                    return ('Subject got Frostbitten!');
                 }
 
             }
             else {
-                console.log('There is already a Negative Status.');
+                return ('Subject already has a Negative Status.');
             }
-            return;
+
 
         }
         else if (k == 22){
@@ -975,9 +1004,24 @@ function movePlay(atkr, rcvr, terrain, move){
     //console.log(atkr);
     //console.log(rcvr);
     if (atkr.status == 4 || atkr.status == 5 || atkr.status == 6){
+        var statusName = "";
+        switch(atkr.status){
+            case 4:
+                statusName = 'Stun';
+                break;
+            case 5:
+                statusName = 'Sleep';
+                break;
+            case 6:
+                statusName = 'Daze';
+                break;
+            default:
+                statusName = 'None';
+        }
+
         if (atkr.statusCounter < 3){
             atkr.incrementStatusCounter();
-            return;
+            return atkr.name.concat(' is still afflicted with ').concat(statusName).concat(' and could not move.');
         }
         else {
             atkr.removeSSD();
@@ -1016,28 +1060,14 @@ function movePlay(atkr, rcvr, terrain, move){
     const rng1 = Math.random() * 100;
     if (rng1 > acrFinalAtkr){
         console.log("Attack Missed!");
-        return;
+        return atkr.name.concat("'s move missed!");
     }
-    //['Malevolent Slumber', 1, 0, 0, 100, 0, 100, 5, 100, 0, 100]
-    if (moveSpecs[1] == 0 || moveSpecs[1] == 2){
-        const dmgprc = damagePercentCalculator(atkr.type, rcvr.type, atkr.faction, rcvr.faction, terrain, atkr.status, rcvr.status);
-        const atkFinalAtkr = atkr.attack + (atkr.atkstg * 0.15 * atkr.attack);
-        const mnaFinalAtkr = atkr.mana + (atkr.mnastg * 0.15 * atkr.mana);
-        const mnaFinalRcvr = rcvr.mana + (rcvr.mnastg * 0.15 * rcvr.mana);
-        const defFinalRcvr = rcvr.defence + (rcvr.defstg * 0.15 * rcvr.defence);
-        const dmg = moveSpecs[2] * ((atkFinalAtkr + mnaFinalAtkr)/(mnaFinalRcvr + defFinalRcvr)) * dmgprc;
-        rcvr.takeDamage(dmg);
-        console.log("damage: ".concat(dmg));
-        if (rcvr.hpnow == 0){
-            console.log('opponent fainted!');
-            return;
-        }
-    }
+
     if (moveSpecs[1] == 1 || moveSpecs[1] == 2){
         if (moveSpecs[3] != 0){
             const rng2 = Math.random() * 100;
             if (rng2 < moveSpecs[4]){
-                atkr.applyEffect(moveSpecs[3]);
+                const e1 = atkr.applyEffect(moveSpecs[3]);
                 console.log("Self Effect: ".concat(moveSpecs[3].toString()));
             }
         }
@@ -1061,6 +1091,22 @@ function movePlay(atkr, rcvr, terrain, move){
                 rcvr.applyEffect(moveSpecs[9]);
                 console.log("Enemy Effect: ".concat(moveSpecs[9].toString()));
             }
+        }
+    }
+
+     //['Malevolent Slumber', 1, 0, 0, 100, 0, 100, 5, 100, 0, 100]
+    if (moveSpecs[1] == 0 || moveSpecs[1] == 2){
+        const dmgprc = damagePercentCalculator(atkr.type, rcvr.type, atkr.faction, rcvr.faction, terrain, atkr.status, rcvr.status);
+        const atkFinalAtkr = atkr.attack + (atkr.atkstg * 0.15 * atkr.attack);
+        const mnaFinalAtkr = atkr.mana + (atkr.mnastg * 0.15 * atkr.mana);
+        const mnaFinalRcvr = rcvr.mana + (rcvr.mnastg * 0.15 * rcvr.mana);
+        const defFinalRcvr = rcvr.defence + (rcvr.defstg * 0.15 * rcvr.defence);
+        const dmg = moveSpecs[2] * ((atkFinalAtkr + mnaFinalAtkr)/(mnaFinalRcvr + defFinalRcvr)) * dmgprc;
+        rcvr.takeDamage(dmg);
+        console.log("damage: ".concat(dmg));
+        if (rcvr.hpnow == 0){
+            console.log('opponent fainted!');
+            return;
         }
     }
 
@@ -1343,11 +1389,13 @@ async function renderCanvas(pm, am){
             if (focalPoint >= 1 && focalPoint <= 5) {
                 const selectedMonster = playerTeam.monsters[focalPoint - 1];
                 if (selectedMonster.hpnow > 0) {
+                    leaving = pm.name;
                     try {
                         playerTeam.sendOut(focalPoint - 1);
-                        gameState = 'fight';
+                        gameState = 'switching';
                         focalPoint = 0;
                         instruction = 0;
+                        entering = selectedMonster.name;
                         //movePlay(aiTeam.monsters[aiTeam.activeMonster], playerTeam.monsters[playerTeam.activeMonster], terrainNow, 1);
                         isRendering = false;
                         renderAid();
@@ -1470,7 +1518,7 @@ async function renderCanvas(pm, am){
 
     // 2. Draw player and AI monster images
     // Player monster (bottom left)
-    else {
+    else if (gameState != 'switching'){
         const playerImg = monsterSprites[monsters.indexOf(pm.name)];
         ctx.drawImage(playerImg, 50, 450, 150, 150);
 
@@ -1581,13 +1629,161 @@ async function renderCanvas(pm, am){
             ctx.fillText('x: Switch', textBoxX + 570, textBoxY + 100);
         }
         else if (gameState == 'fight'){
-            ctx.fillText('What will '.concat(pm.name).concat(' do?'), textBoxX + 70, textBoxY + 40);
-            ctx.fillText('1: '.concat(pm.move1), textBoxX + 70, textBoxY + 80);
-            ctx.fillText('2: '.concat(pm.move2), textBoxX + 570, textBoxY + 80);
-            ctx.fillText('3: '.concat(pm.move3), textBoxX + 70, textBoxY + 110);
-            ctx.fillText('4: '.concat(pm.move4), textBoxX + 570, textBoxY + 110);
-            ctx.fillText('x: Switch', textBoxX + 375, textBoxY + 140);
+            if (whoAttacks == 0){
+                ctx.fillText('What will '.concat(pm.name).concat(' do?'), textBoxX + 70, textBoxY + 40);
+                ctx.fillText('1: '.concat(pm.move1), textBoxX + 70, textBoxY + 80);
+                ctx.fillText('2: '.concat(pm.move2), textBoxX + 570, textBoxY + 80);
+                ctx.fillText('3: '.concat(pm.move3), textBoxX + 70, textBoxY + 110);
+                ctx.fillText('4: '.concat(pm.move4), textBoxX + 570, textBoxY + 110);
+                ctx.fillText('x: Switch', textBoxX + 375, textBoxY + 140);
+            }
+            else if (whoAttacks == 1){
+                const res = movePlay(am, pm, terrainNow, aiMove);
+                whoAttacks = 0;
+                aiMove = whichMove(am, pm.name);
+                var moveName;
+                switch(aiMove){
+                    case 1:
+                        moveName = am.move1;
+                        break;
+                    case 2:
+                        moveName = am.move2;
+                        break;
+                    case 3:
+                        moveName = am.move3;
+                        break;
+                    case 4:
+                        moveName = am.move4;
+                        break
+                    default:
+                        moveName = '';
+                }
+
+                ctx.fillText(am.name.concat(' used ').concat(moveName), textBoxX + 70, textBoxY + 60);
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                isRendering = false;
+                renderAid();
+            }
+            else if (whoAttacks == 2){
+                if (playerMove == 4){
+                    if (pm.fieldCounter < 2){
+                        ctx.fillText(`${pm.name} needs at least 2 Spirits to use that move!`, textBoxX + 70, textBoxY + 60);
+                        whoAttacks = 0;
+                        await new Promise(resolve => setTimeout(resolve, 2000));
+                        isRendering = false;
+                        renderAid();
+                    }
+                }
+                else if (playerMove == 3){
+                    if ((movesData[moves.indexOf(pm.move3)][1] == 2) && pm.fieldCounter < 1){
+                        ctx.fillText(`${pm.name} needs at least 2 Spirits to use that move!`, textBoxX + 70, textBoxY + 60);
+                        whoAttacks = 0;
+                        await new Promise(resolve => setTimeout(resolve, 2000));
+                        isRendering = false;
+                        renderAid();
+                    }
+                }
+
+            }
+
         }
+    }
+        else if (gameState == 'switching'){
+            const textBoxX = 50;
+            const textBoxY = 620;
+            const textBoxWidth = 1000;
+            const textBoxHeight = 150;
+            const cornerRadius = 20;
+            const hpBarWidth = 150;
+            const hpBarHeight = 20;
+            var hpBarX = 900;
+            var hpBarY = 120;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(terrainImage, 0, 0, canvas.width, canvas.height);
+
+             // AI monster (top right)
+            const aiImg = monsterSprites[monsters.indexOf(am.name)];
+            ctx.drawImage(aiImg, 900, 150, 150, 150);
+
+
+            // AI monster name and HP bar
+            ctx.fillStyle = fontColor;
+            ctx.font = '20px Arial';
+            ctx.fillText(am.name, 900, 110); // Name above player sprite
+
+            // Player HP bar
+            const aiHpPercent = am.hpnow / am.hpmax;
+            hpBarX = 900;
+            hpBarY = 120;
+
+            // Red background for missing HP
+            ctx.fillStyle = 'red';
+            ctx.fillRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+
+            // Green fill for current HP
+            ctx.fillStyle = 'green';
+            ctx.fillRect(hpBarX, hpBarY, hpBarWidth * aiHpPercent, hpBarHeight);
+
+
+            // HP bar border
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+
+
+
+            ctx.clearRect(textBoxX, textBoxY, textBoxWidth, textBoxHeight);
+            ctx.fillStyle = 'rgba(200,200,200,0.9)';
+            ctx.beginPath();
+            ctx.moveTo(textBoxX + cornerRadius, textBoxY);
+            ctx.lineTo(textBoxX + textBoxWidth - cornerRadius, textBoxY);
+            ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY, textBoxX + textBoxWidth, textBoxY + cornerRadius);
+            ctx.lineTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight - cornerRadius);
+            ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight, textBoxX + textBoxWidth - cornerRadius, textBoxY + textBoxHeight);
+            ctx.lineTo(textBoxX + cornerRadius, textBoxY + textBoxHeight);
+            ctx.quadraticCurveTo(textBoxX, textBoxY + textBoxHeight, textBoxX, textBoxY + textBoxHeight - cornerRadius);
+            ctx.lineTo(textBoxX, textBoxY + cornerRadius);
+            ctx.quadraticCurveTo(textBoxX, textBoxY, textBoxX + cornerRadius, textBoxY);
+            ctx.closePath();
+            ctx.fill();
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 5;
+            ctx.stroke();
+            ctx.fillStyle = '#000';
+
+            ctx.fillText(`${leaving}, come back!`, textBoxX + 70, textBoxY + 70);
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
+            ctx.clearRect(textBoxX, textBoxY, textBoxWidth, textBoxHeight);
+            ctx.fillStyle = 'rgba(200,200,200,0.9)';
+            ctx.beginPath();
+            ctx.moveTo(textBoxX + cornerRadius, textBoxY);
+            ctx.lineTo(textBoxX + textBoxWidth - cornerRadius, textBoxY);
+            ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY, textBoxX + textBoxWidth, textBoxY + cornerRadius);
+            ctx.lineTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight - cornerRadius);
+            ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight, textBoxX + textBoxWidth - cornerRadius, textBoxY + textBoxHeight);
+            ctx.lineTo(textBoxX + cornerRadius, textBoxY + textBoxHeight);
+            ctx.quadraticCurveTo(textBoxX, textBoxY + textBoxHeight, textBoxX, textBoxY + textBoxHeight - cornerRadius);
+            ctx.lineTo(textBoxX, textBoxY + cornerRadius);
+            ctx.quadraticCurveTo(textBoxX, textBoxY, textBoxX + cornerRadius, textBoxY);
+            ctx.closePath();
+            ctx.fill();
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 5;
+            ctx.stroke();
+            ctx.fillStyle = '#000';
+
+            ctx.fillText(`Go! ${entering}`, textBoxX + 70, textBoxY + 70);
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            // AI attacks after messages
+            //movePlay(aiTeam.monsters[aiTeam.activeMonster], playerTeam.monsters[playerTeam.activeMonster], terrainNow, 1);
+            gameState = 'fight';
+            isRendering = false;
+            whoAttacks = 1;
+            aiMove = whichMove(am, leaving);
+            renderAid();
+
     }
     isRendering = false;
 
@@ -1623,6 +1819,12 @@ function wrapText(ctx, text, maxWidth, lineHeight, x, y) {
     return lines.length;
 }
 
+
+function whichMove(am, monsterName){
+    const opm = new Monster(monsters.indexOf(monsterName));
+    console.log(opm);
+    return 1;
+}
 
 
 document.addEventListener('keydown', (event) => {
@@ -1687,8 +1889,28 @@ document.addEventListener('keydown', (event) => {
             else {}
         }
         else if (gameState == 'fight'){
-            if (event.key === 'z'){
+            if (event.key === '1'){
                 gameState = 'fight';
+                playerMove = 1;
+                whoAttacks = 2;
+                renderAid();
+            }
+            else if (event.key == '2'){
+                gameState = 'fight';
+                playerMove = 2;
+                whoAttacks = 2;
+                renderAid();
+            }
+            else if (event.key == '3'){
+                gameState = 'fight';
+                playerMove = 3;
+                whoAttacks = 2;
+                renderAid();
+            }
+            else if (event.key == '4'){
+                gameState = 'fight';
+                playerMove = 4;
+                whoAttacks = 2;
                 renderAid();
             }
             else if (event.key === 'x'){
