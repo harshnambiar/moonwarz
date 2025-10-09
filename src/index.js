@@ -11,6 +11,7 @@ let instruction = 0;
 
 let leaving = '';
 let entering = '';
+let switchType = 'choice';
 
 let whoAttacks = 0; //2 for both, 1 only AI when the player is switching, 0 when no one
 let aiMove = 0;
@@ -797,6 +798,7 @@ class Monster{
             this.status = 0;
             this.statusCounter = 0;
         }
+        this.fieldCounter = 0;
 
 
     }
@@ -809,6 +811,10 @@ class Monster{
 
     incrementFieldCounter(){
         this.fieldCounter = this.fieldCounter + 1;
+    }
+
+    decrementFieldCounter(n){
+        this.fieldCounter = this.fieldCounter - n;
     }
 
     incrementStatusCounter(){
@@ -909,7 +915,7 @@ class Team {
     if (this.activeMonster == monsterIndex){
         throw new Error('Monster is already out!');
     }
-
+    this.monsters[this.activeMonster].recall();
     this.activeMonster = monsterIndex;
   }
 
@@ -1002,16 +1008,24 @@ async function checkTeams(){
 }
 window.checkTeams = checkTeams;
 
-function movePlay(atkr, rcvr, terrain, move){
+function movePlay(atkr, rcvr, terrain, move, isAi){
     if (terrain > 7 || terrain < 0) throw new Error('Terrain index illegal: '.concat(terrain));
     if (move > 4 || move < 1) throw new Error('Move index illegal: '.concat(move));
     //if (a > 4 || a < 0) throw new Error('Attacker index illegal: '.concat(a));
     //if (b > 4 || b < 0) throw new Error('Receiver index illegal: '.concat(b));
     //const atkr = playerTeam.monsters[a];
     //const rcvr = aiTeam.monsters[b];
-    atkr.incrementFieldCounter();
-    //console.log(atkr);
-    //console.log(rcvr);
+    var addendum1;
+    var addendum2;
+    if (isAi){
+        addendum1 = 'Foe ';
+        addendum2 = 'Your ';
+    }
+    else {
+        addendum1 = 'Your ';
+        addendum2 = 'Foe ';
+    }
+
     if (atkr.status == 4 || atkr.status == 5 || atkr.status == 6){
         var statusName = "";
         switch(atkr.status){
@@ -1030,7 +1044,7 @@ function movePlay(atkr, rcvr, terrain, move){
 
         if (atkr.statusCounter < 3){
             atkr.incrementStatusCounter();
-            return atkr.name.concat(' is still afflicted with ').concat(statusName).concat(' and could not move.');
+            return addendum1.concat(atkr.name.concat(' is still afflicted with ').concat(statusName).concat(' and could not move.'));
         }
         else {
             atkr.removeSSD();
@@ -1062,6 +1076,13 @@ function movePlay(atkr, rcvr, terrain, move){
     if (moveName == "illegal") throw new Error("Unknown Move: ".concat(moveName));
     const moveIndex = moves.indexOf(moveName);
     const moveSpecs = movesData[moveIndex];
+
+    if (move == 3 && moveSpecs[1] == 2 && atkr.fieldCounter < 1){
+        return 'Not enough spirit!';
+    }
+    if (move == 4 && atkr.fieldCounter < 2){
+        return 'Not enough spirit!';
+    }
     //console.log(moveName);
     //console.log(moveIndex);
     //console.log(moveSpecs);
@@ -1069,7 +1090,17 @@ function movePlay(atkr, rcvr, terrain, move){
     const rng1 = Math.random() * 100;
     if (rng1 > acrFinalAtkr){
         console.log("Attack Missed!");
-        return atkr.name.concat("'s move missed!");
+        return addendum1.concat(atkr.name.concat("'s move missed!"));
+    }
+    else {
+        if (move == 3 && moveSpecs[1] == 2){
+            atkr.decrementFieldCounter(1);
+            console.log('FIELD COUNTER DECREMENTED');
+            console.log(atkr.fieldCounter);
+        }
+        if (move == 4){
+            atkr.decrementFieldCounter(2);
+        }
     }
 
     var finalMsg = "";
@@ -1078,28 +1109,28 @@ function movePlay(atkr, rcvr, terrain, move){
             const rng2 = Math.random() * 100;
             if (rng2 < moveSpecs[4]){
                 const e1 = atkr.applyEffect(moveSpecs[3]);
-                finalMsg = finalMsg.concat(e1.replace("Subject", atkr.name));
+                finalMsg = finalMsg.concat(e1.replace("Subject", addendum1.concat(atkr.name)));
             }
         }
         if (moveSpecs[5] != 0){
             const rng3 = Math.random() * 100;
             if (rng3 < moveSpecs[6]){
                 const e2 = atkr.applyEffect(moveSpecs[5]);
-                finalMsg = finalMsg.concat('|').concat(e2.replace("Subject", atkr.name));
+                finalMsg = finalMsg.concat('|').concat(e2.replace("Subject", addendum1.concat(atkr.name)));
             }
         }
         if (moveSpecs[7] != 0){
             const rng4 = Math.random() * 100;
             if (rng4 < moveSpecs[8]){
                 const e3 = rcvr.applyEffect(moveSpecs[7]);
-                finalMsg = finalMsg.concat('|').concat(e3.replace("Subject", rcvr.name));
+                finalMsg = finalMsg.concat('|').concat(e3.replace("Subject", addendum2.concat(rcvr.name)));
             }
         }
         if (moveSpecs[9] != 0){
             const rng5 = Math.random() * 100;
             if (rng5 < moveSpecs[10]){
                 const e4 = rcvr.applyEffect(moveSpecs[9]);
-                finalMsg = finalMsg.concat('|').concat(e4.replace("Subject", rcvr.name));
+                finalMsg = finalMsg.concat('|').concat(e4.replace("Subject", addendum2.concat(rcvr.name)));
             }
         }
     }
@@ -1115,10 +1146,14 @@ function movePlay(atkr, rcvr, terrain, move){
         rcvr.takeDamage(dmg);
         console.log("damage: ".concat(dmg));
         if (rcvr.hpnow == 0){
-            finalMsg = finalMsg.concat('opponent fainted!');
+            finalMsg = finalMsg.concat(addendum2.concat(rcvr.name).concat(' fainted!'));
 
         }
     }
+    if (move == 1){
+        atkr.incrementFieldCounter();
+    }
+
     return finalMsg;
 
 }
@@ -1282,12 +1317,25 @@ async function renderCanvas(pm, am){
                 const y = gridY + row * (cellHeight + cellPadding);
 
                 // Draw cell background
-                const mnstr = playerTeam.monsters[plIndex];
-                if (mnstr.hpnow == 0){
-                    ctx.fillStyle = '#cc0000';
+                if (index < 5){
+                    plIndex = index;
                 }
                 else {
-                    ctx.fillStyle = '#5500ee';
+                    plIndex = 0;
+                }
+                const mnstr = playerTeam.monsters[plIndex];
+
+                if (mnstr.hpnow == 0){
+                    ctx.fillStyle = '#cc0000';
+
+                }
+                else {
+                    ctx.fillStyle = '#000088';
+
+                }
+
+                if (index == 5){
+                    ctx.fillStyle = '#00ee55';
                 }
 
                 ctx.fillRect(x, y, cellWidth, cellHeight);
@@ -1389,7 +1437,7 @@ async function renderCanvas(pm, am){
                     renderAid();
                 }
                 else {
-                    ctx.fillText(pm.name.concat(' has no HP left!'), textBoxX + 70, textBoxY + 70);
+                    ctx.fillText(pm.name.concat(' has no HP left!'), textBoxX + 70, textBoxY + 50);
                     ctx.fillText('Please send out a new monster.', textBoxX + 70, textBoxY + 90);
                 }
             }
@@ -1419,7 +1467,7 @@ async function renderCanvas(pm, am){
                         }, 2000);
                     }
                 } else {
-                    ctx.fillText(`${selectedMonster.name} is already defeated!`, textBoxX + 70, textBoxY + 70);
+                    ctx.fillText(`${selectedMonster.name} is already defeated!`, textBoxX + 70, textBoxY + 50);
                     ctx.fillText('Please select another monster.', textBoxX + 70, textBoxY + 90);
                     instruction = 0; // Reset to allow retry
                     setTimeout(() => {
@@ -1529,7 +1577,7 @@ async function renderCanvas(pm, am){
 
     // 2. Draw player and AI monster images
     // Player monster (bottom left)
-    else if (gameState != 'switching'){
+    else if (gameState != 'switching' && gameState != 'aiSwitching' && gameState != 'bothSwitching'){
         const playerImg = monsterSprites[monsters.indexOf(pm.name)];
         ctx.drawImage(playerImg, 50, 450, 150, 150);
 
@@ -1649,7 +1697,7 @@ async function renderCanvas(pm, am){
                 ctx.fillText('x: Switch', textBoxX + 375, textBoxY + 140);
             }
             else if (whoAttacks == 1){
-                const res = movePlay(am, pm, terrainNow, aiMove);
+                const res = movePlay(am, pm, terrainNow, aiMove, true);
                 whoAttacks = 0;
 
                 var moveName;
@@ -1670,8 +1718,28 @@ async function renderCanvas(pm, am){
                         moveName = '';
                 }
                 aiMove = whichMove(am, pm.name);
-                ctx.fillText(am.name.concat(' used ').concat(moveName), textBoxX + 70, textBoxY + 60);
+                ctx.fillText('Foe '.concat(am.name).concat(' used ').concat(moveName), textBoxX + 70, textBoxY + 60);
                 await new Promise(resolve => setTimeout(resolve, 2000));
+                if (res.length > 2){
+                    const aiMsgs = res.split('|');
+                    for (let i = 0;i < aiMsgs.length; i++){
+                        ctx.fillText(aiMsgs[i], textBoxX + 70, textBoxY + 90 + i * 25);
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                    }
+                }
+
+                whoAttacks = 0;
+                if (pm.hpnow == 0 && am.hpnow == 0){
+                    gameState = 'aiSwitching';
+                    switchType = 'mandatory';
+                }
+                else if (pm.hpnow <= 0 && am.hpnow != 0){
+                    gameState = 'switch';
+                    switchType = 'mandatory';
+                }
+                else if (am.hpnow <= 0 && pm.hpnow != 0){
+                    gameState = 'aiSwitching';
+                }
                 isRendering = false;
                 renderAid();
             }
@@ -1679,19 +1747,22 @@ async function renderCanvas(pm, am){
                 if (playerMove == 4){
                     if (pm.fieldCounter < 2){
                         ctx.fillText(`${pm.name} needs at least 2 Spirits to use that move!`, textBoxX + 70, textBoxY + 60);
-                        whoAttacks = 0;
                         await new Promise(resolve => setTimeout(resolve, 2000));
+                        whoAttacks = 0;
                         isRendering = false;
                         renderAid();
+                        return;
                     }
+
                 }
                 else if (playerMove == 3){
                     if ((movesData[moves.indexOf(pm.move3)][1] == 2) && pm.fieldCounter < 1){
-                        ctx.fillText(`${pm.name} needs at least 2 Spirits to use that move!`, textBoxX + 70, textBoxY + 60);
+                        ctx.fillText(`${pm.name} needs at least 1 Spirit to use that move!`, textBoxX + 70, textBoxY + 60);
                         whoAttacks = 0;
                         await new Promise(resolve => setTimeout(resolve, 2000));
                         isRendering = false;
                         renderAid();
+                        return;
                     }
                 }
 
@@ -1699,7 +1770,7 @@ async function renderCanvas(pm, am){
                 const am_spd_now = am.speed + (am.spdstg * 0.15 * am.speed);
                 if (pm_spd_now >= am_spd_now){
 
-                    const res1 = movePlay(pm, am, terrainNow, playerMove);
+                    const res1 = movePlay(pm, am, terrainNow, playerMove, false);
                     const plMoveName = [pm.move1, pm.move2, pm.move3, pm.move4][playerMove - 1] || 'a move';
                     // Redraw AI's HP bar after player's move
                     const aiHpPercent = am.hpnow / am.hpmax;
@@ -1715,7 +1786,7 @@ async function renderCanvas(pm, am){
                     ctx.lineWidth = 2;
                     ctx.strokeRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
                     ctx.fillStyle = 'black';
-                    ctx.fillText(pm.name.concat(' used ').concat(plMoveName), textBoxX + 70, textBoxY + 60);
+                    ctx.fillText('Your '.concat(pm.name).concat(' used ').concat(plMoveName), textBoxX + 70, textBoxY + 60);
                     await new Promise(resolve => setTimeout(resolve, 2000));
                     if (res1.length > 2){
                         const plMsgs = res1.split('|');
@@ -1728,7 +1799,7 @@ async function renderCanvas(pm, am){
                     if (am.hpnow != 0){
                         aiMove = whichMove(am, pm.name);
                         const aiMoveName = [am.move1, am.move2, am.move3, am.move4][aiMove - 1] || 'a move';
-                        const res2= movePlay(am, pm, terrainNow, aiMove);
+                        const res2= movePlay(am, pm, terrainNow, aiMove, true);
                         // clear the text box
                         ctx.clearRect(textBoxX, textBoxY, textBoxWidth, textBoxHeight);
                         ctx.fillStyle = 'rgba(200,200,200,0.9)';
@@ -1760,7 +1831,7 @@ async function renderCanvas(pm, am){
                         ctx.lineWidth = 2;
                         ctx.strokeRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
                         ctx.fillStyle = 'black';
-                        ctx.fillText(am.name.concat(' used ').concat(aiMoveName), textBoxX + 70, textBoxY + 60);
+                        ctx.fillText('Foe '.concat(am.name).concat(' used ').concat(aiMoveName), textBoxX + 70, textBoxY + 60);
                         await new Promise(resolve => setTimeout(resolve, 2000));
                         if (res2.length > 2){
                             const aiMsgs = res2.split('|');
@@ -1773,7 +1844,7 @@ async function renderCanvas(pm, am){
                 }
                 else {
                     aiMove = whichMove(am, pm.name);
-                    const res1 = movePlay(am, pm, terrainNow, aiMove);
+                    const res1 = movePlay(am, pm, terrainNow, aiMove, true);
                     const aiMoveName = [am.move1, am.move2, am.move3, am.move4][aiMove - 1] || 'a move';
                     const playerHpPercent = pm.hpnow / pm.hpmax;
                     hpBarX = 50;
@@ -1786,7 +1857,7 @@ async function renderCanvas(pm, am){
                     ctx.lineWidth = 2;
                     ctx.strokeRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
                     ctx.fillStyle = 'black';
-                    ctx.fillText(am.name.concat(' used ').concat(aiMoveName), textBoxX + 70, textBoxY + 60);
+                    ctx.fillText('Foe '.concat(am.name).concat(' used ').concat(aiMoveName), textBoxX + 70, textBoxY + 60);
                     await new Promise(resolve => setTimeout(resolve, 2000));
                     if (res1.length > 2){
                         const aiMsgs = res1.split('|');
@@ -1797,7 +1868,7 @@ async function renderCanvas(pm, am){
                     }
                     await new Promise(resolve => setTimeout(resolve, 1000));
                     if (pm.hpnow != 0){
-                        const res2 = movePlay(pm, am, terrainNow, playerMove);
+                        const res2 = movePlay(pm, am, terrainNow, playerMove, false);
                         // clear the text box
                         ctx.clearRect(textBoxX, textBoxY, textBoxWidth, textBoxHeight);
                         ctx.fillStyle = 'rgba(200,200,200,0.9)';
@@ -1832,7 +1903,7 @@ async function renderCanvas(pm, am){
                         ctx.strokeRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
                         ctx.fillStyle = 'black';
                         const plMoveName = [pm.move1, pm.move2, pm.move3, pm.move4][playerMove - 1] || 'a move';
-                        ctx.fillText(pm.name.concat(' used ').concat(plMoveName), textBoxX + 70, textBoxY + 60);
+                        ctx.fillText('Your '.concat(pm.name).concat(' used ').concat(plMoveName), textBoxX + 70, textBoxY + 60);
                         await new Promise(resolve => setTimeout(resolve, 2000));
                         if (res2.length > 2){
                             const plMsgs = res2.split('|');
@@ -1846,6 +1917,18 @@ async function renderCanvas(pm, am){
 
                 //
                 whoAttacks = 0;
+                if (pm.hpnow == 0 && am.hpnow == 0){
+                    gameState = 'aiSwitching';
+                    switchType = 'mandatory';
+                }
+                else if (pm.hpnow <= 0 && am.hpnow != 0){
+                    gameState = 'switch';
+                    switchType = 'mandatory';
+                }
+                else if (am.hpnow <= 0 && pm.hpnow != 0){
+                    gameState = 'aiSwitching';
+                }
+
                 isRendering = false;
                 renderAid();
             }
@@ -1916,6 +1999,7 @@ async function renderCanvas(pm, am){
             ctx.stroke();
             ctx.fillStyle = '#000';
 
+            ctx.font = '26px Arial';
             ctx.fillText(`${leaving}, come back!`, textBoxX + 70, textBoxY + 70);
             await new Promise(resolve => setTimeout(resolve, 2000));
 
@@ -1944,11 +2028,125 @@ async function renderCanvas(pm, am){
             //movePlay(aiTeam.monsters[aiTeam.activeMonster], playerTeam.monsters[playerTeam.activeMonster], terrainNow, 1);
             gameState = 'fight';
             isRendering = false;
-            whoAttacks = 1;
+            if (switchType != 'mandatory'){
+                whoAttacks = 1;
+            }
+            else {
+                whoAttacks = 0;
+                switchType = 'choice';
+            }
+
             aiMove = whichMove(am, leaving);
             renderAid();
 
     }
+    else if (gameState == 'aiSwitching'){
+        const playerImg = monsterSprites[monsters.indexOf(pm.name)];
+        ctx.drawImage(playerImg, 50, 450, 150, 150);
+
+        const textBoxX = 50;
+        const textBoxY = 620;
+        const textBoxWidth = 1000;
+        const textBoxHeight = 150;
+        const cornerRadius = 20;
+
+        var hpBarX = 50;
+        var hpBarY = 420;
+
+
+        // 3. Draw monster names and HP bars
+        // Player monster name and HP bar
+        ctx.fillStyle = fontColor;
+        ctx.font = '20px Arial';
+        ctx.fillText(pm.name, 50, 410); // Name above player sprite
+
+        // Player HP bar
+        const playerHpPercent = pm.hpnow / pm.hpmax;
+        const hpBarWidth = 150;
+        const hpBarHeight = 20;
+        var hpBarX = 50;
+        var hpBarY = 420;
+
+        // Red background for missing HP
+        ctx.fillStyle = 'red';
+        ctx.fillRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+
+        // Green fill for current HP
+        ctx.fillStyle = 'green';
+        ctx.fillRect(hpBarX, hpBarY, hpBarWidth * playerHpPercent, hpBarHeight);
+
+        // HP bar border
+        ctx.strokeStyle = '#000';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+
+
+
+
+
+
+        ctx.clearRect(textBoxX, textBoxY, textBoxWidth, textBoxHeight);
+        ctx.fillStyle = 'rgba(200,200,200,0.9)';
+        ctx.beginPath();
+        ctx.moveTo(textBoxX + cornerRadius, textBoxY);
+        ctx.lineTo(textBoxX + textBoxWidth - cornerRadius, textBoxY);
+        ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY, textBoxX + textBoxWidth, textBoxY + cornerRadius);
+        ctx.lineTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight - cornerRadius);
+        ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight, textBoxX + textBoxWidth - cornerRadius, textBoxY + textBoxHeight);
+        ctx.lineTo(textBoxX + cornerRadius, textBoxY + textBoxHeight);
+        ctx.quadraticCurveTo(textBoxX, textBoxY + textBoxHeight, textBoxX, textBoxY + textBoxHeight - cornerRadius);
+        ctx.lineTo(textBoxX, textBoxY + cornerRadius);
+        ctx.quadraticCurveTo(textBoxX, textBoxY, textBoxX + cornerRadius, textBoxY);
+        ctx.closePath();
+        ctx.fill();
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 5;
+        ctx.stroke();
+        ctx.fillStyle = '#000';
+
+        const newMon = whoSend();
+        aiTeam.sendOut(newMon);
+
+        ctx.font = '26px Arial';
+        ctx.fillText(`Opponent sent out ${aiTeam.monsters[newMon].name}`, textBoxX + 70, textBoxY + 70);
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        ctx.clearRect(textBoxX, textBoxY, textBoxWidth, textBoxHeight);
+        ctx.fillStyle = 'rgba(200,200,200,0.9)';
+        ctx.beginPath();
+        ctx.moveTo(textBoxX + cornerRadius, textBoxY);
+        ctx.lineTo(textBoxX + textBoxWidth - cornerRadius, textBoxY);
+        ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY, textBoxX + textBoxWidth, textBoxY + cornerRadius);
+        ctx.lineTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight - cornerRadius);
+        ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight, textBoxX + textBoxWidth - cornerRadius, textBoxY + textBoxHeight);
+        ctx.lineTo(textBoxX + cornerRadius, textBoxY + textBoxHeight);
+        ctx.quadraticCurveTo(textBoxX, textBoxY + textBoxHeight, textBoxX, textBoxY + textBoxHeight - cornerRadius);
+        ctx.lineTo(textBoxX, textBoxY + cornerRadius);
+        ctx.quadraticCurveTo(textBoxX, textBoxY, textBoxX + cornerRadius, textBoxY);
+        ctx.closePath();
+        ctx.fill();
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 5;
+        ctx.stroke();
+        ctx.fillStyle = '#000';
+
+
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+        if (pm.hpnow > 0){
+            gameState = 'fight';
+            whoAttacks = 0;
+        }
+        else {
+            gameState = 'switch';
+            whoAttacks = 0;
+        }
+
+        isRendering = false;
+
+        renderAid();
+    }
+
     isRendering = false;
 
 }
@@ -1983,6 +2181,10 @@ function wrapText(ctx, text, maxWidth, lineHeight, x, y) {
     return lines.length;
 }
 
+
+function whoSend(){
+    return 1;
+}
 
 function whichMove(am, monsterName){
     const opm = new Monster(monsters.indexOf(monsterName));
