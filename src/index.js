@@ -804,9 +804,22 @@ class Monster{
     }
 
     statusDamage(){
-        if (this.status == 1 || this.status == 2 || this.status == 3){
-            this.hpnow = Math.max(0, this.hpnow - (this.hpmax/10));
+        if (this.hpnow <= 0){
+            return "";
         }
+        if (this.status == 1){
+            this.hpnow = Math.max(0, this.hpnow - (this.hpmax/10));
+            return (" is hurt by Burn!");
+        }
+        else if (this.status == 2){
+            this.hpnow = Math.max(0, this.hpnow - (this.hpmax/10));
+            return (" is hurt by Poison!");
+        }
+        else if (this.status == 3){
+            this.hpnow = Math.max(0, this.hpnow - (this.hpmax/10));
+            return (" is hurt by Frostbite!");
+        }
+        return "";
     }
 
     incrementFieldCounter(){
@@ -1728,6 +1741,104 @@ async function renderCanvas(pm, am){
                     }
                 }
 
+                const r1 = am.statusDamage();
+
+                if (r1.length > 3){
+                    // Clear the text box
+                    ctx.clearRect(textBoxX, textBoxY, textBoxWidth, textBoxHeight);
+                    ctx.fillStyle = 'rgba(200,200,200,0.9)';
+                    ctx.beginPath();
+                    ctx.moveTo(textBoxX + cornerRadius, textBoxY);
+                    ctx.lineTo(textBoxX + textBoxWidth - cornerRadius, textBoxY);
+                    ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY, textBoxX + textBoxWidth, textBoxY + cornerRadius);
+                    ctx.lineTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight - cornerRadius);
+                    ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight, textBoxX + textBoxWidth - cornerRadius, textBoxY + textBoxHeight);
+                    ctx.lineTo(textBoxX + cornerRadius, textBoxY + textBoxHeight);
+                    ctx.quadraticCurveTo(textBoxX, textBoxY + textBoxHeight, textBoxX, textBoxY + textBoxHeight - cornerRadius);
+                    ctx.lineTo(textBoxX, textBoxY + cornerRadius);
+                    ctx.quadraticCurveTo(textBoxX, textBoxY, textBoxX + cornerRadius, textBoxY);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.strokeStyle = '#333';
+                    ctx.lineWidth = 5;
+                    ctx.stroke();
+                    ctx.fillStyle = '#000';
+                    ctx.font = '24px Arial';
+
+                    // Display AI status damage message
+                    ctx.fillText(`Foe ${am.name} ${r1}`, textBoxX + 70, textBoxY + 60);
+
+                    // Update AI HP bar
+                    const aiHpPercent = am.hpnow / am.hpmax;
+                    const hpBarWidth = 150;
+                    const hpBarHeight = 20;
+                    let hpBarX = 900;
+                    let hpBarY = 120;
+                    ctx.fillStyle = 'red';
+                    ctx.fillRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+                    ctx.fillStyle = am.hpnow === 0 ? 'gray' : 'green';
+                    ctx.fillRect(hpBarX, hpBarY, hpBarWidth * aiHpPercent, hpBarHeight);
+                    ctx.strokeStyle = '#000';
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                    if (am.hpnow == 0){
+                        ctx.fillStyle = '#000';
+                        ctx.fillText(`Foe ${am.name} fainted!`, textBoxX + 70, textBoxY + 90);
+                    }
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                }
+
+                const r2 = pm.statusDamage();
+                console.log(r2);
+                if (r2.length > 3){
+                    // Clear the text box
+                    ctx.clearRect(textBoxX, textBoxY, textBoxWidth, textBoxHeight);
+                    ctx.fillStyle = 'rgba(200,200,200,0.9)';
+                    ctx.beginPath();
+                    ctx.moveTo(textBoxX + cornerRadius, textBoxY);
+                    ctx.lineTo(textBoxX + textBoxWidth - cornerRadius, textBoxY);
+                    ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY, textBoxX + textBoxWidth, textBoxY + cornerRadius);
+                    ctx.lineTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight - cornerRadius);
+                    ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight, textBoxX + textBoxWidth - cornerRadius, textBoxY + textBoxHeight);
+                    ctx.lineTo(textBoxX + cornerRadius, textBoxY + textBoxHeight);
+                    ctx.quadraticCurveTo(textBoxX, textBoxY + textBoxHeight, textBoxX, textBoxY + textBoxHeight - cornerRadius);
+                    ctx.lineTo(textBoxX, textBoxY + cornerRadius);
+                    ctx.quadraticCurveTo(textBoxX, textBoxY, textBoxX + cornerRadius, textBoxY);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.strokeStyle = '#333';
+                    ctx.lineWidth = 5;
+                    ctx.stroke();
+                    ctx.fillStyle = '#000';
+                    ctx.font = '24px Arial';
+
+                    // Display player status damage message
+                    ctx.fillText(`Your ${pm.name} ${r2}`, textBoxX + 70, textBoxY + 60);
+
+                    // Update player HP bar
+                    const playerHpPercent = pm.hpnow / pm.hpmax;
+                    const hpBarWidth = 150;
+                    const hpBarHeight = 20;
+                    let hpBarX = 50;
+                    let hpBarY = 420;
+                    ctx.fillStyle = 'red';
+                    ctx.fillRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+                    ctx.fillStyle = pm.hpnow === 0 ? 'gray' : 'green';
+                    ctx.fillRect(hpBarX, hpBarY, hpBarWidth * playerHpPercent, hpBarHeight);
+                    ctx.strokeStyle = '#000';
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                    if (pm.hpnow == 0){
+                        ctx.fillStyle = '#000';
+                        ctx.fillText(`Your ${pm.name} fainted!`, textBoxX + 70, textBoxY + 90);
+                    }
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                }
+
                 whoAttacks = 0;
                 if (pm.hpnow == 0 && am.hpnow == 0){
                     gameState = 'aiSwitching';
@@ -1915,6 +2026,101 @@ async function renderCanvas(pm, am){
                     }
                 }
 
+                const r1 = am.statusDamage();
+                if (r1.length > 3){
+                    // Clear the text box
+                    ctx.clearRect(textBoxX, textBoxY, textBoxWidth, textBoxHeight);
+                    ctx.fillStyle = 'rgba(200,200,200,0.9)';
+                    ctx.beginPath();
+                    ctx.moveTo(textBoxX + cornerRadius, textBoxY);
+                    ctx.lineTo(textBoxX + textBoxWidth - cornerRadius, textBoxY);
+                    ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY, textBoxX + textBoxWidth, textBoxY + cornerRadius);
+                    ctx.lineTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight - cornerRadius);
+                    ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight, textBoxX + textBoxWidth - cornerRadius, textBoxY + textBoxHeight);
+                    ctx.lineTo(textBoxX + cornerRadius, textBoxY + textBoxHeight);
+                    ctx.quadraticCurveTo(textBoxX, textBoxY + textBoxHeight, textBoxX, textBoxY + textBoxHeight - cornerRadius);
+                    ctx.lineTo(textBoxX, textBoxY + cornerRadius);
+                    ctx.quadraticCurveTo(textBoxX, textBoxY, textBoxX + cornerRadius, textBoxY);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.strokeStyle = '#333';
+                    ctx.lineWidth = 5;
+                    ctx.stroke();
+                    ctx.fillStyle = '#000';
+                    ctx.font = '24px Arial';
+
+                    // Display AI status damage message
+                    ctx.fillText(`Foe ${am.name} ${r1}`, textBoxX + 70, textBoxY + 60);
+
+                    // Update AI HP bar
+                    const aiHpPercent = am.hpnow / am.hpmax;
+                    const hpBarWidth = 150;
+                    const hpBarHeight = 20;
+                    let hpBarX = 900;
+                    let hpBarY = 120;
+                    ctx.fillStyle = 'red';
+                    ctx.fillRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+                    ctx.fillStyle = am.hpnow === 0 ? 'gray' : 'green';
+                    ctx.fillRect(hpBarX, hpBarY, hpBarWidth * aiHpPercent, hpBarHeight);
+                    ctx.strokeStyle = '#000';
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                    if (am.hpnow == 0){
+                        ctx.fillStyle = '#000';
+                        ctx.fillText(`Foe ${am.name} fainted!`, textBoxX + 70, textBoxY + 90);
+                    }
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                }
+
+                const r2 = pm.statusDamage();
+                if (r2.length > 3){
+                    //clean box and mention damage by status
+                    ctx.clearRect(textBoxX, textBoxY, textBoxWidth, textBoxHeight);
+                    ctx.fillStyle = 'rgba(200,200,200,0.9)';
+                    ctx.beginPath();
+                    ctx.moveTo(textBoxX + cornerRadius, textBoxY);
+                    ctx.lineTo(textBoxX + textBoxWidth - cornerRadius, textBoxY);
+                    ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY, textBoxX + textBoxWidth, textBoxY + cornerRadius);
+                    ctx.lineTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight - cornerRadius);
+                    ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight, textBoxX + textBoxWidth - cornerRadius, textBoxY + textBoxHeight);
+                    ctx.lineTo(textBoxX + cornerRadius, textBoxY + textBoxHeight);
+                    ctx.quadraticCurveTo(textBoxX, textBoxY + textBoxHeight, textBoxX, textBoxY + textBoxHeight - cornerRadius);
+                    ctx.lineTo(textBoxX, textBoxY + cornerRadius);
+                    ctx.quadraticCurveTo(textBoxX, textBoxY, textBoxX + cornerRadius, textBoxY);
+                    ctx.closePath();
+                    ctx.fill();
+                    ctx.strokeStyle = '#333';
+                    ctx.lineWidth = 5;
+                    ctx.stroke();
+                    ctx.fillStyle = '#000';
+                    ctx.font = '24px Arial';
+
+                    // Display player status damage message
+                    ctx.fillText(`Your ${pm.name} ${r2}`, textBoxX + 70, textBoxY + 60);
+
+                    // Update player HP bar
+                    const playerHpPercent = pm.hpnow / pm.hpmax;
+                    const hpBarWidth = 150;
+                    const hpBarHeight = 20;
+                    let hpBarX = 50;
+                    let hpBarY = 420;
+                    ctx.fillStyle = 'red';
+                    ctx.fillRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+                    ctx.fillStyle = pm.hpnow === 0 ? 'gray' : 'green';
+                    ctx.fillRect(hpBarX, hpBarY, hpBarWidth * playerHpPercent, hpBarHeight);
+                    ctx.strokeStyle = '#000';
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                    if (pm.hpnow == 0){
+                        ctx.fillStyle = '#000';
+                        ctx.fillText(`Your ${pm.name} fainted!`, textBoxX + 70, textBoxY + 90);
+                    }
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                }
                 //
                 whoAttacks = 0;
                 if (pm.hpnow == 0 && am.hpnow == 0){
@@ -2104,7 +2310,15 @@ async function renderCanvas(pm, am){
         ctx.stroke();
         ctx.fillStyle = '#000';
 
-        const newMon = whoSend();
+        const newMon = whoSend(pm.name, am.name);
+        if (newMon == 0){
+            ctx.font = '26px Arial';
+            ctx.fillText(`Opponent is out of Monsters!`, textBoxX + 70, textBoxY + 70);
+            ctx.fillText(`Congratulations! You are the winner!`, textBoxX + 70, textBoxY + 100);
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            isRendering = false;
+            return;
+        }
         aiTeam.sendOut(newMon);
 
         ctx.font = '26px Arial';
@@ -2182,8 +2396,26 @@ function wrapText(ctx, text, maxWidth, lineHeight, x, y) {
 }
 
 
-function whoSend(){
-    return 1;
+function whoSend(opponent, you){
+    var i = 0;
+    var grade = [];
+    const plType = monsterStats[monsters.indexOf(opponent)][1];
+    const plFaction = monsterStats[monsters.indexOf(opponent)][2];
+    while (i < aiTeam.monsters.length){
+        if (aiTeam.monsters[i].name == you || aiTeam.monsters[i].hpnow <= 0){
+            grade.push(0);
+        }
+        else {
+            let aiType = aiTeam.monsters[i].type;
+            let aiFaction = aiTeam.monsters[i].faction;
+            let totalFactor = damageByType[aiType][plType] * damageByFaction[aiFaction][plFaction];
+            grade.push(totalFactor);
+        }
+        i++;
+    }
+    const maxValue = Math.max(...grade); // Finds the highest value (25)
+    const indexMax = grade.indexOf(maxValue);
+    return indexMax;
 }
 
 function whichMove(am, monsterName){
