@@ -5,6 +5,8 @@ import axios from "axios";
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
 
+let browseIndex = 0;
+
 let isRendering = false;
 let focalPoint = 0;
 let instruction = 0;
@@ -1412,6 +1414,11 @@ async function renderCanvas(pm, am){
         ctx.fillStyle = '#000';
         ctx.font = '24px Arial';
         const lineHeightSw = 25;
+        if (playerTeam.getLivingMonsters().length == 0){
+            ctx.fillText('You are out of Monsters!', textBoxX + 70, textBoxY + 60);
+            ctx.fillText('YOU LOSE', textBoxX + 70, textBoxY + 90);
+            return
+        }
         if (instruction == 0){
             if (focalPoint == 1){
                 ctx.fillText('Do what with '.concat(playerTeam.monsters[0].name).concat('?'), textBoxX + 70, textBoxY + 60);
@@ -2527,7 +2534,7 @@ function whichMove(am, monsterName){
             return 3;
         }
     }
-    else {
+    else if (m3[1] == 0){
         const rx2 = Math.random() * 100;
         if (rx2 > 70 && am.fieldCounter == 0){
             return 3;
@@ -2542,10 +2549,121 @@ function whichMove(am, monsterName){
 }
 
 
+async function renderAid2(){
+    await renderCanvas2(browseIndex);
+}
+window.renderAid2 = renderAid2;
+
+async function renderCanvas2(k){
+    // clear canvas
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    // Draw summary screen
+    const boxX = 100;
+    const boxY = 150;
+    const boxWidth = 900;
+    const boxHeight = 500;
+    const cornerRadius = 20;
+
+    // Draw summary box
+    ctx.fillStyle = 'rgba(200,200,200,0.9)';
+    ctx.beginPath();
+    ctx.moveTo(boxX + cornerRadius, boxY);
+    ctx.lineTo(boxX + boxWidth - cornerRadius, boxY);
+    ctx.quadraticCurveTo(boxX + boxWidth, boxY, boxX + boxWidth, boxY + cornerRadius);
+    ctx.lineTo(boxX + boxWidth, boxY + boxHeight - cornerRadius);
+    ctx.quadraticCurveTo(boxX + boxWidth, boxY + boxHeight, boxX + boxWidth - cornerRadius, boxY + boxHeight);
+    ctx.lineTo(boxX + cornerRadius, boxY + boxHeight);
+    ctx.quadraticCurveTo(boxX, boxY + boxHeight, boxX, boxY + boxHeight - cornerRadius);
+    ctx.lineTo(boxX, boxY + cornerRadius);
+    ctx.quadraticCurveTo(boxX, boxY, boxX + cornerRadius, boxY);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.strokeStyle = '#333';
+    ctx.lineWidth = 5;
+    ctx.stroke();
+
+    // Draw monster summary
+    ctx.fillStyle = '#000';
+    ctx.font = '20px Arial';
+    const lineHeight = 30;
+
+
+    const monster = new Monster(browseIndex);
+
+    const typeName = types[monster.type];
+    const factionName = factions[monster.faction];
+
+    const monsterImg2 = monsterSprites[monsters.indexOf(monster.name)];
+    ctx.drawImage(monsterImg2, boxX + 50, boxY + 10, 130, 130);
+
+
+    ctx.fillText(`Attack: ${monster.attack}`, boxX + 550, boxY + 30);
+    ctx.fillText(`Defence: ${monster.defence}`, boxX + 550, boxY + 50);
+    ctx.fillText(`Speed: ${monster.speed}`, boxX + 550, boxY + 70);
+    ctx.fillText(`Accuracy: ${monster.accuracy}`, boxX + 550, boxY + 90);
+    ctx.fillText(`Mana: ${monster.mana}`, boxX + 550, boxY + 110);
+
+    ctx.fillText(`${monster.name}${monster.field ? ' *' : ''}`, boxX + 200, boxY + 30);
+    ctx.fillText(`Type/Faction: ${typeName}/${factionName}`, boxX + 200, boxY + 90);
+    ctx.font = '20px Monospace';
+    ctx.fillText('Moves:', boxX + 50, boxY + 175);
+    ctx.font = '16px Monospace';
+    ctx.fillText(`${monster.move1}:`, boxX + 70, boxY + 210);
+    ctx.fillText(movesData[moves.indexOf(monster.move1)][11], boxX + 70, boxY + 230);
+    ctx.fillText(`${monster.move2}:`, boxX + 70, boxY + 260);
+    ctx.fillText(movesData[moves.indexOf(monster.move2)][11], boxX + 70, boxY + 280);
+    ctx.fillText(`${monster.move3}:`, boxX + 70, boxY + 310);
+    ctx.fillText(movesData[moves.indexOf(monster.move3)][11], boxX + 70, boxY + 330);
+    ctx.fillText(`${monster.move4}:`, boxX + 70, boxY + 360);
+    ctx.fillText(movesData[moves.indexOf(monster.move4)][11], boxX + 70, boxY + 380);
+
+    // HP bar
+    const hpBarX = boxX + 200;
+    const hpBarY = boxY + 40;
+    const hpBarWidth = 200;
+    const hpBarHeight = 20;
+    const hpPercent = monster.hpnow / monster.hpmax;
+
+    ctx.fillStyle = 'red';
+    ctx.fillRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+    ctx.fillStyle = monster.hpnow === 0 ? 'gray' : 'green';
+    ctx.fillRect(hpBarX, hpBarY, hpBarWidth * hpPercent, hpBarHeight);
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
+
+    ctx.fillStyle = '#000';
+    ctx.font = '20px Arial';
+        // Back option
+    ctx.fillText('x: Back', boxX + 50, boxY + 450);
+
+}
+
+
 document.addEventListener('keydown', (event) => {
     const link = window.location.href;
-    if (!link.includes('session.html')){
+    if (!link.includes('session.html') && !link.includes('monsters.html')){
         return;
+    }
+    else if (link.includes('monsters.html')){
+        if (event.key === 'ArrowLeft'){
+            if (browseIndex <= 0){
+                browseIndex = monsters.length - 1;
+            }
+            else {
+                browseIndex = browseIndex - 1;
+            }
+        }
+        else if (event.key === 'ArrowRight'){
+            if (browseIndex >= monsters.length - 1){
+                browseIndex = 0;
+            }
+            else {
+                browseIndex = browseIndex + 1;
+            }
+        }
+        renderAid2();
     }
     else {
         console.log(gameState);
