@@ -2419,8 +2419,125 @@ function whoSend(opponent, you){
 }
 
 function whichMove(am, monsterName){
-    const opm = new Monster(monsters.indexOf(monsterName));
+    var opm;
+    var idx = 6;
+    for (let i = 0; i < playerTeam.monsters.length; i++){
+        if (monsterName == playerTeam.monsters[i].name){
+            idx = i;
+            break;
+        }
+    }
+
+    if (idx == 6){
+        return 1;
+    }
+
+    opm = playerTeam.monsters[idx];
+    console.log('Player: ')
     console.log(opm);
+
+
+    if (am.fieldCounter > 2){
+        console.log('4');
+        return 4;
+    }
+    if (am.move3 == 'Final Purge' && (aiTeam.getLivingMonsters().length > playerTeam.getLivingMonsters().team)){
+        console.log('3')
+        return 3;
+    }
+    const m2 = movesData[moves.indexOf(am.move2)];
+    const m3 = movesData[moves.indexOf(am.move3)];
+
+    if (m2[3] == 7 && am.atkstg == 0){
+        return 2;
+    }
+    if (m2[3] == 8 && am.defstg == 0){
+        return 2;
+    }
+    if (m2[3] == 9 && am.spdstg == 0){
+        return 2;
+    }
+    if (m2[3] == 10 && am.acrstg == 0){
+        return 2;
+    }
+    if (m2[3] == 11 && am.mnastg == 0){
+        return 2;
+    }
+
+    if (m2[7] == 13 && opm.defstg == 1){
+        return 2;
+    }
+    if (m2[7] == 14 && opm.defstg == 1){
+        return 2;
+    }
+    if (m2[7] == 15 && opm.defstg == 1){
+        return 2;
+    }
+    if (m2[7] == 16 && opm.defstg == 1){
+        return 2;
+    }
+    if (m2[7] == 17 && opm.defstg == 1){
+        return 2;
+    }
+
+    if (((m2[7] >=1  && m2[7] <= 6) || (m2[7] >= 21 && m2[7] <= 34)) && opm.status == 0){
+        return 2;
+    }
+
+    if (m3[1] == 1){
+        if (m3[3] == 7 && am.atkstg == 0){
+            return 3;
+        }
+        if (m3[3] == 8 && am.defstg == 0){
+            return 3;
+        }
+        if (m3[3] == 9 && am.spdstg == 0){
+            return 3;
+        }
+        if (m3[3] == 10 && am.acrstg == 0){
+            return 3;
+        }
+        if (m3[3] == 11 && am.mnastg == 0){
+            return 3;
+        }
+
+        if (m3[7] == 13 && opm.defstg == 1){
+            return 3;
+        }
+        if (m3[7] == 14 && opm.defstg == 1){
+            return 3;
+        }
+        if (m3[7] == 15 && opm.defstg == 1){
+            return 3;
+        }
+        if (m3[7] == 16 && opm.defstg == 1){
+            return 3;
+        }
+        if (m3[7] == 17 && opm.defstg == 1){
+            return 3;
+        }
+
+        if (((m3[7] >=1  && m3[7] <= 6) || (m3[7] >= 21 && m3[7] <= 34)) && opm.status == 0){
+            return 3;
+        }
+    }
+    else if (m3[1] == 2 && am.fieldCounter >= 1){
+        const rx = Math.random() * 100;
+        if (rx > 50){
+            return 3;
+        }
+    }
+    else {
+        const rx2 = Math.random() * 100;
+        if (rx2 > 70 && am.fieldCounter == 0){
+            return 3;
+        }
+        else if (rx2 > 50 && am.fieldCounter > 0){
+            return 3;
+        }
+    }
+
+    console.log('1')
     return 1;
 }
 
