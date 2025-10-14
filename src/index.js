@@ -1615,6 +1615,21 @@ async function renderCanvas(pm, am){
         const playerImg = monsterSprites[monsters.indexOf(pm.name)];
         const cropBoundsPl = getCropBounds(playerImg);
 
+        ctx.save();
+        ctx.globalAlpha = 0.4;
+        ctx.shadowBlur = 20;
+        ctx.shadowColor = 'rgba(200,200,200,0.7)';
+        ctx.beginPath();
+        ctx.rect(
+            45,
+            395,
+            210,
+            210
+            );
+        ctx.fillStyle = 'rgba(200, 200, 200, 0.4)';
+        ctx.fill();
+        ctx.restore();
+
         // Draw cropped monster image
         ctx.drawImage(
             playerImg,
@@ -1664,6 +1679,21 @@ async function renderCanvas(pm, am){
         // AI monster (top right)
         const aiImg = monsterSprites[monsters.indexOf(am.name)];
         const cropBoundsAi = getCropBounds(aiImg);
+
+        ctx.save();
+        ctx.globalAlpha = 0.4;
+        ctx.shadowBlur = 20;
+        ctx.shadowColor = 'rgba(200,200,200,0.7)';
+        ctx.beginPath();
+        ctx.rect(
+            845,
+            145,
+            210,
+            210
+            );
+        ctx.fillStyle = 'rgba(200, 200, 200, 0.4)';
+        ctx.fill();
+        ctx.restore();
 
         // Draw cropped monster image
         ctx.drawImage(
@@ -2208,6 +2238,21 @@ async function renderCanvas(pm, am){
             const aiImg = monsterSprites[monsters.indexOf(am.name)];
             const cropBoundsAi = getCropBounds(aiImg);
 
+            ctx.save();
+            ctx.globalAlpha = 0.4;
+            ctx.shadowBlur = 20;
+            ctx.shadowColor = 'rgba(200,200,200,0.7)';
+            ctx.beginPath();
+            ctx.rect(
+                845,
+                145,
+                210,
+                210
+                );
+            ctx.fillStyle = 'rgba(200, 200, 200, 0.4)';
+            ctx.fill();
+            ctx.restore();
+
             // Draw cropped monster image
             ctx.drawImage(
                 aiImg,
@@ -2312,6 +2357,21 @@ async function renderCanvas(pm, am){
     else if (gameState == 'aiSwitching'){
         const playerImg = monsterSprites[monsters.indexOf(pm.name)];
         const cropBoundsPl = getCropBounds(playerImg);
+
+        ctx.save();
+        ctx.globalAlpha = 0.4;
+        ctx.shadowBlur = 20;
+        ctx.shadowColor = 'rgba(200,200,200,0.7)';
+        ctx.beginPath();
+        ctx.rect(
+            45,
+            395,
+            210,
+            210
+            );
+        ctx.fillStyle = 'rgba(200, 200, 200, 0.4)';
+        ctx.fill();
+        ctx.restore();
 
         // Draw cropped monster image
         ctx.drawImage(
