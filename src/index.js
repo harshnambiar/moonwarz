@@ -1345,7 +1345,7 @@ async function renderCanvas(pm, am){
 
                 }
                 else {
-                    ctx.fillStyle = '#000088';
+                    ctx.fillStyle = '#cccccc';
 
                 }
 
@@ -1366,7 +1366,21 @@ async function renderCanvas(pm, am){
                         ctx.fillText(`${index + 1}: ${nameText}`, x + 180, y + 40);
 
                         const monsterImg = monsterSprites[monsters.indexOf(monster.name)];
-                        ctx.drawImage(monsterImg, x + 20, y + 10, 140, 140);
+                        const cropBounds = getCropBounds(monsterImg);
+
+                        // Draw cropped monster image
+                        ctx.drawImage(
+                            monsterImg,
+                            cropBounds.left, // source x
+                            cropBounds.top,  // source y
+                            cropBounds.cropWidth,  // source width
+                            cropBounds.cropHeight, // source height
+                            x + 20,       // destination x
+                            y + 10,       // destination y
+                            140,             // destination width (maintain scaling)
+                            140              // destination height (maintain scaling)
+                        );
+                        //ctx.drawImage(monsterImg, x + 20, y + 10, 140, 140);
 
 
 
@@ -1599,7 +1613,21 @@ async function renderCanvas(pm, am){
     // Player monster (bottom left)
     else if (gameState != 'switching' && gameState != 'aiSwitching' && gameState != 'bothSwitching'){
         const playerImg = monsterSprites[monsters.indexOf(pm.name)];
-        ctx.drawImage(playerImg, 50, 450, 150, 150);
+        const cropBoundsPl = getCropBounds(playerImg);
+
+        // Draw cropped monster image
+        ctx.drawImage(
+            playerImg,
+            cropBoundsPl.left, // source x
+            cropBoundsPl.top,  // source y
+            cropBoundsPl.cropWidth,  // source width
+            cropBoundsPl.cropHeight, // source height
+            50,       // destination x
+            400,       // destination y
+            200,             // destination width (maintain scaling)
+            200              // destination height (maintain scaling)
+        );
+        //ctx.drawImage(playerImg, 50, 450, 150, 150);
 
 
 
@@ -1607,14 +1635,14 @@ async function renderCanvas(pm, am){
         // Player monster name and HP bar
         ctx.fillStyle = fontColor;
         ctx.font = '20px Arial';
-        ctx.fillText(pm.name, 50, 410); // Name above player sprite
+        ctx.fillText(pm.name, 50, 360); // Name above player sprite
 
         // Player HP bar
         const playerHpPercent = pm.hpnow / pm.hpmax;
         const hpBarWidth = 150;
         const hpBarHeight = 20;
         var hpBarX = 50;
-        var hpBarY = 420;
+        var hpBarY = 370;
 
         // Red background for missing HP
         ctx.fillStyle = 'red';
@@ -1635,7 +1663,21 @@ async function renderCanvas(pm, am){
 
         // AI monster (top right)
         const aiImg = monsterSprites[monsters.indexOf(am.name)];
-        ctx.drawImage(aiImg, 900, 150, 150, 150);
+        const cropBoundsAi = getCropBounds(aiImg);
+
+        // Draw cropped monster image
+        ctx.drawImage(
+            aiImg,
+            cropBoundsAi.left, // source x
+            cropBoundsAi.top,  // source y
+            cropBoundsAi.cropWidth,  // source width
+            cropBoundsAi.cropHeight, // source height
+            850,       // destination x
+            150,       // destination y
+            200,             // destination width (maintain scaling)
+            200              // destination height (maintain scaling)
+        );
+        //ctx.drawImage(aiImg, 900, 150, 150, 150);
 
 
         // AI monster name and HP bar
@@ -1829,7 +1871,7 @@ async function renderCanvas(pm, am){
                     const hpBarWidth = 150;
                     const hpBarHeight = 20;
                     let hpBarX = 50;
-                    let hpBarY = 420;
+                    let hpBarY = 370;
                     ctx.fillStyle = 'red';
                     ctx.fillRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
                     ctx.fillStyle = pm.hpnow === 0 ? 'gray' : 'green';
@@ -1940,7 +1982,7 @@ async function renderCanvas(pm, am){
                         // Redraw player's HP bar after AI's move
                         const playerHpPercent = pm.hpnow / pm.hpmax;
                         hpBarX = 50;
-                        hpBarY = 420;
+                        hpBarY = 370;
                         ctx.fillStyle = 'red';
                         ctx.fillRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
                         ctx.fillStyle = pm.hpnow === 0 ? 'gray' : 'green';
@@ -1966,7 +2008,7 @@ async function renderCanvas(pm, am){
                     const aiMoveName = [am.move1, am.move2, am.move3, am.move4][aiMove - 1] || 'a move';
                     const playerHpPercent = pm.hpnow / pm.hpmax;
                     hpBarX = 50;
-                    hpBarY = 420;
+                    hpBarY = 370;
                     ctx.fillStyle = 'red';
                     ctx.fillRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
                     ctx.fillStyle = pm.hpnow === 0 ? 'gray' : 'green';
@@ -2112,7 +2154,7 @@ async function renderCanvas(pm, am){
                     const hpBarWidth = 150;
                     const hpBarHeight = 20;
                     let hpBarX = 50;
-                    let hpBarY = 420;
+                    let hpBarY = 370;
                     ctx.fillStyle = 'red';
                     ctx.fillRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
                     ctx.fillStyle = pm.hpnow === 0 ? 'gray' : 'green';
@@ -2164,7 +2206,21 @@ async function renderCanvas(pm, am){
 
              // AI monster (top right)
             const aiImg = monsterSprites[monsters.indexOf(am.name)];
-            ctx.drawImage(aiImg, 900, 150, 150, 150);
+            const cropBoundsAi = getCropBounds(aiImg);
+
+            // Draw cropped monster image
+            ctx.drawImage(
+                aiImg,
+                cropBoundsAi.left, // source x
+                cropBoundsAi.top,  // source y
+                cropBoundsAi.cropWidth,  // source width
+                cropBoundsAi.cropHeight, // source height
+                850,       // destination x
+                150,       // destination y
+                200,             // destination width (maintain scaling)
+                200              // destination height (maintain scaling)
+            );
+            //ctx.drawImage(aiImg, 900, 150, 150, 150);
 
 
             // AI monster name and HP bar
@@ -2255,7 +2311,21 @@ async function renderCanvas(pm, am){
     }
     else if (gameState == 'aiSwitching'){
         const playerImg = monsterSprites[monsters.indexOf(pm.name)];
-        ctx.drawImage(playerImg, 50, 450, 150, 150);
+        const cropBoundsPl = getCropBounds(playerImg);
+
+        // Draw cropped monster image
+        ctx.drawImage(
+            playerImg,
+            cropBoundsPl.left, // source x
+            cropBoundsPl.top,  // source y
+            cropBoundsPl.cropWidth,  // source width
+            cropBoundsPl.cropHeight, // source height
+            50,       // destination x
+            400,       // destination y
+            200,             // destination width (maintain scaling)
+            200              // destination height (maintain scaling)
+        );
+        //ctx.drawImage(playerImg, 50, 450, 150, 150);
 
         const textBoxX = 50;
         const textBoxY = 620;
@@ -2264,21 +2334,21 @@ async function renderCanvas(pm, am){
         const cornerRadius = 20;
 
         var hpBarX = 50;
-        var hpBarY = 420;
+        var hpBarY = 370;
 
 
         // 3. Draw monster names and HP bars
         // Player monster name and HP bar
         ctx.fillStyle = fontColor;
         ctx.font = '20px Arial';
-        ctx.fillText(pm.name, 50, 410); // Name above player sprite
+        ctx.fillText(pm.name, 50, 360);
 
         // Player HP bar
         const playerHpPercent = pm.hpnow / pm.hpmax;
         const hpBarWidth = 150;
         const hpBarHeight = 20;
         var hpBarX = 50;
-        var hpBarY = 420;
+        var hpBarY = 370;
 
         // Red background for missing HP
         ctx.fillStyle = 'red';
@@ -2595,7 +2665,25 @@ async function renderCanvas2(k){
     const factionName = factions[monster.faction];
 
     const monsterImg2 = monsterSprites[monsters.indexOf(monster.name)];
-    ctx.drawImage(monsterImg2, boxX + 50, boxY + 10, 130, 130);
+
+    // Get crop boundaries for the monster image
+    const cropBounds = getCropBounds(monsterImg2);
+
+    // Draw cropped monster image
+    ctx.drawImage(
+        monsterImg2,
+        cropBounds.left, // source x
+        cropBounds.top,  // source y
+        cropBounds.cropWidth,  // source width
+        cropBounds.cropHeight, // source height
+        boxX + 50,       // destination x
+        boxY + 10,       // destination y
+        130,             // destination width (maintain scaling)
+        130              // destination height (maintain scaling)
+    );
+
+
+    //ctx.drawImage(monsterImg2, boxX + 50, boxY + 10, 130, 130);
 
 
     ctx.fillText(`Attack: ${monster.attack}`, boxX + 550, boxY + 30);
@@ -2638,6 +2726,102 @@ async function renderCanvas2(k){
         // Back option
     ctx.fillText('x: Back', boxX + 50, boxY + 450);
 
+}
+
+function getCropBounds(image) {
+    // Create a temporary canvas
+    const tempCanvas = document.createElement('canvas');
+    tempCanvas.width = image.width;
+    tempCanvas.height = image.height;
+    const tempCtx = tempCanvas.getContext('2d');
+
+    // Draw the image on the temporary canvas
+    tempCtx.drawImage(image, 0, 0);
+
+    // Get image data
+    const imageData = tempCtx.getImageData(0, 0, image.width, image.height);
+    const data = imageData.data; // RGBA array
+
+    let top = 0;
+    let bottom = image.height - 1;
+    let left = 0;
+    let right = image.width - 1;
+
+    // Helper function to check if a pixel is transparent
+    const isPixelTransparent = (x, y) => {
+        const index = (y * image.width + x) * 4;
+        return data[index + 3] === 0; // Check alpha channel
+    };
+
+    // Find top crop boundary (first non-transparent row)
+    for (let y = 0; y < image.height; y++) {
+        let rowEmpty = true;
+        for (let x = 0; x < image.width; x++) {
+            if (!isPixelTransparent(x, y)) {
+                rowEmpty = false;
+                break;
+            }
+        }
+        if (!rowEmpty) {
+            top = y;
+            break;
+        }
+    }
+
+    // Find bottom crop boundary (last non-transparent row)
+    for (let y = image.height - 1; y >= 0; y--) {
+        let rowEmpty = true;
+        for (let x = 0; x < image.width; x++) {
+            if (!isPixelTransparent(x, y)) {
+                rowEmpty = false;
+                break;
+            }
+        }
+        if (!rowEmpty) {
+            bottom = y;
+            break;
+        }
+    }
+
+    // Find left crop boundary (first non-transparent column)
+    for (let x = 0; x < image.width; x++) {
+        let colEmpty = true;
+        for (let y = 0; y < image.height; y++) {
+            if (!isPixelTransparent(x, y)) {
+                colEmpty = false;
+                break;
+            }
+        }
+        if (!colEmpty) {
+            left = x;
+            break;
+        }
+    }
+
+    // Find right crop boundary (last non-transparent column)
+    for (let x = image.width - 1; x >= 0; x--) {
+        let colEmpty = true;
+        for (let y = 0; y < image.height; y++) {
+            if (!isPixelTransparent(x, y)) {
+                colEmpty = false;
+                break;
+            }
+        }
+        if (!colEmpty) {
+            right = x;
+            break;
+        }
+    }
+
+    // Return crop dimensions
+    return {
+        top: top,
+        bottom: image.height - bottom - 1,
+        left: left,
+        right: image.width - right - 1,
+        cropWidth: right - left + 1,
+        cropHeight: bottom - top + 1
+    };
 }
 
 
