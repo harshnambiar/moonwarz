@@ -33,6 +33,7 @@ function loadImage(src) {
 }
 
 const types = ['Fire', 'Water', 'Storm', 'Earth', 'Cosmic', 'Metal', 'Light', 'Dark'];
+const typeColors = ['red', '#000077', 'yellow', '#a52a2a', 'indigo', 'grey', 'white', 'black'];
 
 const damageByType = [
                     [0.66, 0.66, 1, 1, 1, 1.33, 1, 1],
@@ -47,6 +48,7 @@ const damageByType = [
 
 
 const factions = ['Technology', 'Magic', 'Demon', 'Nature', 'Divine', 'Endless'];
+const factionColors = ['#0000ff', 'pink', '#dc143c', 'green', 'gold', 'purple']
 
 const damageByFaction = [
                     [1, 0.75, 1, 1.25, 1, 1],
@@ -260,6 +262,8 @@ const movesData = [
 ]
 
 const statuses = ['None', 'Burned', 'Poisoned', 'Frostbitten', 'Stunned', 'Drowsy', 'Dazed'];
+
+
 
 class Monster{
     constructor(k){
@@ -1619,15 +1623,8 @@ async function renderCanvas(pm, am){
         ctx.globalAlpha = 0.4;
         ctx.shadowBlur = 20;
         ctx.shadowColor = 'rgba(200,200,200,0.7)';
-        ctx.beginPath();
-        ctx.rect(
-            45,
-            395,
-            210,
-            210
-            );
-        ctx.fillStyle = 'rgba(200, 200, 200, 0.4)';
-        ctx.fill();
+
+        drawRoundedRect(ctx, 45, 395, 210, 210, 30, pm.type, pm.faction);
         ctx.restore();
 
         // Draw cropped monster image
@@ -1654,7 +1651,7 @@ async function renderCanvas(pm, am){
 
         // Player HP bar
         const playerHpPercent = pm.hpnow / pm.hpmax;
-        const hpBarWidth = 150;
+        const hpBarWidth = 200;
         const hpBarHeight = 20;
         var hpBarX = 50;
         var hpBarY = 370;
@@ -1684,15 +1681,8 @@ async function renderCanvas(pm, am){
         ctx.globalAlpha = 0.4;
         ctx.shadowBlur = 20;
         ctx.shadowColor = 'rgba(200,200,200,0.7)';
-        ctx.beginPath();
-        ctx.rect(
-            845,
-            145,
-            210,
-            210
-            );
-        ctx.fillStyle = 'rgba(200, 200, 200, 0.4)';
-        ctx.fill();
+
+        drawRoundedRect(ctx, 845, 145, 210, 210, 30, am.type, am.faction);
         ctx.restore();
 
         // Draw cropped monster image
@@ -1713,11 +1703,11 @@ async function renderCanvas(pm, am){
         // AI monster name and HP bar
         ctx.fillStyle = fontColor;
         ctx.font = '20px Arial';
-        ctx.fillText(am.name, 900, 110); // Name above player sprite
+        ctx.fillText(am.name, 850, 110); // Name above player sprite
 
         // Player HP bar
         const aiHpPercent = am.hpnow / am.hpmax;
-        hpBarX = 900;
+        hpBarX = 850;
         hpBarY = 120;
 
         // Red background for missing HP
@@ -1849,9 +1839,9 @@ async function renderCanvas(pm, am){
 
                     // Update AI HP bar
                     const aiHpPercent = am.hpnow / am.hpmax;
-                    const hpBarWidth = 150;
+                    const hpBarWidth = 200;
                     const hpBarHeight = 20;
-                    let hpBarX = 900;
+                    let hpBarX = 850;
                     let hpBarY = 120;
                     ctx.fillStyle = 'red';
                     ctx.fillRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
@@ -1898,7 +1888,7 @@ async function renderCanvas(pm, am){
 
                     // Update player HP bar
                     const playerHpPercent = pm.hpnow / pm.hpmax;
-                    const hpBarWidth = 150;
+                    const hpBarWidth = 200;
                     const hpBarHeight = 20;
                     let hpBarX = 50;
                     let hpBarY = 370;
@@ -1964,9 +1954,9 @@ async function renderCanvas(pm, am){
                     const plMoveName = [pm.move1, pm.move2, pm.move3, pm.move4][playerMove - 1] || 'a move';
                     // Redraw AI's HP bar after player's move
                     const aiHpPercent = am.hpnow / am.hpmax;
-                    const hpBarWidth = 150;
+                    const hpBarWidth = 200;
                     const hpBarHeight = 20;
-                    let hpBarX = 900;
+                    let hpBarX = 850;
                     let hpBarY = 120;
                     ctx.fillStyle = 'red';
                     ctx.fillRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
@@ -2080,9 +2070,9 @@ async function renderCanvas(pm, am){
                         ctx.fillStyle = '#000';
                         // Redraw player's HP bar after AI's move
                         const aiHpPercent = am.hpnow / am.hpmax;
-                        const hpBarWidth = 150;
+                        const hpBarWidth = 200;
                         const hpBarHeight = 20;
-                        let hpBarX = 900;
+                        let hpBarX = 850;
                         let hpBarY = 120;
                         ctx.fillStyle = 'red';
                         ctx.fillRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
@@ -2133,9 +2123,9 @@ async function renderCanvas(pm, am){
 
                     // Update AI HP bar
                     const aiHpPercent = am.hpnow / am.hpmax;
-                    const hpBarWidth = 150;
+                    const hpBarWidth = 200;
                     const hpBarHeight = 20;
-                    let hpBarX = 900;
+                    let hpBarX = 850;
                     let hpBarY = 120;
                     ctx.fillStyle = 'red';
                     ctx.fillRect(hpBarX, hpBarY, hpBarWidth, hpBarHeight);
@@ -2181,7 +2171,7 @@ async function renderCanvas(pm, am){
 
                     // Update player HP bar
                     const playerHpPercent = pm.hpnow / pm.hpmax;
-                    const hpBarWidth = 150;
+                    const hpBarWidth = 200;
                     const hpBarHeight = 20;
                     let hpBarX = 50;
                     let hpBarY = 370;
@@ -2226,9 +2216,9 @@ async function renderCanvas(pm, am){
             const textBoxWidth = 1000;
             const textBoxHeight = 150;
             const cornerRadius = 20;
-            const hpBarWidth = 150;
+            const hpBarWidth = 200;
             const hpBarHeight = 20;
-            var hpBarX = 900;
+            var hpBarX = 850;
             var hpBarY = 120;
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -2242,15 +2232,8 @@ async function renderCanvas(pm, am){
             ctx.globalAlpha = 0.4;
             ctx.shadowBlur = 20;
             ctx.shadowColor = 'rgba(200,200,200,0.7)';
-            ctx.beginPath();
-            ctx.rect(
-                845,
-                145,
-                210,
-                210
-                );
-            ctx.fillStyle = 'rgba(200, 200, 200, 0.4)';
-            ctx.fill();
+
+            drawRoundedRect(ctx, 845, 145, 210, 210, 30, am.type, am.faction);
             ctx.restore();
 
             // Draw cropped monster image
@@ -2271,11 +2254,11 @@ async function renderCanvas(pm, am){
             // AI monster name and HP bar
             ctx.fillStyle = fontColor;
             ctx.font = '20px Arial';
-            ctx.fillText(am.name, 900, 110); // Name above player sprite
+            ctx.fillText(am.name, 850, 110); // Name above player sprite
 
             // Player HP bar
             const aiHpPercent = am.hpnow / am.hpmax;
-            hpBarX = 900;
+            hpBarX = 850;
             hpBarY = 120;
 
             // Red background for missing HP
@@ -2362,15 +2345,8 @@ async function renderCanvas(pm, am){
         ctx.globalAlpha = 0.4;
         ctx.shadowBlur = 20;
         ctx.shadowColor = 'rgba(200,200,200,0.7)';
-        ctx.beginPath();
-        ctx.rect(
-            45,
-            395,
-            210,
-            210
-            );
-        ctx.fillStyle = 'rgba(200, 200, 200, 0.4)';
-        ctx.fill();
+        drawRoundedRect(ctx, 45, 395, 210, 210, 30, pm.type, pm.faction);
+
         ctx.restore();
 
         // Draw cropped monster image
@@ -2405,7 +2381,7 @@ async function renderCanvas(pm, am){
 
         // Player HP bar
         const playerHpPercent = pm.hpnow / pm.hpmax;
-        const hpBarWidth = 150;
+        const hpBarWidth = 200;
         const hpBarHeight = 20;
         var hpBarX = 50;
         var hpBarY = 370;
@@ -2530,6 +2506,27 @@ function wrapText(ctx, text, maxWidth, lineHeight, x, y) {
 
     // Return the number of lines for positioning adjustments
     return lines.length;
+}
+
+function drawRoundedRect(cnv, x, y, w, h, r, c1, c2){
+    let gradient = cnv.createLinearGradient(x, y, x + w, y);
+    let colorLeft = typeColors[c1];
+    let colorRight = factionColors[c2];
+    gradient.addColorStop(0, colorLeft);
+    gradient.addColorStop(1, colorRight);
+    cnv.beginPath();
+    cnv.moveTo(x + r, y); // Top-left corner
+    cnv.lineTo(x + w - r, y); // Top edge
+    cnv.quadraticCurveTo(x + w, y, x + w, y + r); // Top-right corner
+    cnv.lineTo(x + w, y + h - r); // Right edge
+    cnv.quadraticCurveTo(x + w, y + h, x + w - r, y + h); // Bottom-right corner
+    cnv.lineTo(x + r, y + h); // Bottom edge
+    cnv.quadraticCurveTo(x, y + h, x, y + h - r); // Bottom-left corner
+    cnv.lineTo(x, y + r); // Left edge
+    cnv.quadraticCurveTo(x, y, x + r, y); // Top-left corner
+    cnv.closePath();
+    cnv.fillStyle = gradient;
+    cnv.fill();
 }
 
 
