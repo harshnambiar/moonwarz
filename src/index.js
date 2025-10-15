@@ -262,7 +262,13 @@ const movesData = [
 ]
 
 const statuses = ['None', 'Burned', 'Poisoned', 'Frostbitten', 'Stunned', 'Drowsy', 'Dazed'];
-
+const statusImages = ['', 'img/burntstatus.png', 'img/poisonedstatus.png', 'img/frostbittenstatus.png', 'img/stunnedstatus.png', 'img/sleepystatus.png', 'img/dazedstatus.png'];
+const statusSprites = [new Image(), new Image(), new Image(), new Image(),new Image(), new Image(),new Image()];
+k = 0;
+while (k < statusImages.length){
+    statusSprites[k].src = statusImages[k];
+    k++;
+}
 
 
 class Monster{
@@ -1810,6 +1816,22 @@ async function renderCanvas(pm, am){
                     }
                 }
 
+                if (res.includes('Stun') && am.status == 4){
+                    // show stun image
+                    ctx.drawImage(statusSprites[4], 900, 150, 100, 100);
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                }
+                else if (res.includes('Sleep') && am.status == 5){
+                    // show sleep image
+                    ctx.drawImage(statusSprites[5], 900, 150, 70, 70);
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                }
+                else if (res.includes('Daze') && am.status == 6){
+                    // show daze image
+                    ctx.drawImage(statusSprites[6], 850, 150, 150, 100);
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                }
+
                 const r1 = am.statusDamage();
 
                 if (r1.length > 3){
@@ -1836,6 +1858,22 @@ async function renderCanvas(pm, am){
 
                     // Display AI status damage message
                     ctx.fillText(`Foe ${am.name} ${r1}`, textBoxX + 70, textBoxY + 60);
+
+                    if (r1.includes('Burn')){
+                        // show stun image
+                        ctx.drawImage(statusSprites[1], 900, 150, 100, 100);
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                    }
+                    else if (r1.includes('Poison')){
+                        // show sleep image
+                        ctx.drawImage(statusSprites[2], 900, 150, 70, 70);
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                    }
+                    else if (r1.includes('Frostbite')){
+                        // show daze image
+                        ctx.drawImage(statusSprites[3], 850, 150, 150, 160);
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                    }
 
                     // Update AI HP bar
                     const aiHpPercent = am.hpnow / am.hpmax;
@@ -1886,6 +1924,21 @@ async function renderCanvas(pm, am){
                     // Display player status damage message
                     ctx.fillText(`Your ${pm.name} ${r2}`, textBoxX + 70, textBoxY + 60);
 
+                    if (r2.includes('Burn')){
+                        // show stun image
+                        ctx.drawImage(statusSprites[1], 100, 450, 100, 100);
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                    }
+                    else if (r2.includes('Poison')){
+                        // show sleep image
+                        ctx.drawImage(statusSprites[2], 100, 450, 70, 70);
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                    }
+                    else if (r2.includes('Frostbite')){
+                        // show daze image
+                        ctx.drawImage(statusSprites[3], 70, 450, 150, 160);
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                    }
                     // Update player HP bar
                     const playerHpPercent = pm.hpnow / pm.hpmax;
                     const hpBarWidth = 200;
@@ -1975,6 +2028,21 @@ async function renderCanvas(pm, am){
                             await new Promise(resolve => setTimeout(resolve, 1000));
                         }
                     }
+                    if (res1.includes('Stun') && res1.includes('afflicted')){
+                        // show stun image
+                        ctx.drawImage(statusSprites[4], 100, 450, 100, 100);
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                    }
+                    else if (res1.includes('Sleep') && res1.includes('afflicted')){
+                        // show sleep image
+                        ctx.drawImage(statusSprites[5], 100, 450, 70, 70);
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                    }
+                    else if (res1.includes('Daze') && res1.includes('afflicted')){
+                        // show daze image
+                        ctx.drawImage(statusSprites[6], 100, 450, 150, 100);
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                    }
                     await new Promise(resolve => setTimeout(resolve, 1000));
                     if (am.hpnow != 0){
                         aiMove = whichMove(am, pm.name);
@@ -2020,6 +2088,21 @@ async function renderCanvas(pm, am){
                                 await new Promise(resolve => setTimeout(resolve, 1000));
                             }
                         }
+                        if (res2.includes('Stun') && res2.includes('afflicted')){
+                            // show stun image
+                            ctx.drawImage(statusSprites[4], 900, 150, 100, 100);
+                            await new Promise(resolve => setTimeout(resolve, 1000));
+                        }
+                        else if (res2.includes('Sleep') && res2.includes('afflicted')){
+                            // show sleep image
+                            ctx.drawImage(statusSprites[5], 900, 150, 70, 70);
+                            await new Promise(resolve => setTimeout(resolve, 1000));
+                        }
+                        else if (res2.includes('Daze') && res2.includes('afflicted')){
+                            // show daze image
+                            ctx.drawImage(statusSprites[6], 850, 150, 150, 100);
+                            await new Promise(resolve => setTimeout(resolve, 1000));
+                        }
                     }
                 }
                 else {
@@ -2045,6 +2128,21 @@ async function renderCanvas(pm, am){
                             ctx.fillText(aiMsgs[i], textBoxX + 70, textBoxY + 90 + i * 25);
                             await new Promise(resolve => setTimeout(resolve, 1000));
                         }
+                    }
+                    if (res1.includes('Stun') && res1.includes('afflicted')){
+                        // show stun image
+                        ctx.drawImage(statusSprites[4], 900, 150, 100, 100);
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                    }
+                    else if (res1.includes('Sleep') && res1.includes('afflicted')){
+                        // show sleep image
+                        ctx.drawImage(statusSprites[5], 900, 150, 70, 70);
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                    }
+                    else if (res1.includes('Daze') && res1.includes('afflicted')){
+                        // show daze image
+                        ctx.drawImage(statusSprites[6], 850, 150, 150, 100);
+                        await new Promise(resolve => setTimeout(resolve, 1000));
                     }
                     await new Promise(resolve => setTimeout(resolve, 1000));
                     if (pm.hpnow != 0){
@@ -2092,6 +2190,21 @@ async function renderCanvas(pm, am){
                                 await new Promise(resolve => setTimeout(resolve, 1000));
                             }
                         }
+                        if (res2.includes('Stun') && res2.includes('afflicted')){
+                            // show stun image
+                            ctx.drawImage(statusSprites[4], 100, 450, 100, 100);
+                            await new Promise(resolve => setTimeout(resolve, 1000));
+                        }
+                        else if (res2.includes('Sleep') && res2.includes('afflicted')){
+                            // show sleep image
+                            ctx.drawImage(statusSprites[5], 100, 450, 70, 70);
+                            await new Promise(resolve => setTimeout(resolve, 1000));
+                        }
+                        else if (res2.includes('Daze') && res2.includes('afflicted')){
+                            // show daze image
+                            ctx.drawImage(statusSprites[6], 100, 450, 150, 100);
+                            await new Promise(resolve => setTimeout(resolve, 1000));
+                        }
                     }
                 }
 
@@ -2120,6 +2233,21 @@ async function renderCanvas(pm, am){
 
                     // Display AI status damage message
                     ctx.fillText(`Foe ${am.name} ${r1}`, textBoxX + 70, textBoxY + 60);
+                    if (r1.includes('Burn')){
+                        // show stun image
+                        ctx.drawImage(statusSprites[1], 900, 150, 100, 100);
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                    }
+                    else if (r1.includes('Poison')){
+                        // show sleep image
+                        ctx.drawImage(statusSprites[2], 900, 150, 70, 70);
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                    }
+                    else if (r1.includes('Frostbite')){
+                        // show daze image
+                        ctx.drawImage(statusSprites[3], 850, 150, 150, 160);
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                    }
 
                     // Update AI HP bar
                     const aiHpPercent = am.hpnow / am.hpmax;
@@ -2169,6 +2297,21 @@ async function renderCanvas(pm, am){
                     // Display player status damage message
                     ctx.fillText(`Your ${pm.name} ${r2}`, textBoxX + 70, textBoxY + 60);
 
+                    if (r2.includes('Burn')){
+                        // show stun image
+                        ctx.drawImage(statusSprites[1], 100, 450, 100, 100);
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                    }
+                    else if (r2.includes('Poison')){
+                        // show sleep image
+                        ctx.drawImage(statusSprites[2], 100, 450, 70, 70);
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                    }
+                    else if (r2.includes('Frostbite')){
+                        // show daze image
+                        ctx.drawImage(statusSprites[3], 70, 450, 150, 160);
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                    }
                     // Update player HP bar
                     const playerHpPercent = pm.hpnow / pm.hpmax;
                     const hpBarWidth = 200;
