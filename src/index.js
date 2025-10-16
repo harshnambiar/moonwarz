@@ -2107,7 +2107,7 @@ async function renderCanvas(pm, am){
                         //here
                         if (aiMove == 1 && !res2.includes('missed') && !res2.includes('move')){
                             await new Promise(resolve => setTimeout(resolve, 1000));
-                            await animateFirstMove(ctx, 850, 200, 250, 500, typeColors[pm.type], pm, am, terrainNow, 'ai', aiMoveName, 1000);
+                            await animateFirstMove(ctx, 850, 200, 250, 500, typeColors[am.type], pm, am, terrainNow, 'ai', aiMoveName, 1000);
                         }
                         else if (aiMove == 4 && !res2.includes('missed') && !res2.includes('move')){
                             await new Promise(resolve => setTimeout(resolve, 1000));
@@ -2159,7 +2159,7 @@ async function renderCanvas(pm, am){
                     //here
                     if (aiMove == 1 && !res1.includes('missed') && !res1.includes('move')){
                         await new Promise(resolve => setTimeout(resolve, 1000));
-                        await animateFirstMove(ctx, 250, 500, 850, 200, typeColors[pm.type], pm, am, terrainNow, 'ai', aiMoveName, 1000);
+                        await animateFirstMove(ctx, 850, 200, 250, 500, typeColors[am.type], pm, am, terrainNow, 'ai', aiMoveName, 1000);
                     }
                     else if (aiMove == 4 && !res1.includes('missed') && !res1.includes('move')){
                         await new Promise(resolve => setTimeout(resolve, 1000));
@@ -2235,7 +2235,7 @@ async function renderCanvas(pm, am){
                         }
                         else if (playerMove == 4 && !res2.includes('missed') && !res2.includes('move')){
                             await new Promise(resolve => setTimeout(resolve, 1000));
-                            await animateBeam(ctx, 250, 500, 850, 200, typeColors[am.type], pm, am, 'player', terrainNow, 1000);
+                            await animateBeam(ctx, 250, 500, 850, 200, typeColors[pm.type], pm, am, 'player', terrainNow, 1000);
                         }
 
                         //end
@@ -3093,7 +3093,7 @@ async function animateFirstMove(ctx, startX, startY, endX, endY, typeColor, pm, 
     // Determine animation type
     let animationType = 'wave'; // Default
     let effectImage = effectSprites.wave;
-    if (moveLower.includes('punch') || moveLower.includes('bash') || moveLower.includes('slam') || moveLower.includes('first')) {
+    if (moveLower.includes('punch') || moveLower.includes('bash') || moveLower.includes('slam')) {
         animationType = 'punch';
         effectImage = effectSprites.punch;
     } else if (moveLower.includes('tackle')) {
@@ -3106,6 +3106,8 @@ async function animateFirstMove(ctx, startX, startY, endX, endY, typeColor, pm, 
         animationType = 'slash';
         effectImage = effectSprites.slash;
     }
+
+    console.log(typeColor)
 
     for (let i = 0; i <= steps; i++) {
         // Draw terrain
@@ -3189,10 +3191,16 @@ async function animateFirstMove(ctx, startX, startY, endX, endY, typeColor, pm, 
             // Draw at target
             ctx.drawImage(effectImage, endX - 50, endY - 50, 100, 100);
         } else if (animationType === 'wave') {
-            // Draw stretched from attacker to target
+            // Draw diagonally from attacker to target
             const deltaX = (endX - startX) * progress;
             const deltaY = (endY - startY) * progress;
-            ctx.drawImage(effectImage, startX, startY - 50, deltaX, 100);
+            const length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+            const angle = Math.atan2(endY - startY, endX - startX);
+            ctx.save();
+            ctx.translate(startX, startY);
+            ctx.rotate(angle);
+            ctx.drawImage(effectImage, 0, -50, length, 100); // Stretch to length, centered vertically
+            ctx.restore();
         }
         ctx.globalAlpha = 1;
 
