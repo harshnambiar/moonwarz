@@ -37,6 +37,9 @@ const effectSprites = {
     tackle: new Image(),
     slash: new Image(),
     rocks: new Image(),
+    claw: new Image(),
+    fangs: new Image(),
+    metal: new Image(),
     wave: new Image()
 };
 effectSprites.punch.src = 'img/stunnedstatus.png';
@@ -44,6 +47,9 @@ effectSprites.tackle.src = 'img/poisonedstatus.png';
 effectSprites.slash.src = 'img/burntstatus.png';
 effectSprites.rocks.src = 'img/dazedstatus.png';
 effectSprites.wave.src = 'img/sleepystatus.png';
+effectSprites.claw.src = 'img/burntstatus.png';
+effectSprites.fangs.src = 'img/dazedstatus.png';
+effectSprites.metal.src = 'img/sleepystatus.png';
 
 const types = ['Fire', 'Water', 'Storm', 'Earth', 'Cosmic', 'Metal', 'Light', 'Dark'];
 const typeColors = ['#770000', '#000077', '#c9c604', '#a52a2a', '#1c1691', '#888888', '#ffffff', '#000000'];
@@ -1821,6 +1827,21 @@ async function renderCanvas(pm, am){
                 aiMove = whichMove(am, pm.name);
                 ctx.fillText('Foe '.concat(am.name).concat(' used ').concat(moveName), textBoxX + 70, textBoxY + 60);
                 await new Promise(resolve => setTimeout(resolve, 2000));
+                //here
+                if (aiMove == 1 && !res.includes('missed') && !res.includes('move')){
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    await animateFirstMove(ctx, 850, 200, 250, 500, typeColors[am.type], pm, am, terrainNow, 'ai', aiMoveName, 1000);
+                }
+                else if (aiMove == 3 && !res.includes('missed') && !res.includes('move')){
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    await animateThirdMove(ctx, 850, 200, 250, 500, typeColors[am.type], pm, am, terrainNow, 'ai', aiMoveName, 1000);
+                }
+                else if (aiMove == 4 && !res.includes('missed') && !res.includes('move')){
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    await animateBeam(ctx, 850, 200, 250, 500, typeColors[am.type], pm, am, 'ai', terrainNow, 1000);
+                }
+
+                //end
                 if (res.length > 2){
                     const aiMsgs = res.split('|');
                     for (let i = 0;i < aiMsgs.length; i++){
@@ -1940,17 +1961,17 @@ async function renderCanvas(pm, am){
                     if (r2.includes('Burn')){
                         // show stun image
                         ctx.drawImage(statusSprites[1], 100, 450, 100, 100);
-                        await new Promise(resolve => setTimeout(resolve, 1000));
+                        await new Promise(resolve => setTimeout(resolve, 500));
                     }
                     else if (r2.includes('Poison')){
                         // show sleep image
                         ctx.drawImage(statusSprites[2], 100, 450, 70, 70);
-                        await new Promise(resolve => setTimeout(resolve, 1000));
+                        await new Promise(resolve => setTimeout(resolve, 500));
                     }
                     else if (r2.includes('Frostbite')){
                         // show daze image
                         ctx.drawImage(statusSprites[3], 70, 450, 150, 160);
-                        await new Promise(resolve => setTimeout(resolve, 1000));
+                        await new Promise(resolve => setTimeout(resolve, 500));
                     }
                     // Update player HP bar
                     const playerHpPercent = pm.hpnow / pm.hpmax;
@@ -2038,6 +2059,10 @@ async function renderCanvas(pm, am){
                         await new Promise(resolve => setTimeout(resolve, 1000));
                         await animateFirstMove(ctx, 250, 500, 850, 200, typeColors[pm.type], pm, am, terrainNow, 'player', plMoveName, 1000);
                     }
+                    else if (playerMove == 3 && !res1.includes('missed') && !res1.includes('move')){
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                        await animateThirdMove(ctx, 250, 500, 850, 200, typeColors[pm.type], pm, am, terrainNow, 'player', plMoveName, 1000);
+                    }
                     else if (playerMove == 4 && !res1.includes('missed') && !res1.includes('move')){
                         await new Promise(resolve => setTimeout(resolve, 1000));
                         await animateBeam(ctx, 250, 500, 850, 200, typeColors[pm.type], pm, am, 'player', terrainNow, 1000);
@@ -2109,6 +2134,10 @@ async function renderCanvas(pm, am){
                             await new Promise(resolve => setTimeout(resolve, 1000));
                             await animateFirstMove(ctx, 850, 200, 250, 500, typeColors[am.type], pm, am, terrainNow, 'ai', aiMoveName, 1000);
                         }
+                        else if (aiMove == 3 && !res2.includes('missed') && !res2.includes('move')){
+                            await new Promise(resolve => setTimeout(resolve, 1000));
+                            await animateThirdMove(ctx, 850, 200, 250, 500, typeColors[am.type], pm, am, terrainNow, 'ai', aiMoveName, 1000);
+                        }
                         else if (aiMove == 4 && !res2.includes('missed') && !res2.includes('move')){
                             await new Promise(resolve => setTimeout(resolve, 1000));
                             await animateBeam(ctx, 850, 200, 250, 500, typeColors[am.type], pm, am, 'ai', terrainNow, 1000);
@@ -2160,6 +2189,10 @@ async function renderCanvas(pm, am){
                     if (aiMove == 1 && !res1.includes('missed') && !res1.includes('move')){
                         await new Promise(resolve => setTimeout(resolve, 1000));
                         await animateFirstMove(ctx, 850, 200, 250, 500, typeColors[am.type], pm, am, terrainNow, 'ai', aiMoveName, 1000);
+                    }
+                    else if (aiMove == 3 && !res1.includes('missed') && !res1.includes('move')){
+                        await new Promise(resolve => setTimeout(resolve, 1000));
+                        await animateThirdMove(ctx, 850, 200, 250, 500, typeColors[am.type], pm, am, terrainNow, 'ai', aiMoveName, 1000);
                     }
                     else if (aiMove == 4 && !res1.includes('missed') && !res1.includes('move')){
                         await new Promise(resolve => setTimeout(resolve, 1000));
@@ -2232,6 +2265,10 @@ async function renderCanvas(pm, am){
                         if (playerMove == 1 && !res2.includes('missed') && !res2.includes('move')){
                             await new Promise(resolve => setTimeout(resolve, 1000));
                             await animateFirstMove(ctx, 250, 500, 850, 200, typeColors[pm.type], pm, am, terrainNow, 'player', plMoveName, 1000);
+                        }
+                        else if (playerMove == 3 && !res2.includes('missed') && !res2.includes('move')){
+                            await new Promise(resolve => setTimeout(resolve, 1000));
+                            await animateThirdMove(ctx, 250, 500, 850, 200, typeColors[pm.type], pm, am, terrainNow, 'player', plMoveName, 1000);
                         }
                         else if (playerMove == 4 && !res2.includes('missed') && !res2.includes('move')){
                             await new Promise(resolve => setTimeout(resolve, 1000));
@@ -2357,17 +2394,17 @@ async function renderCanvas(pm, am){
                     if (r2.includes('Burn')){
                         // show stun image
                         ctx.drawImage(statusSprites[1], 100, 450, 100, 100);
-                        await new Promise(resolve => setTimeout(resolve, 1000));
+                        await new Promise(resolve => setTimeout(resolve, 500));
                     }
                     else if (r2.includes('Poison')){
                         // show sleep image
                         ctx.drawImage(statusSprites[2], 100, 450, 70, 70);
-                        await new Promise(resolve => setTimeout(resolve, 1000));
+                        await new Promise(resolve => setTimeout(resolve, 500));
                     }
                     else if (r2.includes('Frostbite')){
                         // show daze image
                         ctx.drawImage(statusSprites[3], 70, 450, 150, 160);
-                        await new Promise(resolve => setTimeout(resolve, 1000));
+                        await new Promise(resolve => setTimeout(resolve, 500));
                     }
                     // Update player HP bar
                     const playerHpPercent = pm.hpnow / pm.hpmax;
@@ -3093,17 +3130,29 @@ async function animateFirstMove(ctx, startX, startY, endX, endY, typeColor, pm, 
     // Determine animation type
     let animationType = 'wave'; // Default
     let effectImage = effectSprites.wave;
-    if (moveLower.includes('punch') || moveLower.includes('bash') || moveLower.includes('slam')) {
+    if (moveLower.includes('punch') || moveLower.includes('fist') || moveLower.includes('uppercut')) {
         animationType = 'punch';
         effectImage = effectSprites.punch;
-    } else if (moveLower.includes('tackle')) {
+    } else if (moveLower.includes('tackle') || moveLower.includes('bash') || moveLower.includes('smash') ||moveLower.includes('slam')) {
         animationType = 'tackle';
         effectImage = effectSprites.tackle;
-    } else if (moveLower.includes('rock') || moveLower.includes('stone')) {
+    } else if (moveLower.includes('rock') || moveLower.includes('stone') || moveLower.includes('quake')) {
         animationType = 'rocks';
         effectImage = effectSprites.rocks;
-    } else if (moveLower.includes('slash') || moveLower.includes('claw') || moveLower.includes('strike')) {
+    } else if (moveLower.includes('slash') || moveLower.includes('cut') || moveLower.includes('strike')) {
         animationType = 'slash';
+        effectImage = effectSprites.slash;
+    }
+    else if (moveLower.includes('fangs')) {
+        animationType = 'fangs';
+        effectImage = effectSprites.slash;
+    }
+    else if (moveLower.includes('claw')) {
+        animationType = 'claw';
+        effectImage = effectSprites.slash;
+    }
+    else if (moveLower.includes('debris')) {
+        animationType = 'metal';
         effectImage = effectSprites.slash;
     }
 
@@ -3206,6 +3255,340 @@ async function animateFirstMove(ctx, startX, startY, endX, endY, typeColor, pm, 
 
         await new Promise(resolve => setTimeout(resolve, stepDuration));
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    // Final redraw to revert to normal battle scene
+    ctx.drawImage(terrainSprites[terrainNow], 0, 0, canvas.width, canvas.height);
+    const playerImg = monsterSprites[monsters.indexOf(pm.name)];
+    const cropBoundsPl = getCropBounds(playerImg);
+    ctx.save();
+    ctx.globalAlpha = 0.4;
+    ctx.shadowBlur = 20;
+    ctx.shadowColor = 'rgba(200,200,200,0.7)';
+    drawRoundedRect(ctx, 45, 395, 210, 210, 30, pm.type, pm.faction);
+    ctx.restore();
+    ctx.drawImage(playerImg, cropBoundsPl.left, cropBoundsPl.top, cropBoundsPl.cropWidth, cropBoundsPl.cropHeight, 50, 400, 200, 200);
+    const aiImg = monsterSprites[monsters.indexOf(am.name)];
+    const cropBoundsAi = getCropBounds(aiImg);
+    ctx.save();
+    ctx.globalAlpha = 0.4;
+    ctx.shadowBlur = 20;
+    ctx.shadowColor = 'rgba(200,200,200,0.7)';
+    drawRoundedRect(ctx, 845, 145, 210, 210, 30, am.type, am.faction);
+    ctx.restore();
+    ctx.drawImage(aiImg, cropBoundsAi.left, cropBoundsAi.top, cropBoundsAi.cropWidth, cropBoundsAi.cropHeight, 850, 150, 200, 200);
+    const hpBarWidth = 200, hpBarHeight = 20;
+    const playerHpPercent = pm.hpnow / pm.hpmax;
+    ctx.fillStyle = 'red';
+    ctx.fillRect(50, 370, hpBarWidth, hpBarHeight);
+    ctx.fillStyle = pm.hpnow === 0 ? 'gray' : 'green';
+    ctx.fillRect(50, 370, hpBarWidth * playerHpPercent, hpBarHeight);
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(50, 370, hpBarWidth, hpBarHeight);
+    const aiHpPercent = am.hpnow / am.hpmax;
+    ctx.fillStyle = 'red';
+    ctx.fillRect(850, 120, hpBarWidth, hpBarHeight);
+    ctx.fillStyle = am.hpnow === 0 ? 'gray' : 'green';
+    ctx.fillRect(850, 120, hpBarWidth * aiHpPercent, hpBarHeight);
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(850, 120, hpBarWidth, hpBarHeight);
+    const textBoxX = 50, textBoxY = 620, textBoxWidth = 1000, textBoxHeight = 150, cornerRadius = 20;
+    ctx.fillStyle = 'rgba(200,200,200,0.9)';
+    ctx.beginPath();
+    ctx.moveTo(textBoxX + cornerRadius, textBoxY);
+    ctx.lineTo(textBoxX + textBoxWidth - cornerRadius, textBoxY);
+    ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY, textBoxX + textBoxWidth, textBoxY + cornerRadius);
+    ctx.lineTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight - cornerRadius);
+    ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight, textBoxX + textBoxWidth - cornerRadius, textBoxY + textBoxHeight);
+    ctx.lineTo(textBoxX + cornerRadius, textBoxY + textBoxHeight);
+    ctx.quadraticCurveTo(textBoxX, textBoxY + textBoxHeight, textBoxX, textBoxY + textBoxHeight - cornerRadius);
+    ctx.lineTo(textBoxX, textBoxY + cornerRadius);
+    ctx.quadraticCurveTo(textBoxX, textBoxY, textBoxX + cornerRadius, textBoxY);
+    ctx.closePath();
+    ctx.fill();
+    ctx.strokeStyle = '#333';
+    ctx.lineWidth = 5;
+    ctx.stroke();
+    ctx.fillStyle = '#000';
+    ctx.strokeStyle = '#000';
+}
+
+
+async function animateThirdMove(ctx, startX, startY, endX, endY, typeColor, pm, am, terrainNow, attacker, moveName, duration = 500) {
+    const moveSpecs = movesData[moves.indexOf(moveName)];
+    if (moveSpecs[1] == 1) {
+        return; // Skip for non-damaging moves
+    }
+    const waveDuration = duration * 0.7; // 70% of duration for wave
+    const statusDuration = duration * 0.3; // 30% of duration for status flash
+    const waveSteps = 15;
+    const statusSteps = 5; // Fewer steps for quick flash
+    const waveStepDuration = waveDuration / waveSteps;
+    const statusStepDuration = statusDuration / statusSteps;
+    const moveLower = moveName.toLowerCase();
+
+    // Determine animation type
+    let animationType = 'wave'; // Default
+    let effectImage = effectSprites.wave;
+    let effectImage2 = effectSprites.wave;
+    let effectImage3 = effectSprites.wave;
+
+    if (moveLower.includes('punch') || moveLower.includes('fist') || moveLower.includes('uppercut')) {
+        animationType = 'punch';
+        effectImage = effectSprites.punch;
+    } else if (moveLower.includes('tackle') || moveLower.includes('bash') || moveLower.includes('smash') || moveLower.includes('slam')) {
+        animationType = 'tackle';
+        effectImage = effectSprites.tackle;
+    } else if (moveLower.includes('rock') || moveLower.includes('stone') || moveLower.includes('quake')) {
+        animationType = 'rocks';
+        effectImage = effectSprites.rocks;
+    } else if (moveLower.includes('slash') || moveLower.includes('cut') || moveLower.includes('strike')) {
+        animationType = 'slash';
+        effectImage = effectSprites.slash;
+    } else if (moveLower.includes('frost fangs')) {
+        animationType = 'frost fangs';
+        effectImage = effectSprites.slash;
+        effectImage2 = statusSprites[3];
+    } else if (moveLower.includes('claw')) {
+        animationType = 'claw';
+        effectImage = effectSprites.slash;
+    } else if (moveLower.includes('debris')) {
+        animationType = 'metal';
+        effectImage = effectSprites.slash;
+    } else if (moveLower.includes('heated land')) {
+        animationType = 'heated land';
+        effectImage = effectSprites.rocks;
+        effectImage2 = statusSprites[1];
+    } else if (moveLower.includes('paralyzing') || moveLower.includes('galactic storm')) {
+        animationType = 'paralyzing';
+        effectImage = effectSprites.wave;
+        effectImage2 = statusSprites[4];
+    } else if (moveLower.includes('steam blast') || moveLower.includes('searing burn') || moveLower.includes('sacred flames')) {
+        animationType = 'searing';
+        effectImage = effectSprites.wave;
+        effectImage2 = statusSprites[1];
+    } else if (moveLower.includes('blinding') || moveLower.includes('dark daze')) {
+        animationType = 'blinding';
+        effectImage = effectSprites.wave;
+        effectImage2 = statusSprites[6];
+    } else if (moveLower.includes('unholy venom')) {
+        animationType = 'venom';
+        effectImage = effectSprites.wave;
+        effectImage2 = statusSprites[2];
+    } else if (moveLower.includes('burning toxins')) {
+        animationType = 'burntox';
+        effectImage = effectSprites.wave;
+        effectImage2 = statusSprites[1];
+        effectImage3 = statusSprites[2];
+    }
+
+    // Wave animation phase
+    for (let i = 0; i <= waveSteps; i++) {
+        // Draw terrain
+        ctx.drawImage(terrainSprites[terrainNow], 0, 0, canvas.width, canvas.height);
+
+        // Semi-transparent type-colored overlay
+        ctx.fillStyle = typeColor + '80'; // 50% opacity
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Draw player monster
+        const playerImg = monsterSprites[monsters.indexOf(pm.name)];
+        const cropBoundsPl = getCropBounds(playerImg);
+        ctx.save();
+        ctx.globalAlpha = 0.4;
+        ctx.shadowBlur = 20;
+        ctx.shadowColor = 'rgba(200,200,200,0.7)';
+        drawRoundedRect(ctx, 45, 395, 210, 210, 30, pm.type, pm.faction);
+        ctx.restore();
+        ctx.drawImage(playerImg, cropBoundsPl.left, cropBoundsPl.top, cropBoundsPl.cropWidth, cropBoundsPl.cropHeight, 50, 400, 200, 200);
+
+        // Draw AI monster
+        const aiImg = monsterSprites[monsters.indexOf(am.name)];
+        const cropBoundsAi = getCropBounds(aiImg);
+        ctx.save();
+        ctx.globalAlpha = 0.4;
+        ctx.shadowBlur = 20;
+        ctx.shadowColor = 'rgba(200,200,200,0.7)';
+        drawRoundedRect(ctx, 845, 145, 210, 210, 30, am.type, am.faction);
+        ctx.restore();
+        ctx.drawImage(aiImg, cropBoundsAi.left, cropBoundsAi.top, cropBoundsAi.cropWidth, cropBoundsAi.cropHeight, 850, 150, 200, 200);
+
+        // Draw HP bars
+        const hpBarWidth = 200, hpBarHeight = 20;
+        const playerHpPercent = pm.hpnow / pm.hpmax;
+        ctx.fillStyle = 'red';
+        ctx.fillRect(50, 370, hpBarWidth, hpBarHeight);
+        ctx.fillStyle = pm.hpnow === 0 ? 'gray' : 'green';
+        ctx.fillRect(50, 370, hpBarWidth * playerHpPercent, hpBarHeight);
+        ctx.strokeStyle = '#000';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(50, 370, hpBarWidth, hpBarHeight);
+        const aiHpPercent = am.hpnow / am.hpmax;
+        ctx.fillStyle = 'red';
+        ctx.fillRect(850, 120, hpBarWidth, hpBarHeight);
+        ctx.fillStyle = am.hpnow === 0 ? 'gray' : 'green';
+        ctx.fillRect(850, 120, hpBarWidth * aiHpPercent, hpBarHeight);
+        ctx.strokeStyle = '#000';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(850, 120, hpBarWidth, hpBarHeight);
+
+        // Draw text box
+        const textBoxX = 50, textBoxY = 620, textBoxWidth = 1000, textBoxHeight = 150, cornerRadius = 20;
+        ctx.fillStyle = 'rgba(200,200,200,0.9)';
+        ctx.beginPath();
+        ctx.moveTo(textBoxX + cornerRadius, textBoxY);
+        ctx.lineTo(textBoxX + textBoxWidth - cornerRadius, textBoxY);
+        ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY, textBoxX + textBoxWidth, textBoxY + cornerRadius);
+        ctx.lineTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight - cornerRadius);
+        ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight, textBoxX + textBoxWidth - cornerRadius, textBoxY + textBoxHeight);
+        ctx.lineTo(textBoxX + cornerRadius, textBoxY + textBoxHeight);
+        ctx.quadraticCurveTo(textBoxX, textBoxY + textBoxHeight, textBoxX, textBoxY + textBoxHeight - cornerRadius);
+        ctx.lineTo(textBoxX, textBoxY + cornerRadius);
+        ctx.quadraticCurveTo(textBoxX, textBoxY, textBoxX + cornerRadius, textBoxY);
+        ctx.closePath();
+        ctx.fill();
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 5;
+        ctx.stroke();
+        ctx.fillStyle = '#000';
+        ctx.font = '24px Arial';
+        ctx.fillText(
+            attacker === 'player' ? `Your ${pm.name} used ${moveName}` : `Foe ${am.name} used ${moveName}`,
+            textBoxX + 70,
+            textBoxY + 60
+        );
+
+        // Draw effect image
+        const progress = i / waveSteps;
+        ctx.globalAlpha = 1 - progress; // Fade out
+        if (animationType === 'punch' || animationType === 'tackle' || animationType === 'slash' || animationType === 'rocks' || animationType === 'claw' || animationType === 'metal') {
+            // Draw at target
+            ctx.drawImage(effectImage, endX - 50, endY - 50, 100, 100);
+        } else if (animationType === 'frost fangs' || animationType === 'heated land' || animationType === 'paralyzing' || animationType === 'searing' || animationType === 'blinding' || animationType === 'venom' || animationType === 'burntox') {
+            // Draw wave from attacker to target
+            const deltaX = (endX - startX) * progress;
+            const deltaY = (endY - startY) * progress;
+            const length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+            const angle = Math.atan2(endY - startY, endX - startX);
+            ctx.save();
+            ctx.translate(startX, startY);
+            ctx.rotate(angle);
+            ctx.drawImage(effectImage, 0, -50, length, 100); // Stretch to length, centered vertically
+            ctx.restore();
+        } else {
+            // Default wave animation
+            const deltaX = (endX - startX) * progress;
+            const deltaY = (endY - startY) * progress;
+            const length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+            const angle = Math.atan2(endY - startY, endX - startX);
+            ctx.save();
+            ctx.translate(startX, startY);
+            ctx.rotate(angle);
+            ctx.drawImage(effectImage, 0, -50, length, 100); // Stretch to length, centered vertically
+            ctx.restore();
+        }
+        ctx.globalAlpha = 1;
+
+        await new Promise(resolve => setTimeout(resolve, waveStepDuration));
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    // Status effect flash phase (only for relevant moves)
+    if (animationType === 'frost fangs' || animationType === 'heated land' || animationType === 'paralyzing' || animationType === 'searing' || animationType === 'blinding' || animationType === 'venom' || animationType === 'burntox') {
+        for (let i = 0; i <= statusSteps; i++) {
+            // Draw terrain
+            ctx.drawImage(terrainSprites[terrainNow], 0, 0, canvas.width, canvas.height);
+
+            // Semi-transparent type-colored overlay
+            ctx.fillStyle = typeColor + '80'; // 50% opacity
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw player monster
+            const playerImg = monsterSprites[monsters.indexOf(pm.name)];
+            const cropBoundsPl = getCropBounds(playerImg);
+            ctx.save();
+            ctx.globalAlpha = 0.4;
+            ctx.shadowBlur = 20;
+            ctx.shadowColor = 'rgba(200,200,200,0.7)';
+            drawRoundedRect(ctx, 45, 395, 210, 210, 30, pm.type, pm.faction);
+            ctx.restore();
+            ctx.drawImage(playerImg, cropBoundsPl.left, cropBoundsPl.top, cropBoundsPl.cropWidth, cropBoundsPl.cropHeight, 50, 400, 200, 200);
+
+            // Draw AI monster
+            const aiImg = monsterSprites[monsters.indexOf(am.name)];
+            const cropBoundsAi = getCropBounds(aiImg);
+            ctx.save();
+            ctx.globalAlpha = 0.4;
+            ctx.shadowBlur = 20;
+            ctx.shadowColor = 'rgba(200,200,200,0.7)';
+            drawRoundedRect(ctx, 845, 145, 210, 210, 30, am.type, am.faction);
+            ctx.restore();
+            ctx.drawImage(aiImg, cropBoundsAi.left, cropBoundsAi.top, cropBoundsAi.cropWidth, cropBoundsAi.cropHeight, 850, 150, 200, 200);
+
+            // Draw HP bars
+            const hpBarWidth = 200, hpBarHeight = 20;
+            const playerHpPercent = pm.hpnow / pm.hpmax;
+            ctx.fillStyle = 'red';
+            ctx.fillRect(50, 370, hpBarWidth, hpBarHeight);
+            ctx.fillStyle = pm.hpnow === 0 ? 'gray' : 'green';
+            ctx.fillRect(50, 370, hpBarWidth * playerHpPercent, hpBarHeight);
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(50, 370, hpBarWidth, hpBarHeight);
+            const aiHpPercent = am.hpnow / am.hpmax;
+            ctx.fillStyle = 'red';
+            ctx.fillRect(850, 120, hpBarWidth, hpBarHeight);
+            ctx.fillStyle = am.hpnow === 0 ? 'gray' : 'green';
+            ctx.fillRect(850, 120, hpBarWidth * aiHpPercent, hpBarHeight);
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(850, 120, hpBarWidth, hpBarHeight);
+
+            // Draw text box
+            const textBoxX = 50, textBoxY = 620, textBoxWidth = 1000, textBoxHeight = 150, cornerRadius = 20;
+            ctx.fillStyle = 'rgba(200,200,200,0.9)';
+            ctx.beginPath();
+            ctx.moveTo(textBoxX + cornerRadius, textBoxY);
+            ctx.lineTo(textBoxX + textBoxWidth - cornerRadius, textBoxY);
+            ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY, textBoxX + textBoxWidth, textBoxY + cornerRadius);
+            ctx.lineTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight - cornerRadius);
+            ctx.quadraticCurveTo(textBoxX + textBoxWidth, textBoxY + textBoxHeight, textBoxX + textBoxWidth - cornerRadius, textBoxY + textBoxHeight);
+            ctx.lineTo(textBoxX + cornerRadius, textBoxY + textBoxHeight);
+            ctx.quadraticCurveTo(textBoxX, textBoxY + textBoxHeight, textBoxX, textBoxY + textBoxHeight - cornerRadius);
+            ctx.lineTo(textBoxX, textBoxY + cornerRadius);
+            ctx.quadraticCurveTo(textBoxX, textBoxY, textBoxX + cornerRadius, textBoxY);
+            ctx.closePath();
+            ctx.fill();
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 5;
+            ctx.stroke();
+            ctx.fillStyle = '#000';
+            ctx.font = '24px Arial';
+            ctx.fillText(
+                attacker === 'player' ? `Your ${pm.name} used ${moveName}` : `Foe ${am.name} used ${moveName}`,
+                textBoxX + 70,
+                textBoxY + 60
+            );
+
+            // Draw status effect image
+            const progress = i / statusSteps;
+            ctx.globalAlpha = Math.sin(progress * Math.PI); // Flash effect (fade in and out)
+            if (animationType === 'frost fangs' || animationType === 'heated land' || animationType === 'paralyzing' || animationType === 'searing' || animationType === 'blinding' || animationType === 'venom') {
+                ctx.drawImage(effectImage2, endX - 50, endY - 50, 100, 100);
+            } else if (animationType === 'burntox') {
+                if (i < statusSteps / 2) {
+                    ctx.drawImage(effectImage2, endX - 50, endY - 50, 100, 100); // Burn
+                } else {
+                    ctx.drawImage(effectImage3, endX - 50, endY - 50, 100, 100); // Poison
+                }
+            }
+            ctx.globalAlpha = 1;
+
+            await new Promise(resolve => setTimeout(resolve, statusStepDuration));
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
     }
 
     // Final redraw to revert to normal battle scene
