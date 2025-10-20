@@ -42,14 +42,14 @@ const effectSprites = {
     metal: new Image(),
     wave: new Image()
 };
-effectSprites.punch.src = 'img/stunnedstatus.png';
-effectSprites.tackle.src = 'img/poisonedstatus.png';
-effectSprites.slash.src = 'img/burntstatus.png';
-effectSprites.rocks.src = 'img/dazedstatus.png';
-effectSprites.wave.src = 'img/sleepystatus.png';
-effectSprites.claw.src = 'img/burntstatus.png';
-effectSprites.fangs.src = 'img/dazedstatus.png';
-effectSprites.metal.src = 'img/sleepystatus.png';
+effectSprites.punch.src = 'img/punch.png';
+effectSprites.tackle.src = 'img/impact.png';
+effectSprites.slash.src = 'img/slash.png';
+effectSprites.rocks.src = 'img/rocks.png';
+effectSprites.wave.src = 'img/wave.png';
+effectSprites.claw.src = 'img/claw.png';
+effectSprites.fangs.src = 'img/fangs.png';
+effectSprites.metal.src = 'img/metal.png';
 
 const types = ['Fire', 'Water', 'Storm', 'Earth', 'Cosmic', 'Metal', 'Light', 'Dark'];
 const typeColors = ['#770000', '#000077', '#c9c604', '#a52a2a', '#1c1691', '#888888', '#ffffff', '#000000'];
@@ -1830,11 +1830,11 @@ async function renderCanvas(pm, am){
                 //here
                 if (aiMove == 1 && !res.includes('missed') && !res.includes('move')){
                     await new Promise(resolve => setTimeout(resolve, 1000));
-                    await animateFirstMove(ctx, 850, 200, 250, 500, typeColors[am.type], pm, am, terrainNow, 'ai', aiMoveName, 1000);
+                    await animateFirstMove(ctx, 850, 200, 250, 500, typeColors[am.type], pm, am, terrainNow, 'ai', moveName, 1000);
                 }
                 else if (aiMove == 3 && !res.includes('missed') && !res.includes('move')){
                     await new Promise(resolve => setTimeout(resolve, 1000));
-                    await animateThirdMove(ctx, 850, 200, 250, 500, typeColors[am.type], pm, am, terrainNow, 'ai', aiMoveName, 1000);
+                    await animateThirdMove(ctx, 850, 200, 250, 500, typeColors[am.type], pm, am, terrainNow, 'ai', moveName, 1000);
                 }
                 else if (aiMove == 4 && !res.includes('missed') && !res.includes('move')){
                     await new Promise(resolve => setTimeout(resolve, 1000));
@@ -3145,15 +3145,15 @@ async function animateFirstMove(ctx, startX, startY, endX, endY, typeColor, pm, 
     }
     else if (moveLower.includes('fangs')) {
         animationType = 'fangs';
-        effectImage = effectSprites.slash;
+        effectImage = effectSprites.fangs;
     }
     else if (moveLower.includes('claw')) {
         animationType = 'claw';
-        effectImage = effectSprites.slash;
+        effectImage = effectSprites.claw;
     }
     else if (moveLower.includes('debris')) {
         animationType = 'metal';
-        effectImage = effectSprites.slash;
+        effectImage = effectSprites.metal;
     }
 
     console.log(typeColor)
@@ -3233,13 +3233,32 @@ async function animateFirstMove(ctx, startX, startY, endX, endY, typeColor, pm, 
             textBoxY + 60
         );
 
+        var slashDimX = 0;
+        var slashDimY = 0;
+        var rockDimX = 0;
+        var rockDimY = 0;
+
+        if (attacker == 'ai'){
+            slashDimX = 200;
+            slashDimY = 70;
+            rockDimX = 150;
+            rockDimY = 70;
+        }
+
         // Draw effect image
         const progress = i / steps;
         ctx.globalAlpha = 1 - progress; // Fade out
-        if (animationType === 'punch' || animationType === 'tackle' || animationType === 'slash' || animationType === 'rocks') {
+        if (animationType === 'punch' || animationType === 'tackle' || animationType === 'claw') {
             // Draw at target
             ctx.drawImage(effectImage, endX - 50, endY - 50, 100, 100);
-        } else if (animationType === 'wave') {
+        }
+        else if (animationType === 'rocks'){
+            ctx.drawImage(effectImage, endX - 50 - rockDimX, endY - 50 - rockDimY, 200, 200);
+        }
+        else if (animationType === 'slash'){
+            ctx.drawImage(effectImage, endX - 70 - slashDimX, endY - 50 -slashDimY, 400, 200);
+        }
+        else if (animationType === 'wave') {
             // Draw diagonally from attacker to target
             const deltaX = (endX - startX) * progress;
             const deltaY = (endY - startY) * progress;
@@ -3349,14 +3368,14 @@ async function animateThirdMove(ctx, startX, startY, endX, endY, typeColor, pm, 
         effectImage = effectSprites.slash;
     } else if (moveLower.includes('frost fangs')) {
         animationType = 'frost fangs';
-        effectImage = effectSprites.slash;
+        effectImage = effectSprites.fangs;
         effectImage2 = statusSprites[3];
     } else if (moveLower.includes('claw')) {
         animationType = 'claw';
-        effectImage = effectSprites.slash;
+        effectImage = effectSprites.claw;
     } else if (moveLower.includes('debris')) {
         animationType = 'metal';
-        effectImage = effectSprites.slash;
+        effectImage = effectSprites.metal;
     } else if (moveLower.includes('heated land')) {
         animationType = 'heated land';
         effectImage = effectSprites.rocks;
@@ -3382,6 +3401,22 @@ async function animateThirdMove(ctx, startX, startY, endX, endY, typeColor, pm, 
         effectImage = effectSprites.wave;
         effectImage2 = statusSprites[1];
         effectImage3 = statusSprites[2];
+    }
+
+    var slashDimX = 0;
+    var slashDimY = 0;
+    var rockDimX = 0;
+    var rockDimY = 0;
+    var metalDimX = 0;
+    var metalDimY = 0;
+
+    if (attacker == 'ai'){
+        slashDimX = 200;
+        slashDimY = 70;
+        rockDimX = 150;
+        rockDimY = 70;
+        metalDimX = 150;
+        metalDimY = 70;
     }
 
     // Wave animation phase
@@ -3463,10 +3498,23 @@ async function animateThirdMove(ctx, startX, startY, endX, endY, typeColor, pm, 
         // Draw effect image
         const progress = i / waveSteps;
         ctx.globalAlpha = 1 - progress; // Fade out
-        if (animationType === 'punch' || animationType === 'tackle' || animationType === 'slash' || animationType === 'rocks' || animationType === 'claw' || animationType === 'metal') {
+        if (animationType === 'punch' || animationType === 'tackle' || animationType === 'claw') {
             // Draw at target
             ctx.drawImage(effectImage, endX - 50, endY - 50, 100, 100);
-        } else if (animationType === 'frost fangs' || animationType === 'heated land' || animationType === 'paralyzing' || animationType === 'searing' || animationType === 'blinding' || animationType === 'venom' || animationType === 'burntox') {
+        }else if (animationType === 'slash'){
+            ctx.drawImage(effectImage, endX - 70 - slashDimX, endY - 50 -slashDimY, 400, 200);
+        }
+        else if (animationType === 'rocks'){
+            ctx.drawImage(effectImage, endX - 50 - rockDimX, endY - 50 - rockDimY, 200, 200);
+        }
+        else if (animationType === 'metal'){
+            ctx.drawImage(effectImage, endX - 50 - metalDimX, endY - 50 - metalDimY, 250, 250);
+        }
+        else if (animationType === 'frost fangs'){
+            ctx.drawImage(effectImage, endX - 50, endY - 50, 100, 100);
+
+        }
+        else if (animationType === 'heated land' || animationType === 'paralyzing' || animationType === 'searing' || animationType === 'blinding' || animationType === 'venom' || animationType === 'burntox') {
             // Draw wave from attacker to target
             const deltaX = (endX - startX) * progress;
             const deltaY = (endY - startY) * progress;
@@ -3494,7 +3542,7 @@ async function animateThirdMove(ctx, startX, startY, endX, endY, typeColor, pm, 
         await new Promise(resolve => setTimeout(resolve, waveStepDuration));
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
-
+    await new Promise(resolve => setTimeout(resolve, 100));
     // Status effect flash phase (only for relevant moves)
     if (animationType === 'frost fangs' || animationType === 'heated land' || animationType === 'paralyzing' || animationType === 'searing' || animationType === 'blinding' || animationType === 'venom' || animationType === 'burntox') {
         for (let i = 0; i <= statusSteps; i++) {
