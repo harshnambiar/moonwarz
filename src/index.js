@@ -40,7 +40,8 @@ const effectSprites = {
     claw: new Image(),
     fangs: new Image(),
     metal: new Image(),
-    wave: new Image()
+    wave: new Image(),
+    daze: new Image()
 };
 effectSprites.punch.src = 'img/punch.png';
 effectSprites.tackle.src = 'img/impact.png';
@@ -50,6 +51,7 @@ effectSprites.wave.src = 'img/wave.png';
 effectSprites.claw.src = 'img/claw.png';
 effectSprites.fangs.src = 'img/fangs.png';
 effectSprites.metal.src = 'img/metal.png';
+effectSprites.daze.src = 'img/daze2.png';
 
 const types = ['Fire', 'Water', 'Storm', 'Earth', 'Cosmic', 'Metal', 'Light', 'Dark'];
 const typeColors = ['#770000', '#000077', '#c9c604', '#a52a2a', '#1c1691', '#888888', '#ffffff', '#000000'];
@@ -934,7 +936,7 @@ class Team {
 
   // Generate a team of 5 unique monsters
   generateTeam(existingMonsters = []) {
-    const availableIndices = Array.from({ length: 32 }, (_, i) => i) // Indices 0–32
+    const availableIndices = Array.from({ length: 34 }, (_, i) => i) // Indices 0–32
       .filter(i => !existingMonsters.includes(i)); // Exclude used indices
     if (availableIndices.length < 5) {
       throw new Error('Not enough unique monsters available');
@@ -1824,7 +1826,7 @@ async function renderCanvas(pm, am){
                     default:
                         moveName = '';
                 }
-                aiMove = whichMove(am, pm.name);
+
                 ctx.fillText('Foe '.concat(am.name).concat(' used ').concat(moveName), textBoxX + 70, textBoxY + 60);
                 await new Promise(resolve => setTimeout(resolve, 2000));
                 //here
@@ -1840,7 +1842,7 @@ async function renderCanvas(pm, am){
                     await new Promise(resolve => setTimeout(resolve, 1000));
                     await animateBeam(ctx, 850, 200, 250, 500, typeColors[am.type], pm, am, 'ai', terrainNow, 1000);
                 }
-
+                aiMove = whichMove(am, pm.name);
                 //end
                 if (res.length > 2){
                     const aiMsgs = res.split('|');
@@ -3391,7 +3393,7 @@ async function animateThirdMove(ctx, startX, startY, endX, endY, typeColor, pm, 
     } else if (moveLower.includes('blinding') || moveLower.includes('dark daze')) {
         animationType = 'blinding';
         effectImage = effectSprites.wave;
-        effectImage2 = statusSprites[6];
+        effectImage2 = effectSprites.daze;
     } else if (moveLower.includes('unholy venom')) {
         animationType = 'venom';
         effectImage = effectSprites.wave;
@@ -3409,6 +3411,8 @@ async function animateThirdMove(ctx, startX, startY, endX, endY, typeColor, pm, 
     var rockDimY = 0;
     var metalDimX = 0;
     var metalDimY = 0;
+    var dazeDimX = 0;
+    var dazeDimY = 0;
 
     if (attacker == 'ai'){
         slashDimX = 200;
@@ -3417,6 +3421,8 @@ async function animateThirdMove(ctx, startX, startY, endX, endY, typeColor, pm, 
         rockDimY = 70;
         metalDimX = 150;
         metalDimY = 70;
+        dazeDimX = 100;
+        dazeDimY = 50;
     }
 
     // Wave animation phase
@@ -3540,7 +3546,7 @@ async function animateThirdMove(ctx, startX, startY, endX, endY, typeColor, pm, 
         ctx.globalAlpha = 1;
 
         await new Promise(resolve => setTimeout(resolve, waveStepDuration));
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        //ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
     await new Promise(resolve => setTimeout(resolve, 100));
     // Status effect flash phase (only for relevant moves)
@@ -3623,8 +3629,10 @@ async function animateThirdMove(ctx, startX, startY, endX, endY, typeColor, pm, 
             // Draw status effect image
             const progress = i / statusSteps;
             ctx.globalAlpha = Math.sin(progress * Math.PI); // Flash effect (fade in and out)
-            if (animationType === 'frost fangs' || animationType === 'heated land' || animationType === 'paralyzing' || animationType === 'searing' || animationType === 'blinding' || animationType === 'venom') {
+            if (animationType === 'frost fangs' || animationType === 'heated land' || animationType === 'paralyzing' || animationType === 'searing' || animationType === 'venom') {
                 ctx.drawImage(effectImage2, endX - 50, endY - 50, 100, 100);
+            } else if (animationType == 'blinding'){
+              ctx.drawImage(effectImage2, endX - 50 - dazeDimX, endY - 50 - dazeDimY, 200, 200);
             } else if (animationType === 'burntox') {
                 if (i < statusSteps / 2) {
                     ctx.drawImage(effectImage2, endX - 50, endY - 50, 100, 100); // Burn
