@@ -47,7 +47,7 @@ effectSprites.punch.src = 'img/punch.png';
 effectSprites.tackle.src = 'img/impact.png';
 effectSprites.slash.src = 'img/slash.png';
 effectSprites.rocks.src = 'img/rocks.png';
-effectSprites.wave.src = 'img/wave.png';
+effectSprites.wave.src = 'img/wave3.png';
 effectSprites.claw.src = 'img/claw.png';
 effectSprites.fangs.src = 'img/fangs.png';
 effectSprites.metal.src = 'img/metal.png';
@@ -104,12 +104,12 @@ const damageByTerrain = [
 ]
 
 
-const monsters = ['Abyss', 'Banshit', 'Cuck-oo', 'Dumdum', 'Sharqueen', 'Cyberflare', 'Mermina', 'Wormhell', 'Seraphix', 'Cosyz', 'Tungstongue', 'Aria', 'Satun', 'Storja', 'Gaia', 'Despire', 'Feris', 'Vanquash', 'Momori', 'Jarinn', 'Qwala', 'Ristora', 'Saibill', 'Veilara', 'Thram', 'Zenshi', 'Extone', 'Cereph', 'Firaoh', 'Lucy', 'Lavia', 'Zias', 'Dawn', 'Dusk'];
+const monsters = ['Abyss', 'Banshit', 'Coquo', 'Dumdum', 'Sharqueen', 'Cyberflare', 'Mermina', 'Wormhell', 'Seraphix', 'Cosyz', 'Tungstongue', 'Aria', 'Satun', 'Storja', 'Gaia', 'Despire', 'Feris', 'Vanquash', 'Momori', 'Jarinn', 'Qwala', 'Ristora', 'Saibill', 'Veilara', 'Thram', 'Zenshi', 'Extone', 'Cereph', 'Firaoh', 'Lucy', 'Lavia', 'Zias', 'Dawn', 'Dusk'];
 
 const monsterStats = [
     ['Abyss', 7, 0, 50, 104, 82, 88, 73, 101, 'Dark Punch', 'Rile Up', 'Solid Smash', 'Dark Phantasm', 'img/abyss.png'],
     ['Banshit', 7, 2, 77, 80, 103, 85, 90, 92, 'Dark Wail', 'Shadow Veil', 'Dark Daze', 'Dark Phantasm', 'img/banshit.png'],
-    ['Cuck-oo', 2, 3, 60, 80, 120, 96, 60, 78, 'Storm Strike', 'Storm Steps', 'Super Stun', 'Lightning Pulse', 'img/cuckoo.png'],
+    ['Coquo', 2, 3, 60, 80, 120, 96, 60, 78, 'Storm Strike', 'Storm Steps', 'Super Stun', 'Lightning Pulse', 'img/cuckoo.png'],
     ['Dumdum', 3, 2, 127, 88, 55, 60, 110, 82, 'Stone Throw', 'Dust Guard', 'Quake', 'Tectonic Blast', 'img/dumdum.png'],
     ['Sharqueen', 1, 3, 90, 49, 93, 86, 66, 69, 'Water Tackle', 'Hydro Veil', 'Frost Fangs', 'Tsunami Surge', 'img/sharqueen.png'],
     ['Cyberflare', 0, 0, 110, 98, 70, 85, 64, 97, 'Flame Punch', 'Flame Up', 'Burning Uppercut', 'Infernal Storm', 'img/cyberflare.png'],
